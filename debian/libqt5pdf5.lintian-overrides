@@ -1,0 +1,2 @@
+libqt5pdf5: embedded-library openjpeg usr/lib/x86_64-linux-gnu/libQt5Pdf.so.*
+libqt5pdf5: embedded-library usr/lib/x86_64-linux-gnu/libQt5Pdf.so.5.*: openjpeg

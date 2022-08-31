@@ -1,0 +1,31 @@
+Description: reduce compiler memory consumption on mipsel
+Author: Dmitry Shachnev <mitya57@debian.org>
+Forwarded: no
+Last-Update: 2021-03-30
+
+--- a/src/3rdparty/chromium/content/browser/BUILD.gn
++++ b/src/3rdparty/chromium/content/browser/BUILD.gn
+@@ -2213,6 +2213,10 @@ jumbo_static_library("browser") {
+       "//services/video_capture/public/uma",
+       "//third_party/webrtc_overrides:webrtc_component",
+     ]
++
++    if (target_cpu == "mipsel") {
++      cflags = [ "--param=ggc-min-expand=20" ]
++    }
+   }
+ 
+   # Desktop/Window/WebContents screen capture implementations, conditionally
+--- a/src/3rdparty/chromium/third_party/blink/renderer/bindings/modules/v8/BUILD.gn
++++ b/src/3rdparty/chromium/third_party/blink/renderer/bindings/modules/v8/BUILD.gn
+@@ -35,6 +35,10 @@ blink_modules_sources("v8") {
+     "//third_party/blink/renderer/platform",
+     "//v8",
+   ]
++
++  if (target_cpu == "mipsel") {
++    cflags = [ "--param=ggc-min-expand=20" ]
++  }
+ }
+ 
+ jumbo_source_set("testing") {

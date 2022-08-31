@@ -1,0 +1,343 @@
+Source: qtwebengine-opensource-src
+Maintainer: Deepin Developer <deepin-dev@deepin.org>
+Uploaders: Deepin Packages Builder <packages@deepin.org>
+Section: libs
+Priority: optional
+Build-Depends: binutils (>= 2.31),
+               bison,
+               chrpath,
+               debhelper-compat (= 13),
+               flex,
+               gperf,
+               khronos-api,
+               libasound2-dev [linux-any],
+               libavcodec-dev (>= 7:4.0~),
+               libavformat-dev (>= 7:4.0~),
+               libavutil-dev (>= 7:4.0~),
+               libcap-dev [linux-any],
+               libdbus-1-dev,
+               libegl1-mesa-dev,
+               libevent-dev,
+               libflac-dev,
+               libfontconfig1-dev,
+               libgl-dev (>= 1.3) [!armel !armhf],
+               libgl1-mesa-dri,
+               libgles-dev [armel armhf],
+               libglib2.0-dev,
+               libglu1-mesa-dev [!armel !armhf] | libglu-dev [!armel !armhf],
+               libgstreamer-plugins-base1.0-dev,
+               libgstreamer1.0-dev,
+               libharfbuzz-dev,
+               libicu-dev (>= 63),
+               libjpeg-dev,
+               libjs-d3,
+               libjsoncpp-dev,
+               libkrb5-dev,
+               liblcms2-dev,
+               libminizip-dev,
+               libnss3-dev,
+               libopus-dev (>= 1.3),
+               libpci-dev,
+               libpng-dev,
+               libprotobuf-dev,
+               libpulse-dev,
+               libqt5opengl5-dev (>= 5.15.3),
+               libqt5svg5-dev (>= 5.15.3),
+               libqt5webchannel5-dev (>= 5.15.3),
+               libre2-dev,
+               libsnappy-dev,
+               libsqlite3-dev,
+               libusb-1.0-0-dev,
+               libvpx-dev (>= 1.7),
+               libwebp-dev,
+               libx11-xcb-dev,
+               libxcb-dri3-dev,
+               libxcomposite-dev,
+               libxcursor-dev,
+               libxdamage-dev,
+               libxkbfile-dev,
+               libxml2-dev,
+               libxnvctrl-dev,
+               libxrandr-dev,
+               libxrender-dev,
+               libxslt1-dev,
+               libxss-dev,
+               libxtst-dev,
+               mesa-common-dev,
+               ninja-build,
+               node-pako,
+               node-rollup-plugin-terser,
+               node-yargs,
+               nodejs,
+               pkg-config,
+               pkg-kde-tools,
+               protobuf-compiler,
+               python2,
+               qtbase5-dev (>= 5.15.3),
+               qtbase5-private-dev (>= 5.15.3),
+               qtdeclarative5-private-dev (>= 5.15.3),
+               qtpositioning5-dev (>= 5.15.3),
+               qtquickcontrols2-5-dev (>= 5.15.3),
+               qttools5-dev (>= 5.15.3),
+               re2c,
+               rollup,
+               ruby,
+               xauth,
+               xvfb,
+               yui-compressor
+Build-Depends-Indep: qdoc-qt5 (>= 5.15.3) <!nodoc>,
+                     qhelpgenerator-qt5 (>= 5.15.3) <!nodoc>,
+                     qtattributionsscanner-qt5 (>= 5.15.3) <!nodoc>,
+                     qtbase5-doc-html (>= 5.15.3) <!nodoc>
+Standards-Version: 4.6.0
+Homepage: https://doc.qt.io/qt-5/qtwebengine-index.html
+
+Package: qtwebengine5-dev
+Architecture: amd64 arm64 armhf i386 mips64el mipsel
+Multi-Arch: same
+Section: libdevel
+Depends: libqt5webchannel5-dev,
+         libqt5webengine5 (= ${binary:Version}),
+         libqt5webenginecore5 (= ${binary:Version}),
+         libqt5webenginewidgets5 (= ${binary:Version}),
+         qtbase5-dev,
+         qtdeclarative5-dev,
+         qtpositioning5-dev,
+         ${misc:Depends},
+         ${shlibs:Depends}
+Recommends: qtwebengine5-doc
+Description: Web content engine library for Qt - development files
+ QtWebEngine provides a Web browser engine that makes it easy to embed content
+ from the World Wide Web into your Qt application.
+ .
+ This package contains the development files needed to build Qt 5 applications
+ using QtWebEngine library.
+
+Package: qtwebengine5-private-dev
+Architecture: amd64 arm64 armhf i386 mips64el mipsel
+Multi-Arch: same
+Section: libdevel
+Depends: qtwebengine5-dev (= ${binary:Version}), ${misc:Depends}
+Description: Web content engine library for Qt - private development files
+ QtWebEngine provides a Web browser engine that makes it easy to embed content
+ from the World Wide Web into your Qt application.
+ .
+ This package contains the private development files needed to build
+ Qt 5 applications using QtWebEngine library.
+
+Package: qtpdf5-dev
+Architecture: amd64 arm64 armhf i386 mips64el mipsel
+Multi-Arch: same
+Section: libdevel
+Depends: libqt5pdf5 (= ${binary:Version}),
+         libqt5pdfwidgets5 (= ${binary:Version}),
+         qtbase5-dev,
+         ${misc:Depends},
+         ${shlibs:Depends}
+Description: Qt 5 PDF library - development files
+ The Qt PDF module contains classes and functions for rendering PDF documents.
+ .
+ This package contains the development files needed to build Qt 5 applications
+ using Qt PDF library.
+
+Package: libqt5webengine5
+Architecture: amd64 arm64 armhf i386 mips64el mipsel
+Multi-Arch: same
+Depends: libqt5webengine-data (= ${source:Version}),
+         ${misc:Depends},
+         ${shlibs:Depends}
+Pre-Depends: ${misc:Pre-Depends}
+Description: Web content engine library for Qt
+ QtWebEngine provides a Web browser engine that makes it easy to embed content
+ from the World Wide Web into your Qt application.
+ .
+ This package contains the QtWebEngine library.
+
+Package: libqt5webenginecore5
+Architecture: amd64 arm64 armhf i386 mips64el mipsel
+Multi-Arch: same
+Provides: qtwebengine-abi-5-15-3
+Depends: libqt5webengine-data (= ${source:Version}),
+         sse2-support [i386],
+         ${misc:Depends},
+         ${shlibs:Depends}
+Pre-Depends: ${misc:Pre-Depends}
+Breaks: libqt5webengine5 (<< 5.7.1+dfsg-4)
+Replaces: libqt5webengine5 (<< 5.7.1+dfsg-4)
+Description: Web content engine library for Qt - Core
+ QtWebEngine provides a Web browser engine that makes it easy to embed content
+ from the World Wide Web into your Qt application.
+ .
+ This package contains the core QtWebEngine library.
+
+Package: libqt5webenginewidgets5
+Architecture: amd64 arm64 armhf i386 mips64el mipsel
+Multi-Arch: same
+Depends: libqt5webengine-data (= ${source:Version}),
+         ${misc:Depends},
+         ${shlibs:Depends}
+Pre-Depends: ${misc:Pre-Depends}
+Description: Web content engine library for Qt - Widget
+ QtWebEngine provides a Web browser engine that makes it easy to embed content
+ from the World Wide Web into your Qt application.
+ .
+ This package contains the widget QtWebEngine library.
+
+Package: libqt5pdf5
+Architecture: amd64 arm64 armhf i386 mips64el mipsel
+Multi-Arch: same
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Description: Qt 5 PDF library
+ The Qt PDF module contains classes and functions for rendering PDF documents.
+ .
+ This package contains the Qt PDF library.
+
+Package: libqt5pdfwidgets5
+Architecture: amd64 arm64 armhf i386 mips64el mipsel
+Multi-Arch: same
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Description: Qt 5 PDF Widgets library
+ The Qt PDF module contains classes and functions for rendering PDF documents.
+ .
+ This package contains the Qt PDF Widgets library.
+
+Package: libqt5webengine-data
+Architecture: all
+Multi-Arch: foreign
+Depends: ${misc:Depends}
+Pre-Depends: ${misc:Pre-Depends}
+Description: Web content engine library for Qt - Data
+ QtWebEngine provides a Web browser engine that makes it easy to embed content
+ from the World Wide Web into your Qt application.
+ .
+ This package contains the arch independent parts of QtWebEngine libraries.
+
+Package: qt5-image-formats-plugin-pdf
+Architecture: amd64 arm64 armhf i386 mips64el mipsel
+Multi-Arch: same
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Description: Qt 5 PDF image format plugin
+ The Qt PDF module contains classes and functions for rendering PDF documents.
+ .
+ This package provides an image plugin that allows image-viewing applications
+ to view PDF files (the first page of PDF will be shown).
+
+Package: qml-module-qtwebengine
+Architecture: amd64 arm64 armhf i386 mips64el mipsel
+Multi-Arch: same
+Depends: qml-module-qtquick2, ${misc:Depends}, ${shlibs:Depends}
+Pre-Depends: ${misc:Pre-Depends}
+Description: Qt WebEngine QML module
+ QtWebEngine provides a Web browser engine that makes it easy to embed content
+ from the World Wide Web into your Qt application.
+ .
+ This package contains the WebEngine QML module for QtDeclarative.
+
+Package: qml-module-qtquick-pdf
+Architecture: amd64 arm64 armhf i386 mips64el mipsel
+Multi-Arch: same
+Depends: qml-module-qtgraphicaleffects (>= 5.12),
+         qml-module-qtquick-controls2 (>= 5.14),
+         qml-module-qtquick-shapes (>= 5.14),
+         qml-module-qtquick-templates2 (>= 5.14),
+         qml-module-qtquick-window2,
+         qml-module-qtquick2 (>= 5.14),
+         qt5-image-formats-plugin-pdf,
+         ${misc:Depends},
+         ${shlibs:Depends}
+Description: Qt Quick PDF QML module
+ The Qt PDF module contains classes and functions for rendering PDF documents.
+ .
+ This package contains the Qt Quick PDF QML module.
+
+Package: qtwebengine5-dev-tools
+Architecture: amd64 arm64 armhf i386 mips64el mipsel
+Multi-Arch: foreign
+Section: devel
+Depends: qtchooser, ${misc:Depends}, ${shlibs:Depends}
+Description: Qt WebEngine tools
+ Qt is a cross-platform C++ application framework. Qt's primary feature
+ is its rich set of widgets that provide standard GUI functionality.
+ .
+ This package contains qwebengine_convert_dict tool which converts hunspell
+ 'dic' dictionaries to binary 'bdic' format, which is required by spellchecker
+ in Qt WebEngine.
+
+Package: qtwebengine5-examples
+Architecture: amd64 arm64 armhf i386 mips64el mipsel
+Multi-Arch: same
+Depends: libjs-jquery,
+         libjs-marked,
+         qml-module-qt-labs-settings,
+         qml-module-qtquick-controls,
+         qml-module-qtquick-layouts,
+         qml-module-qtquick-window2,
+         qml-module-qtwebengine,
+         qtwebengine5-dev-tools,
+         ${misc:Depends},
+         ${shlibs:Depends}
+Pre-Depends: ${misc:Pre-Depends}
+Description: Qt WebEngine - Examples
+ QtWebEngine provides a Web browser engine that makes it easy to embed content
+ from the World Wide Web into your Qt application.
+ .
+ This package contains the WebEngine examples.
+
+Package: qtpdf5-examples
+Architecture: amd64 arm64 armhf i386 mips64el mipsel
+Multi-Arch: same
+Depends: qml-module-qtquick-pdf (= ${binary:Version}),
+         ${misc:Depends},
+         ${shlibs:Depends}
+Description: Qt PDF - examples
+ The Qt PDF module contains classes and functions for rendering PDF documents.
+ .
+ This package contains the PDF examples.
+
+Package: qtwebengine5-doc
+Build-Profiles: <!nodoc>
+Architecture: all
+Multi-Arch: foreign
+Section: doc
+Depends: ${misc:Depends}
+Description: Qt 5 webengine documentation
+ Qt is a cross-platform C++ application framework. Qt's primary feature
+ is its rich set of widgets that provide standard GUI functionality.
+ .
+ This package contains the documentation for the Qt 5 webengine libraries.
+
+Package: qtwebengine5-doc-html
+Build-Profiles: <!nodoc>
+Architecture: all
+Multi-Arch: foreign
+Section: doc
+Depends: ${misc:Depends}
+Description: Qt 5 webengine HTML documentation
+ Qt is a cross-platform C++ application framework. Qt's primary feature
+ is its rich set of widgets that provide standard GUI functionality.
+ .
+ This package contains the HTML documentation for the Qt 5 webengine
+ libraries.
+
+Package: qtpdf5-doc
+Build-Profiles: <!nodoc>
+Architecture: all
+Multi-Arch: foreign
+Section: doc
+Depends: ${misc:Depends}
+Description: Qt 5 PDF documentation
+ The Qt PDF module contains classes and functions for rendering PDF documents.
+ .
+ This package contains the documentation in QCH format, which can be
+ viewed using Qt Assistant from qttools5-dev-tools package.
+
+Package: qtpdf5-doc-html
+Build-Profiles: <!nodoc>
+Architecture: all
+Multi-Arch: foreign
+Section: doc
+Depends: ${misc:Depends}
+Description: Qt 5 PDF HTML documentation
+ The Qt PDF module contains classes and functions for rendering PDF documents.
+ .
+ This package contains the HTML documentation.

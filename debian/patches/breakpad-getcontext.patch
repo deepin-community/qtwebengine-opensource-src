@@ -1,0 +1,20 @@
+Description: use system getcontext instead of breakpad's own
+Author: Dmitry Shachnev <mitya57@debian.org>
+Forwarded: no
+Last-Update: 2021-03-16
+
+--- a/src/3rdparty/chromium/third_party/breakpad/BUILD.gn
++++ b/src/3rdparty/chromium/third_party/breakpad/BUILD.gn
+@@ -655,6 +655,12 @@ if (is_linux || is_chromeos || is_android) {
+       "breakpad/src/client",
+       "breakpad/src/third_party/linux/include",
+     ]
++
++    if (is_linux) {
++      # Assume glibc.
++      defines = [ "HAVE_GETCONTEXT" ]
++      sources -= [ "breakpad/src/common/linux/breakpad_getcontext.S" ]
++    }
+   }
+ 
+   static_library("processor_support") {

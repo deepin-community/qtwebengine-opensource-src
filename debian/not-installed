@@ -1,0 +1,5 @@
+usr/include/${DEB_HOST_MULTIARCH}/qt5/QtPdf/*/QtPdf/
+usr/include/${DEB_HOST_MULTIARCH}/qt5/QtPdfWidgets/*/QtPdfWidgets/
+usr/lib/${DEB_HOST_MULTIARCH}/cmake/Qt5Gui/Qt5Gui_QPdfPlugin.cmake
+usr/lib/${DEB_HOST_MULTIARCH}/qt5/mkspecs/modules/qt_lib_pdf_private.pri
+usr/lib/${DEB_HOST_MULTIARCH}/qt5/mkspecs/modules/qt_lib_pdfwidgets_private.pri

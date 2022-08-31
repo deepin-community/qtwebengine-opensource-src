@@ -1,0 +1,2 @@
+usr/lib/${DEB_HOST_MULTIARCH}/libQt5WebEngineCore.so.5*
+usr/lib/${DEB_HOST_MULTIARCH}/qt5/libexec/QtWebEngineProcess

@@ -1,0 +1,6 @@
+#!/usr/bin/python3 -B
+import platform
+import os
+
+if platform.machine() == 'sw_64':
+  os.system('tar -zxf src/3rdparty/chromium/third_party/node/linux/node-linux-sw_64.tar.gz -C src/3rdparty/chromium/third_party/node/linux')

@@ -1,0 +1,16 @@
+usr/include/${DEB_HOST_MULTIARCH}/qt5/QtPdf/[Qq]*
+usr/include/${DEB_HOST_MULTIARCH}/qt5/QtPdfWidgets/[Qq]*
+usr/lib/${DEB_HOST_MULTIARCH}/cmake/Qt5Pdf/Qt5PdfConfig.cmake
+usr/lib/${DEB_HOST_MULTIARCH}/cmake/Qt5Pdf/Qt5PdfConfigVersion.cmake
+usr/lib/${DEB_HOST_MULTIARCH}/cmake/Qt5PdfWidgets/Qt5PdfWidgetsConfig.cmake
+usr/lib/${DEB_HOST_MULTIARCH}/cmake/Qt5PdfWidgets/Qt5PdfWidgetsConfigVersion.cmake
+usr/lib/${DEB_HOST_MULTIARCH}/libQt5Pdf.prl
+usr/lib/${DEB_HOST_MULTIARCH}/libQt5Pdf.so
+usr/lib/${DEB_HOST_MULTIARCH}/libQt5PdfWidgets.prl
+usr/lib/${DEB_HOST_MULTIARCH}/libQt5PdfWidgets.so
+usr/lib/${DEB_HOST_MULTIARCH}/pkgconfig/Qt5Pdf.pc
+usr/lib/${DEB_HOST_MULTIARCH}/pkgconfig/Qt5PdfWidgets.pc
+usr/lib/${DEB_HOST_MULTIARCH}/qt5/mkspecs/modules/qt_lib_pdf.pri
+usr/lib/${DEB_HOST_MULTIARCH}/qt5/mkspecs/modules/qt_lib_pdf.pri
+usr/lib/${DEB_HOST_MULTIARCH}/qt5/mkspecs/modules/qt_lib_pdfwidgets.pri
+usr/lib/${DEB_HOST_MULTIARCH}/qt5/mkspecs/modules/qt_lib_pdfwidgets.pri

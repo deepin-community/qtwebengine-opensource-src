@@ -1,0 +1,246 @@
+#!/usr/bin/python3
+
+"""A script to automatically update debian/copyright file based on upstream
+README.chromium (and similar README.*), and qt_attribution.json files.
+
+It should be run in an unpacked tarball, to which the debian/ directory is
+copied.
+
+It changes only code between BEGIN/END AUTO GENERATED BLOCK lines.
+
+If this script complains about unknown license, add it to LICENSE_VARIATIONS
+dictionary (or add the corresponding directory to IGNORED_DIRECTORIES or
+LICENSE_OVERRIDES).
+
+Author: 2020-2021 Dmitry Shachnev <mitya57@debian.org>
+"""
+
+import json
+import glob
+import sys
+
+from os.path import dirname, join
+
+
+LICENSE_VARIATIONS = (
+    # Common licenses, sorted alphabetically
+    ("Apache-2.0", ["Apache 2.0", "Apache Version 2.0", "Apache-2.0",
+                    "Apache License, Version 2.0", "Apache License 2.0",
+                    "License: Apache Version 2.0", "Apache2", "Apache"]),
+    ("APSL-2.0", ["Apple Public Source License 2.0", "APSL 2.0"]),
+    ("BSD-2-clause", ["BSD 2-Clause License", "2-Clause BSD", "BSD-2-Clause",
+                      "2-clause BSD"]),
+    ("BSD-3-clause", ["BSD", "BSD-3", "BSD 3-Clause", "BSD 3-clause",
+                      "BSD-3-Clause", "3-clause BSD", "BSD 3-clause License",
+                      "New BSD", "Chromium"]),
+    ("BSL-1.0", ["BSL (v 1.0)"]),
+    ("CC-BY-SA-3.0", ["Creative Commons Attribution-ShareAlike 3.0 Unported"]),
+    ("ClArtistic", ["Clarified-Artistic"]),
+    ("EPL-1.0", ["EPL 1.0"]),
+    ("FTL", ["FreeType License (FTL)"]),
+    ("GPL-2", ["GPL v2", "GPL 2.0"]),
+    ("GPL-3", ["GPL", "GPL v3"]),
+    ("ISC", ["ISC"]),
+    ("LGPL-2.1", ["LGPL 2.1", "GNU LGPL 2.1"]),
+    ("LGPL-3", ["LGPL 3"]),
+    ("libpng-2.0", ["libpng", "libpng license"]),
+    ("MIT", ["MIT", "MIT License", "NodeJS", 'MIT "Expat"']),
+    ("MPL-2.0", ["MPL 2.0", "MPL 2"]),
+    ("MS-PL", ["Microsoft Permissive License"]),
+    ("NCSA", ["University of Illinois/NCSA Open Source License",
+              "University of Illinois Open Source License."]),
+    ("OFL-1.1", ["SIL Open Font License, Version 1.1."]),
+    ("public-domain",
+     ["Public domain", "Public Domain",
+      "Public Domain: United States Government Work under 17 U.S.C. 105"]),
+    ("Unicode", "Unicode"),
+    ("Zlib", ["Zlib", "zlib"]),
+    # Some license combinations
+    ("AFL-2.0 or LGPL-2", ["Academic Free License version 2.0 or LGPL v2"]),
+    ("Apache-2.0 and MIT and GPL-2", ["Apache 2, MIT and GPL v2"]),
+    ("BSD-3-clause and APSL-2.0 and Apache-2.0",
+     ["New BSD, Apple PSL 2.0 and Apache 2.0"]),
+    ("BSD-3-clause and MIT and GPL-2", ["BSD 3-Clause, MIT, GPL v2"]),
+    ("MIT and GPL-2", ["MIT, GPL"]),
+    ("MIT and public-domain", ["MIT, Public Domain"]),
+    ("MIT and SGI-B-2.0", ["MIT and SGI Free Software B License Version 2.0"]),
+    ("MIT/X11 and SGI-B-2.0", ["MIT/X11, SGI Free Software License B"]),
+    ("MPL-1.1 or GPL-2 or LGPL-2.1", ["MPL 1.1/GPL 2.0/LGPL 2.1",
+                                      "MPL 1.1 / GPL 2.0 / LGPL 2.1"]),
+    ("MPL-1.1 or GPL-2 or LGPL-2.1, and BSD-3-clause",
+     ["BSD and MPL 1.1/GPL 2.0/LGPL 2.1"]),
+    ("MPL-1.1 or GPL-2 or LGPL-2.1, and BSD-3-clause and BSD-2-clause",
+     ["MPL-1.1/GPL-2.0/LGPL-2.1 + BSD-3-Clause + BSD-2-Clause"]),
+    ("OFL-1.1 and GPL-2 and bitstream-vera",
+     ["SIL OPEN FONT LICENSE, GPL v2, Bitstream Vera Fonts Copyright"]),
+    ("public-domain and BSD-3-clause", ["Public domain and BSD"]),
+)
+
+IGNORED_DIRECTORIES = (
+    # These directories don't actually have source code.
+    "chromium/buildtools/clang_format",
+    "chromium/third_party/adobe",
+    "chromium/third_party/fuchsia-sdk",
+    "chromium/third_party/libovr",
+    "chromium/third_party/webpagereplay",
+    "chromium/third_party/widevine",
+    # We have an override for the top-level hyphenation-patterns directory.
+    "chromium/third_party/hyphenation-patterns/src",
+    "chromium/third_party/hyphenation-patterns/src/en-GB",
+)
+
+LICENSE_OVERRIDES = {
+    "chromium/third_party/boringssl":
+        "OpenSSL and SSLeay and ISC and MIT and BSD-3-clause",
+    "chromium/third_party/catapult/tracing/third_party/jszip": "MIT or GPL-3",
+    "chromium/third_party/devtools-frontend/src/third_party/i18n":
+        "Apache-2.0",
+    "chromium/third_party/freetype": "FTL",
+    "chromium/third_party/hyphenation-patterns":
+        "LGPL-2.1 and MIT and Unicode and BSD-3-clause",
+    "chromium/third_party/hyphenation-patterns/src":
+        "LGPL-2.1 and MIT and Unicode and BSD-3-clause",
+    "chromium/third_party/iccjpeg": "IJG",
+    "chromium/third_party/libjpeg": "IJG",
+    "chromium/third_party/libjpeg_turbo": "IJG and BSD-3-clause and Zlib",
+    "chromium/third_party/minizip": "Zlib",
+    "chromium/third_party/pdfium/third_party/yasm":
+        "BSD-2-clause or BSD-3-clause, and GPL-2",
+    "chromium/third_party/webrtc/common_audio/third_party/spl_sqrt_floor":
+        "public-domain",
+    "chromium/third_party/yasm": "BSD-2-clause or BSD-3-clause, and GPL-2",
+    "chromium/third_party/zlib": "Zlib",
+}
+
+START_HEADER = '## BEGIN AUTO GENERATED BLOCK'
+END_HEADER = '## END AUTO GENERATED BLOCK'
+
+
+class CopyrightBuilder:
+    def __init__(self, filename):
+        self.filename = filename
+        with open(filename) as copyright_file:
+            current_copyright = copyright_file.read()
+        start_pos = current_copyright.find(START_HEADER)
+        self.start_data = current_copyright[:start_pos + len(START_HEADER) + 1]
+        end_pos = current_copyright.find(END_HEADER) - 1
+        self.end_data = current_copyright[end_pos:]
+
+    @staticmethod
+    def dump_section(section):
+        text = "\n"
+        text += f"Files: {section['files']}\n"
+        for i, line in enumerate(section["copyright"].split("\n")):
+            if i == 0:
+                text += f"Copyright: {line}\n"
+            else:
+                text += f"           {line}\n"
+        text += f"License: {section['license']}\n"
+        if section["license_text"] is not None:
+            for line in section["license_text"].strip().split("\n"):
+                line = line.strip()
+                if not line:
+                    text += " .\n"
+                else:
+                    text += f" {line}\n"
+        return text
+
+    @staticmethod
+    def fixup_license(license_name, readme_file):
+        for canonical_name, variations in LICENSE_VARIATIONS:
+            if license_name in variations:
+                return canonical_name
+        if (license_name.startswith("Custom") or
+                license_name in ("Non-standard", "BSDish", "BSD-like")):
+            return "custom"
+        sys.exit(f"Error: unknown license in {readme_file}: {license_name}")
+        return license_name
+
+    def process_readme_file(self, readme_file):
+        headers = {}
+        with open(readme_file) as readme:
+            for line in readme:
+                if not line.strip():
+                    break
+                if ": " not in line:
+                    continue
+                header, content = line.split(": ", maxsplit=1)
+                headers[header.lower()] = content.rstrip()
+        if "license" not in headers:
+            return None
+        directory = dirname(readme_file)
+        files = join(directory, "*")
+        relative_name = directory[len("src/3rdparty/"):]
+        if relative_name in LICENSE_OVERRIDES:
+            license_name = LICENSE_OVERRIDES[relative_name]
+        else:
+            license_name = self.fixup_license(headers["license"], readme_file)
+        license_text = None
+        path_component = readme_file.split("/")[-2]
+        name = headers.get("short name", headers.get("name", path_component))
+        if license_name == "custom":
+            license_name += "-" + name.replace(" ", "-")
+            with open(join(directory, headers["license file"])) as license_txt:
+                license_text = license_txt.read()
+        return {
+            "files": files,
+            "copyright": name + " developers",
+            "license": license_name,
+            "license_text": license_text,
+        }
+
+    @staticmethod
+    def process_attribution_entry(entry, directory):
+        copyright_lines = [
+            line.replace("Copyright ", "").replace("(c)", "").lstrip()
+            for line in entry["Copyright"].split("\n")
+        ]
+        return {
+            "files": join(directory, entry.get("Files", "*")),
+            "copyright": "\n".join(copyright_lines),
+            "license": ("public-domain"
+                        if entry["LicenseId"] == "DocumentRef-PublicDomain"
+                        else entry["LicenseId"]),
+            "license_text": None,
+        }
+
+    def process_attribution_file(self, attribution_file):
+        with open(attribution_file) as attribution:
+            data = json.load(attribution, strict=False)
+        directory = dirname(attribution_file)
+        if isinstance(data, list):
+            for entry in data:
+                yield self.process_attribution_entry(entry, directory)
+        else:
+            yield self.process_attribution_entry(data, directory)
+
+    def get_sections_for_readme_files(self):
+        glob_result = glob.iglob("**/README.*", recursive=True)
+        for readme_file in sorted(glob_result):
+            if readme_file.endswith((".TXT", "chromium.template")):
+                continue
+            relative_name = dirname(readme_file)[len("src/3rdparty/"):]
+            if relative_name in IGNORED_DIRECTORIES:
+                continue
+            section = self.process_readme_file(readme_file)
+            if section is not None:
+                yield section
+
+    def get_sections_for_attribution_files(self):
+        glob_result = glob.iglob("**/qt_attribution.json", recursive=True)
+        for attribution_file in sorted(glob_result):
+            yield from self.process_attribution_file(attribution_file)
+
+    def update(self):
+        with open(self.filename, "w") as copyright_file:
+            copyright_file.write(self.start_data)
+            for section in self.get_sections_for_attribution_files():
+                copyright_file.write(self.dump_section(section))
+            for section in self.get_sections_for_readme_files():
+                copyright_file.write(self.dump_section(section))
+            copyright_file.write(self.end_data)
+
+
+if __name__ == "__main__":
+    builder = CopyrightBuilder("debian/copyright")
+    builder.update()

@@ -1,0 +1,15 @@
+Description: remove a non-DFSG benchmark file from build inputs
+Author: Dmitry Shachnev <mitya57@debian.org>
+Forwarded: no
+Last-Update: 2021-03-11
+
+--- a/src/3rdparty/chromium/third_party/catapult/tracing/trace_viewer.gni
++++ b/src/3rdparty/chromium/third_party/catapult/tracing/trace_viewer.gni
+@@ -677,7 +677,6 @@ py_vulcanize_files = [
+   "../common/py_vulcanize/third_party/rjsmin/_setup/py3/shell.py",
+   "../common/py_vulcanize/third_party/rjsmin/_setup/py3/util.py",
+   "../common/py_vulcanize/third_party/rjsmin/bench/__init__.py",
+-  "../common/py_vulcanize/third_party/rjsmin/bench/jsmin.py",
+   "../common/py_vulcanize/third_party/rjsmin/bench/jsmin_2_0_9.py",
+   "../common/py_vulcanize/third_party/rjsmin/bench/main.py",
+   "../common/py_vulcanize/third_party/rjsmin/bench/write.py",

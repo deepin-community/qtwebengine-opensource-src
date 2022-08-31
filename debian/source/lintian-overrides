@@ -1,0 +1,46 @@
+# license was updated in https://chromium.googlesource.com/breakpad/breakpad/+/14bbefbd9600e08d6a34d7250faa8bc9dba2113e
+# see also https://bugs.chromium.org/p/google-breakpad/issues/detail?id=270
+qtwebengine-opensource-src source: license-problem-convert-utf-code src/3rdparty/chromium/third_party/breakpad/breakpad/src/common/convert_UTF.cc
+# That file says: "To avoid the problematic JSON license in your own projects, it's sufficient to exclude the bin/jsonchecker/ directory,
+# as it's the only code under the JSON license". We have added that directory to Files-Excluded.
+qtwebengine-opensource-src source: license-problem-json-evil src/3rdparty/chromium/third_party/angle/third_party/rapidjson/src/license.txt
+# This is a protobuf file, not a Windows executable
+qtwebengine-opensource-src source: source-contains-prebuilt-windows-binary src/3rdparty/chromium/third_party/webrtc/data/audio_processing/android/output_data_fixed.pb
+# Source is in debian/missing-sources/jquery-1.3.2.js, replaced by build step with self-minified version
+qtwebengine-opensource-src source: source-is-missing examples/webenginewidgets/contentmanipulation/jquery.min.js
+# Source is in debian/missing-sources/mocha-6.1.4
+qtwebengine-opensource-src source: source-is-missing src/3rdparty/chromium/third_party/mocha/mocha.js *
+# Source is in debian/missing-sources/jszip-2.4.0
+qtwebengine-opensource-src source: source-is-missing src/3rdparty/chromium/third_party/catapult/tracing/third_party/jszip/jszip.min.js
+# Valid files, with very long lines (files are not minified)
+qtwebengine-opensource-src source: source-is-missing src/3rdparty/chromium/chrome/browser/resources/signin/profile_picker/icons.js *
+qtwebengine-opensource-src source: source-is-missing src/3rdparty/chromium/third_party/blink/manual_tests/win/milliondollar.html *
+qtwebengine-opensource-src source: source-is-missing src/3rdparty/chromium/third_party/catapult/tracing/third_party/gl-matrix/spec/gl-matrix/mat3-spec.js *
+qtwebengine-opensource-src source: source-is-missing src/3rdparty/chromium/third_party/catapult/tracing/tracing/extras/android/android_auditor.html *
+qtwebengine-opensource-src source: source-is-missing src/3rdparty/chromium/third_party/catapult/tracing/tracing/ui/extras/about_tracing/inspector_tracing_controller_client_test.html *
+qtwebengine-opensource-src source: source-is-missing src/3rdparty/chromium/third_party/catapult/tracing/tracing/ui/extras/v8/gc_objects_stats_table_test.html *
+qtwebengine-opensource-src source: source-is-missing src/3rdparty/chromium/third_party/devtools-frontend/src/front_end/third_party/codemirror/package/addon/hint/html-hint.js *
+qtwebengine-opensource-src source: source-is-missing src/3rdparty/chromium/third_party/devtools-frontend/src/front_end/third_party/codemirror/package/mode/*
+qtwebengine-opensource-src source: source-is-missing src/3rdparty/chromium/third_party/devtools-frontend/src/front_end/third_party/codemirror/package/src/util/misc.js *
+qtwebengine-opensource-src source: source-is-missing src/3rdparty/chromium/third_party/devtools-frontend/src/inspector_overlay/debug/*
+qtwebengine-opensource-src source: source-is-missing src/3rdparty/chromium/third_party/google-closure-library/closure/goog/ui/ac/renderer_test.js *
+qtwebengine-opensource-src source: source-is-missing src/3rdparty/chromium/third_party/skia/modules/canvaskit/canvaskit/extra.html *
+# base64-encoded image/data, this is normal
+qtwebengine-opensource-src source: source-is-missing src/3rdparty/chromium/third_party/blink/manual_tests/image-resampling-with-scale.html *
+qtwebengine-opensource-src source: source-is-missing src/3rdparty/chromium/third_party/blink/manual_tests/svg-image-resampling-with-scale.html *
+qtwebengine-opensource-src source: source-is-missing src/3rdparty/chromium/third_party/catapult/tracing/tracing/extras/chrome/cc/layer_tree_host_impl_test_data.js *
+qtwebengine-opensource-src source: source-is-missing src/3rdparty/chromium/third_party/catapult/tracing/tracing/ui/base/favicons.html *
+qtwebengine-opensource-src source: source-is-missing src/3rdparty/chromium/third_party/catapult/tracing/tracing/ui/extras/chrome/cc/picture_debugger_test.html *
+qtwebengine-opensource-src source: source-is-missing src/3rdparty/chromium/tools/page_cycler/acid3/acid3.acidtests.org/index.html *
+# source is in src/3rdparty/chromium/third_party/blink/renderer/devtools/scripts/javascript_natives/index.js
+qtwebengine-opensource-src source: source-is-missing src/3rdparty/chromium/third_party/devtools-frontend/src/front_end/javascript_metadata/NativeFunctions.js *
+# source is in src/3rdparty/chromium/components/variations/proto/devtools/client_variations_uncompiled.js
+qtwebengine-opensource-src source: source-is-missing src/3rdparty/chromium/components/variations/proto/devtools/client_variations.js *
+qtwebengine-opensource-src source: source-is-missing src/3rdparty/chromium/third_party/devtools-frontend/src/front_end/third_party/chromium/client-variations/ClientVariations.js *
+# this is not compiled, despite the filename
+qtwebengine-opensource-src source: source-is-missing src/3rdparty/chromium/third_party/polymer/v3_0/components-chromium/paper-spinner/paper-spinner-lite.js
+qtwebengine-opensource-src source: source-is-missing src/3rdparty/chromium/ui/webui/resources/js/jstemplate_compiled.js
+qtwebengine-opensource-src source: source-is-missing src/3rdparty/chromium/*
+qtwebengine-opensource-src source: missing-notice-file-for-apache-license src/3rdparty/chromium/third_party/ukey2/src/NOTICE
+qtwebengine-opensource-src source: source-is-missing debian/missing-sources/jquery-1.3.2.js
+qtwebengine-opensource-src source: unpack-message-for-orig qtwebengine-opensource-src* ar failed for src/3rdparty/chromium/ppapi/native_client/src/untrusted/irt_stub/libppapi.a
