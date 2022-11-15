@@ -116,7 +116,7 @@ endif
 		touch $(CURDIR)/$${fname}; \
 	done
 
-	/usr/lib/qt5/bin/syncqt.pl Source -version 5.15.3
+	/usr/lib/qt5/bin/syncqt.pl Source -version 5.15.7
 
 override_dh_auto_build-arch:
 	dh_auto_build -- -Onone

@@ -1,3 +1,9 @@
+qtwebengine-opensource-src (5.15.7.1-1+dde) unstable; urgency=medium
+
+  * fit qtbase 5.15.7
+
+ -- Ma Aiguo <maaiguo@uniontech.com>  Tue, 15 Nov 2022 16:03:34 +0800
+
 qtwebengine-opensource-src (5.15.3.2-1+dde) stable; urgency=medium
 
   * ['Rebuild  against by  current gcc 11.2']
