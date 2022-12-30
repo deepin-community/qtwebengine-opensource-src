@@ -1,3 +1,11 @@
+qtwebengine-opensource-src (5.15.7.2-1+dde) UNRELEASED; urgency=medium
+
+  * Fix loong64 patch.
+  * Add riscv64 support patch.
+  * Fix gcc-12 build error.
+
+ -- Han Gao <gaohan@iscas.ac.cn>  Fri, 30 Dec 2022 08:59:09 +0800
+
 qtwebengine-opensource-src (5.15.7.1-1+dde) unstable; urgency=medium
 
   * fit qtbase 5.15.7
