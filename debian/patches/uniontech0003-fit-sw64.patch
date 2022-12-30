@@ -7095,7 +7095,7 @@ index e67df41239..db16f8ccee 100644
  #if (defined(__i386__) || defined(__x86_64__) || defined(__ARM_ARCH_3__) ||   \
       defined(__mips__) || defined(__PPC__) || defined(__ARM_EABI__) || \
 -     defined(__aarch64__) || defined(__s390__)) \
-+     defined(__aarch64__) || defined(__s390__))  || defined(__sw_64__) \
++     defined(__aarch64__) || defined(__s390__) || defined(__sw_64__)) \
    && (defined(__linux) || defined(__ANDROID__))
  
  #ifndef SYS_CPLUSPLUS

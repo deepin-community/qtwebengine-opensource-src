@@ -8085,13 +8085,15 @@ diff --git a/src/3rdparty/chromium/third_party/lss/linux_syscall_support.h b/src
 index db16f8ccee..8340b37986 100644
 --- a/src/3rdparty/chromium/third_party/lss/linux_syscall_support.h
 +++ b/src/3rdparty/chromium/third_party/lss/linux_syscall_support.h
-@@ -89,6 +89,7 @@
+@@ -88,7 +88,8 @@
+  */
  #if (defined(__i386__) || defined(__x86_64__) || defined(__ARM_ARCH_3__) ||   \
       defined(__mips__) || defined(__PPC__) || defined(__ARM_EABI__) || \
-      defined(__aarch64__) || defined(__s390__))  || defined(__sw_64__) \
-+     || defined(__loongarch__) \
+-     defined(__aarch64__) || defined(__s390__) || defined(__sw_64__)) \
++     defined(__aarch64__) || defined(__s390__) || defined(__sw_64__) \
++     || defined(__loongarch__)) \
    && (defined(__linux) || defined(__ANDROID__))
- 
+
  #ifndef SYS_CPLUSPLUS
 @@ -301,7 +302,7 @@ struct kernel_old_sigaction {
  } __attribute__((packed,aligned(4)));
