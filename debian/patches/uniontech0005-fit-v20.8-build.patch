@@ -1,0 +1,42 @@
+From 00a67e7bfda462d4f59a7c7b0f032f7a3592e9a2 Mon Sep 17 00:00:00 2001
+From: Ma Aiguo <maaiguo@uniontech.com>
+Date: Fri, 30 Dec 2022 15:45:31 +0800
+Subject: [PATCH] [build] remove depends node-rollup-plugin-terser
+
+---
+ .../devtools-frontend/src/inspector_overlay/BUILD.gn          | 4 ++--
+ .../devtools-frontend/src/scripts/build/ninja/rollup.gni      | 2 --
+ 2 files changed, 2 insertions(+), 4 deletions(-)
+
+diff --git a/src/3rdparty/chromium/third_party/devtools-frontend/src/inspector_overlay/BUILD.gn b/src/3rdparty/chromium/third_party/devtools-frontend/src/inspector_overlay/BUILD.gn
+index 83041bcb8..3e21b070a 100644
+--- a/src/3rdparty/chromium/third_party/devtools-frontend/src/inspector_overlay/BUILD.gn
++++ b/src/3rdparty/chromium/third_party/devtools-frontend/src/inspector_overlay/BUILD.gn
+@@ -52,9 +52,9 @@ action("build_inspector_overlay") {
+     "common.css",
+     "1200",  # max_size in bytes
+     "tool_highlight.js",
+-    "90000",  # max_size in bytes
++    "91000",  # max_size in bytes
+     "tool_highlight_grid.js",
+-    "70000",  # max_size in bytes
++    "71000",  # max_size in bytes
+     "tool_distances.js",
+     "5000",  # max_size in bytes
+     "tool_paused.js",
+diff --git a/src/3rdparty/chromium/third_party/devtools-frontend/src/scripts/build/ninja/rollup.gni b/src/3rdparty/chromium/third_party/devtools-frontend/src/scripts/build/ninja/rollup.gni
+index 0804e71f3..b684c03e7 100644
+--- a/src/3rdparty/chromium/third_party/devtools-frontend/src/scripts/build/ninja/rollup.gni
++++ b/src/3rdparty/chromium/third_party/devtools-frontend/src/scripts/build/ninja/rollup.gni
+@@ -33,8 +33,6 @@ template("rollup") {
+       # as Chromium does not process the returncode of the subprocess correctly
+       # and instead looks if `stderr` is empty.
+       "--silent",
+-      "--plugin",
+-      "terser",
+       "--config",
+       rebase_path(devtools_location_prepend + "front_end/rollup.config.js",
+                   root_build_dir),
+-- 
+2.20.1
+
