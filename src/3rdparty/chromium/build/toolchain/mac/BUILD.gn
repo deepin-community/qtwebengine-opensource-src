@@ -162,7 +162,7 @@ template("mac_toolchain") {
     }
 
     linker_driver =
-        "TOOL_VERSION=${tool_versions.linker_driver} " +
+        "TOOL_VERSION=${tool_versions.linker_driver} " + python_path + " " +
         rebase_path("//build/toolchain/mac/linker_driver.py", root_build_dir)
 
     # Specify an explicit path for the strip binary.
@@ -277,7 +277,7 @@ template("mac_toolchain") {
 
       # Specify explicit path for libtool.
       libtool = mac_bin_path + "libtool"
-      command = "rm -f {{output}} && TOOL_VERSION=${tool_versions.filter_libtool} python $script $libtool -static {{arflags}} -o {{output}} -filelist $rspfile"
+      command = "rm -f {{output}} && TOOL_VERSION=${tool_versions.filter_libtool} " + python_path + " $script $libtool -static {{arflags}} -o {{output}} -filelist $rspfile"
       description = "LIBTOOL-STATIC {{output}}"
       outputs = [ "{{output_dir}}/{{target_output_name}}{{output_extension}}" ]
       default_output_dir = "{{target_out_dir}}"
@@ -506,8 +506,8 @@ template("mac_toolchain") {
         }
         command =
             "rm -f \"{{output}}\" && " +
-            "TOOL_VERSION=${tool_versions.compile_xcassets} " +
-            "python $_tool$_compress_pngs -p \"$_sdk_name\" " +
+            "TOOL_VERSION=${tool_versions.compile_xcassets} " + python_path +
+            " $_tool$_compress_pngs -p \"$_sdk_name\" " +
             "-t \"$_min_deployment_target\" -T \"{{bundle_product_type}}\" " +
             "-P \"{{bundle_partial_info_plist}}\" -o {{output}} {{inputs}}"
 
@@ -597,6 +597,26 @@ mac_toolchain("clang_x64_v8_mips64el") {
 
     if (defined(v8_current_cpu)) {
       v8_current_cpu = "mips64el"
+    }
+  }
+}
+
+mac_toolchain("clang_arm_v8_x86") {
+  toolchain_args = {
+    current_cpu = "arm"
+    current_os = "mac"
+    if (defined(v8_current_cpu)) {
+      v8_current_cpu = "x86"
+    }
+  }
+}
+
+mac_toolchain("clang_arm64_v8_x64") {
+  toolchain_args = {
+    current_cpu = "arm64"
+    current_os = "mac"
+    if (defined(v8_current_cpu)) {
+      v8_current_cpu = "x64"
     }
   }
 }

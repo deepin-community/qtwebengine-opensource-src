@@ -50,6 +50,9 @@ class V8_EXPORT_PRIVATE Node final {
 
   const Operator* op() const { return op_; }
 
+#if !defined(__GNUC__) || (__GNUC__ >= 8)
+  constexpr
+#endif
   IrOpcode::Value opcode() const {
     DCHECK_GE(IrOpcode::kLast, op_->opcode());
     return static_cast<IrOpcode::Value>(op_->opcode());

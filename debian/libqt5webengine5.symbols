@@ -1,6 +1,6 @@
-# SymbolsHelper-Confirmed: 5.15.3.1 amd64
+# SymbolsHelper-Confirmed: 5.15.5 amd64
 libQt5WebEngine.so.5 libqt5webengine5 #MINVER#
-| libqt5webengine5 #MINVER#, qtwebengine-abi-5-15-3
+| libqt5webengine5 #MINVER#, qtwebengine-abi-5-15-8
 * Build-Depends-Package: qtwebengine5-dev
  Qt_5.0@Qt_5.0 5.7.1
  Qt_5.10@Qt_5.10 5.10.1
@@ -50,7 +50,7 @@ libQt5WebEngine.so.5 libqt5webengine5 #MINVER#
  _ZN19QQuickWebEngineView15geometryChangedERK6QRectFS2_@Qt_5_PRIVATE_API 5.7.1 1
  _ZN19QQuickWebEngineView15goBackOrForwardEi@Qt_5_PRIVATE_API 5.7.1 1
  _ZN19QQuickWebEngineView15setDevToolsViewEPS_@Qt_5_PRIVATE_API 5.11.1 1
- _ZN19QQuickWebEngineView16canGoBackChangedEv@Qt_5_PRIVATE_API 5.15.3 1
+ _ZN19QQuickWebEngineView16canGoBackChangedEv@Qt_5_PRIVATE_API 5.15.4 1
  _ZN19QQuickWebEngineView16certificateErrorEP31QQuickWebEngineCertificateError@Qt_5_PRIVATE_API 5.7.1 1
  _ZN19QQuickWebEngineView16findTextFinishedERK24QWebEngineFindTextResult@Qt_5_PRIVATE_API 5.14.1 1
  _ZN19QQuickWebEngineView16newViewRequestedEP29QQuickWebEngineNewViewRequest@Qt_5_PRIVATE_API 5.7.1 1
@@ -66,7 +66,7 @@ libQt5WebEngine.so.5 libqt5webengine5 #MINVER#
  _ZN19QQuickWebEngineView18setBackgroundColorERK6QColor@Qt_5_PRIVATE_API 5.7.1 1
  _ZN19QQuickWebEngineView18setWebChannelWorldEj@Qt_5_PRIVATE_API 5.7.1 1
  _ZN19QQuickWebEngineView18testSupportChangedEv@Qt_5_PRIVATE_API 5.9.0 1
- _ZN19QQuickWebEngineView19canGoForwardChangedEv@Qt_5_PRIVATE_API 5.15.3 1
+ _ZN19QQuickWebEngineView19canGoForwardChangedEv@Qt_5_PRIVATE_API 5.15.4 1
  _ZN19QQuickWebEngineView19contentsSizeChangedERK6QSizeF@Qt_5_PRIVATE_API 5.7.1 1
  _ZN19QQuickWebEngineView19devToolsViewChangedEv@Qt_5_PRIVATE_API 5.11.1 1
  _ZN19QQuickWebEngineView19fileDialogRequestedEP32QQuickWebEngineFileDialogRequest@Qt_5_PRIVATE_API 5.9.0 1
@@ -327,7 +327,7 @@ libQt5WebEngine.so.5 libqt5webengine5 #MINVER#
  _ZN26QQuickWebEngineViewPrivate11loadStartedERK4QUrlb@Qt_5_PRIVATE_API 5.7.1 1
  _ZN26QQuickWebEngineViewPrivate11passOnFocusEb@Qt_5_PRIVATE_API 5.7.1 1
  _ZN26QQuickWebEngineViewPrivate12didPrintPageEy14QSharedPointerI10QByteArrayE@Qt_5_PRIVATE_API 5.14.1 1
- _ZN26QQuickWebEngineViewPrivate12loadFinishedEbRK4QUrlbiRK7QString@Qt_5_PRIVATE_API 5.15.3 1
+ _ZN26QQuickWebEngineViewPrivate12loadFinishedEbRK4QUrlbiRK7QString@Qt_5_PRIVATE_API 5.15.5 1
  _ZN26QQuickWebEngineViewPrivate12titleChangedERK7QString@Qt_5_PRIVATE_API 5.7.1 1
  _ZN26QQuickWebEngineViewPrivate13loadCommittedEv@Qt_5_PRIVATE_API 5.7.1 1
  _ZN26QQuickWebEngineViewPrivate13startDraggingERKN7content8DropDataE6QFlagsIN2Qt10DropActionEERK7QPixmapRK6QPoint@Qt_5_PRIVATE_API 5.7.1 1

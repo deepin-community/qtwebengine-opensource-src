@@ -24,16 +24,4 @@ Last-Update: 2021-11-21
    if (sysno == __NR_set_robust_list)
      return Error(EPERM);
  
-@@ -271,6 +276,12 @@ ResultExpr EvaluateSyscallImpl(int fs_de
-     return RewriteFstatatSIGSYS(fs_denied_errno);
-   }
- 
-+#if defined(__NR_statx)
-+  if (sysno == __NR_statx) {
-+    return Error(ENOSYS);
-+  }
-+#endif
-+
-   if (SyscallSets::IsFileSystem(sysno) ||
-       SyscallSets::IsCurrentDirectory(sysno)) {
-     return Error(fs_denied_errno);
+

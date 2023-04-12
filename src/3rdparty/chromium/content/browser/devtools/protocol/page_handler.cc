@@ -50,6 +50,8 @@
 #include "content/public/browser/web_contents_delegate.h"
 #include "content/public/common/referrer.h"
 #include "content/public/common/result_codes.h"
+#include "content/public/common/url_constants.h"
+#include "content/public/common/url_utils.h"
 #include "content/public/common/use_zoom_for_dsf_policy.h"
 #include "net/base/filename_util.h"
 #include "third_party/skia/include/core/SkBitmap.h"
@@ -185,8 +187,11 @@ bool CanExecuteGlobalCommands(
 
 PageHandler::PageHandler(EmulationHandler* emulation_handler,
                          BrowserHandler* browser_handler,
-                         bool allow_file_access)
+                         bool allow_unsafe_operations,
+                         bool is_trusted)
     : DevToolsDomainHandler(Page::Metainfo::domainName),
+      allow_unsafe_operations_(allow_unsafe_operations),
+      is_trusted_(is_trusted),
       enabled_(false),
       screencast_enabled_(false),
       screencast_quality_(kDefaultScreenshotQuality),
@@ -454,6 +459,14 @@ void PageHandler::Navigate(const std::string& url,
     return;
   }
 
+  // chrome-untrusted:// WebUIs might perform high-priviledged actions on
+  // navigation, disallow navigation to them unless the client is trusted.
+  if (gurl.SchemeIs(kChromeUIUntrustedScheme) && !is_trusted_) {
+    callback->sendFailure(Response::ServerError(
+        "Navigating to a URL with a privileged scheme is not allowed"));
+    return;
+  }
+
   ui::PageTransition type;
   std::string transition_type =
       maybe_transition_type.fromMaybe(Page::TransitionTypeEnum::Typed);
@@ -712,6 +725,11 @@ void PageHandler::CaptureScreenshot(
 
   // We don't support clip/emulation when capturing from window, bail out.
   if (!from_surface.fromMaybe(true)) {
+    if (!is_trusted_) {
+      callback->sendFailure(
+          Response::ServerError("Only screenshots from surface are allowed."));
+      return;
+    }
     widget_host->GetSnapshotFromBrowser(
         base::BindOnce(&PageHandler::ScreenshotCaptured,
                        weak_factory_.GetWeakPtr(), std::move(callback),
@@ -1216,5 +1234,15 @@ void PageHandler::GetManifestIcons(
   callback->sendSuccess(Maybe<Binary>());
 }
 
+Response PageHandler::AddCompilationCache(const std::string& url,
+                                          const Binary& data) {
+  // We're just checking a permission here, the real business happens
+  // in the renderer, if we fall through.
+  if (allow_unsafe_operations_)
+    return Response::FallThrough();
+  return Response::ServerError("Permission denied");
+}
+
 }  // namespace protocol
+
 }  // namespace content

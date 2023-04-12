@@ -75,7 +75,7 @@ public:
     ~ContentBrowserClientQt();
     std::unique_ptr<content::BrowserMainParts> CreateBrowserMainParts(const content::MainFunctionParams&) override;
     void RenderProcessWillLaunch(content::RenderProcessHost *host) override;
-    gl::GLShareGroup* GetInProcessGpuShareGroup() override;
+    gl::GLShareGroup* GetInProcessGpuShareGroup() /*override*/;
     content::MediaObserver* GetMediaObserver() override;
     scoped_refptr<content::QuotaPermissionContext> CreateQuotaPermissionContext() override;
     void OverrideWebkitPrefs(content::RenderViewHost *render_view_host,

@@ -21,9 +21,8 @@ export QT_SELECT := qt5
 
 PARALLEL_OPTION = $(filter parallel=%,$(DEB_BUILD_OPTIONS))
 ifneq (,$(PARALLEL_OPTION))
-       MNUMJOBS = $(patsubst parallel=%,%,$(PARALLEL_OPTION))
-       NUMJOBS = $(shell if [ $(MNUMJOBS) -ge 16 ]; then echo "16"; else echo $(MNUMJOBS); fi)
-       export NINJAJOBS = -j$(NUMJOBS)
+	NUMJOBS = $(patsubst parallel=%,%,$(PARALLEL_OPTION))
+	export NINJAJOBS = -j$(NUMJOBS)
 endif
 
 ifeq (yes,$(shell dpkg-vendor --derives-from Ubuntu && echo yes))
@@ -39,8 +38,12 @@ small_architectures := armhf mipsel
 no_gold_architectures := arm64 armhf mipsel
 
 config_args = -proprietary-codecs \
+              -feature-webengine-system-libvpx \
               -webengine-jumbo-build 0 \
+              -system-ffmpeg \
+              -system-opus \
               -system-webp \
+              -system-webengine-icu \
               -webengine-kerberos
 
 touch_files = src/3rdparty/chromium/third_party/devtools-frontend/src/front_end/third_party/lighthouse/lighthouse-dt-bundle.js \
@@ -53,11 +56,24 @@ touch_files = src/3rdparty/chromium/third_party/devtools-frontend/src/front_end/
 	dh $@ --with pkgkde_symbolshelper
 
 override_dh_auto_clean:
+	dh_auto_clean
+	rm -f .qmake.cache
+	rm -f config.tests/.qmake.cache
+	rm -f qtwebengine-config.h
+
+	rm -rf $(CURDIR)/test_root
+	rm -rf $(CURDIR)/docs
+	rm -rf $(CURDIR)/.local
+	rm -f $(CURDIR)/src/3rdparty/chromium/third_party/jstemplate/jstemplate_compiled.js
+	rm -f $(CURDIR)/examples/webenginewidgets/contentmanipulation/jquery*.js
+
+	for fname in $(touch_files); do \
+		rm -f $(CURDIR)/$${fname}; \
+	done
 
 override_dh_auto_configure:
 	# Run qmake once to create .qmake.conf and be sure to append the following values.
 	qmake QT_BUILD_PARTS+=tests QMAKE_EXTRA_ARGS+="$(config_args)" QMAKE_PYTHON2=python2
-	./debian/scripts/extract_node_binaries
 
 # Enable gstabs debugging symbols only on gstab_architectures.
 ifeq ($(DEB_HOST_ARCH),$(findstring $(DEB_HOST_ARCH), $(gstab_architectures)))
@@ -108,7 +124,7 @@ endif
 	>examples/webenginewidgets/contentmanipulation/jquery.js cat debian/missing-sources/jquery-*.js
 	yui-compressor --type js "examples/webenginewidgets/contentmanipulation/jquery.js" -o "examples/webenginewidgets/contentmanipulation/jquery.min.js"
 
-	# cp /usr/share/nodejs/pako/dist/pako.min.js src/3rdparty/chromium/third_party/catapult/tracing/third_party/pako/
+	cp /usr/share/nodejs/pako/dist/pako.min.js src/3rdparty/chromium/third_party/catapult/tracing/third_party/pako/
 	cp /usr/share/javascript/d3/d3.min.js src/3rdparty/chromium/third_party/catapult/tracing/third_party/d3/
 
 	set -ex; for fname in $(touch_files); do \
@@ -116,13 +132,10 @@ endif
 		touch $(CURDIR)/$${fname}; \
 	done
 
-	/usr/lib/qt5/bin/syncqt.pl Source -version 5.15.7
+	/usr/lib/qt5/bin/syncqt.pl Source -version ${DEB_VERSION_UPSTREAM:+dfsg=}
 
 override_dh_auto_build-arch:
 	dh_auto_build -- -Onone
-
-override_dh_makeshlibs:
-	dh_makeshlibs -- -c0
 
 #we also need the resources.pak files, so we need the normal build.
 override_dh_auto_build-indep: override_dh_auto_build-arch

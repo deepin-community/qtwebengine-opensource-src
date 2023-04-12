@@ -924,9 +924,11 @@ class LiftoffCompiler {
         __ MergeFullStackWith(c->label_state, *__ cache_state());
         __ emit_jump(c->label.get());
       }
-      // Merge the else state into the end state.
+      // Merge the else state into the end state. Set this state as the current
+      // state first so helper functions know which registers are in use.
       __ bind(c->else_state->label.get());
-      __ MergeFullStackWith(c->label_state, c->else_state->state);
+      __ cache_state()->Steal(c->else_state->state);
+      __ MergeFullStackWith(c->label_state, *__ cache_state());
       __ cache_state()->Steal(c->label_state);
     } else if (c->reachable()) {
       // No merge yet at the end of the if, but we need to create a merge for
@@ -937,9 +939,11 @@ class LiftoffCompiler {
                                c->start_merge.arity, c->stack_depth);
       __ MergeFullStackWith(c->label_state, *__ cache_state());
       __ emit_jump(c->label.get());
-      // Merge the else state into the end state.
+      // Merge the else state into the end state. Set this state as the current
+      // state first so helper functions know which registers are in use.
       __ bind(c->else_state->label.get());
-      __ MergeFullStackWith(c->label_state, c->else_state->state);
+      __ cache_state()->Steal(c->else_state->state);
+      __ MergeFullStackWith(c->label_state, *__ cache_state());
       __ cache_state()->Steal(c->label_state);
     } else {
       // No merge needed, just continue with the else state.
@@ -2155,6 +2159,7 @@ class LiftoffCompiler {
   void AlignmentCheckMem(FullDecoder* decoder, uint32_t access_size,
                          uint32_t offset, Register index,
                          LiftoffRegList pinned) {
+    DEBUG_CODE_COMMENT("alignment check");
     Label* trap_label = AddOutOfLineTrap(
         decoder->position(), WasmCode::kThrowWasmTrapUnalignedAccess, 0);
     Register address = __ GetUnusedRegister(kGpReg, pinned).gp();
@@ -3122,9 +3127,9 @@ class LiftoffCompiler {
     LiftoffRegister value = pinned.set(__ PopToRegister());
 #ifdef V8_TARGET_ARCH_IA32
     // We have to reuse the value register as the result register so that we
-    //  don't run out of registers on ia32. For this we use the value register
-    //  as the result register if it has no other uses. Otherwise  we allocate
-    //  a new register and let go of the value register to get spilled.
+    // don't run out of registers on ia32. For this we use the value register as
+    // the result register if it has no other uses. Otherwise we allocate a new
+    // register and let go of the value register to get spilled.
     LiftoffRegister result = value;
     if (__ cache_state()->is_used(value)) {
       result = pinned.set(__ GetUnusedRegister(value.reg_class(), pinned));
@@ -3143,6 +3148,7 @@ class LiftoffCompiler {
     }
     AlignmentCheckMem(decoder, type.size(), imm.offset, index, pinned);
 
+    DEBUG_CODE_COMMENT("atomic binop");
     uint32_t offset = imm.offset;
     index = AddMemoryMasking(index, &offset, &pinned);
     Register addr = pinned.set(__ GetUnusedRegister(kGpReg, pinned)).gp();
