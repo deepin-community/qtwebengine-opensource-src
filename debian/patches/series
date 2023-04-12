@@ -19,5 +19,3 @@ uniontech0001-deepin-build.patch
 uniontech0002-fit-mips64el.patch
 uniontech0003-fit-sw64.patch
 uniontech0004-fit-loong64.patch
-CVE-2022-1096.patch
-
