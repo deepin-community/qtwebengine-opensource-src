@@ -156,7 +156,7 @@ Description: Web content engine library for Qt
 Package: libqt5webenginecore5
 Architecture: amd64 arm64 armhf i386 mips64el mipsel
 Multi-Arch: same
-Provides: qtwebengine-abi-5-15-8
+Provides: qtwebengine-abi-5-15-5
 Depends: libqt5webengine-data (= ${source:Version}),
          sse2-support [i386],
          ${misc:Depends},
