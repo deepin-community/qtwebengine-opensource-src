@@ -1,4 +1,4 @@
-# SymbolsHelper-Confirmed: 5.15.3 amd64
+# SymbolsHelper-Confirmed: 5.15.6 amd64 arm64 armhf i386 mips64el mipsel
 libQt5Pdf.so.5 libqt5pdf5 #MINVER#
 * Build-Depends-Package: qtpdf5-dev
  Qt_5.0@Qt_5.0 5.15.1
@@ -222,9 +222,10 @@ libQt5Pdf.so.5 libqt5pdf5 #MINVER#
  (optional=templinst)_ZNSt5dequeIN11CFX_XMLNode4TypeESaIS1_EE12emplace_backIJS1_EEEvDpOT_@Qt_5 5.15.1
  (optional=templinst|subst)_ZNSt5dequeIjSaIjEE17_M_reallocate_mapE{size_t}b@Qt_5 5.15.1
  (optional=templinst)_ZNSt5dequeIwSaIwEE12emplace_backIJwEEEvDpOT_@Qt_5 5.15.1
- (optional=templinst)_ZNSt6vectorI18UnsupportedFeatureSaIS0_EE17_M_realloc_insertIJS0_EEEvN9__gnu_cxx17__normal_iteratorIPS0_S2_EEDpOT_@Qt_5 5.15.3
- (optional=templinst)_ZNSt6vectorIN10CPDF_Annot7SubtypeESaIS1_EE17_M_realloc_insertIJS1_EEEvN9__gnu_cxx17__normal_iteratorIPS1_S3_EEDpOT_@Qt_5 5.15.3
+ (optional=templinst)_ZNSt6vectorI18UnsupportedFeatureSaIS0_EE17_M_realloc_insertIJS0_EEEvN9__gnu_cxx17__normal_iteratorIPS0_S2_EEDpOT_@Qt_5 5.15.1
+ (optional=templinst)_ZNSt6vectorIN10CPDF_Annot7SubtypeESaIS1_EE17_M_realloc_insertIJS1_EEEvN9__gnu_cxx17__normal_iteratorIPS1_S3_EEDpOT_@Qt_5 5.15.2
  (optional=templinst)_ZNSt6vectorISt4pairIiiESaIS1_EE17_M_realloc_insertIJS1_EEEvN9__gnu_cxx17__normal_iteratorIPS1_S3_EEDpOT_@Qt_5 5.15.1
+ (optional=templinst|arch=mips64el)_ZNSt6vectorISt4pairIjlESaIS1_EE17_M_realloc_insertIJjmEEEvN9__gnu_cxx17__normal_iteratorIPS1_S3_EEDpOT_@Qt_5 5.15.6
  (optional=templinst|arch=!amd64 !arm64 !mips64el)_ZNSt6vectorISt4pairIjxESaIS1_EE17_M_realloc_insertIJjxEEEvN9__gnu_cxx17__normal_iteratorIPS1_S3_EEDpOT_@Qt_5 5.15.1
  (optional=templinst|subst)_ZNSt6vectorIbSaIbEE14_M_fill_insertESt13_Bit_iterator{size_t}b@Qt_5 5.15.1
  (optional=templinst|subst)_ZNSt6vectorIfSaIfEE17_M_default_appendE{size_t}@Qt_5 5.15.1
@@ -254,7 +255,7 @@ libQt5Pdf.so.5 libqt5pdf5 #MINVER#
  (optional=templinst|subst)_ZNSt8_Rb_treeIiSt4pairIKi{size_t}ESt10_Select1stIS2_ESt4lessIiESaIS2_EE24_M_get_insert_unique_posERS1_@Qt_5 5.15.1
  (optional=templinst|subst)_ZNSt8_Rb_treeIiSt4pairIKi{size_t}ESt10_Select1stIS2_ESt4lessIiESaIS2_EE29_M_get_insert_hint_unique_posESt23_Rb_tree_const_iteratorIS2_ERS1_@Qt_5 5.15.1
  (optional=templinst)_ZNSt8_Rb_treeIiiSt9_IdentityIiESt4lessIiESaIiEE16_M_insert_uniqueIRKiEESt4pairISt17_Rb_tree_iteratorIiEbEOT_@Qt_5 5.15.1
- (optional=templinst)_ZNSt8_Rb_treeIiiSt9_IdentityIiESt4lessIiESaIiEE16_M_insert_uniqueIiEESt4pairISt17_Rb_tree_iteratorIiEbEOT_@Qt_5 5.15.3
+ (optional=templinst|arch=amd64 arm64)_ZNSt8_Rb_treeIiiSt9_IdentityIiESt4lessIiESaIiEE16_M_insert_uniqueIiEESt4pairISt17_Rb_tree_iteratorIiEbEOT_@Qt_5 5.15.6
  (optional=templinst)_ZNSt8_Rb_treeIiiSt9_IdentityIiESt4lessIiESaIiEE24_M_get_insert_unique_posERKi@Qt_5 5.15.1
  (optional=templinst|arch=amd64 arm64 mips64el)_ZNSt8_Rb_treeIiiSt9_IdentityIiESt4lessIiESaIiEE29_M_get_insert_hint_unique_posESt23_Rb_tree_const_iteratorIiERKi@Qt_5 5.15.1
  (optional=templinst)_ZNSt8_Rb_treeIjSt4pairIKjjESt10_Select1stIS2_ESt4lessIjESaIS2_EE24_M_get_insert_unique_posERS1_@Qt_5 5.15.1
@@ -285,6 +286,6 @@ libQt5Pdf.so.5 libqt5pdf5 #MINVER#
  _ZTV16QPdfPageRenderer@Qt_5 5.15.1
  _ZTV17QPdfBookmarkModel@Qt_5 5.15.1
  _ZTV18QPdfPageNavigation@Qt_5 5.15.1
- (optional=templinst)_ZZNSt9once_flag18_Prepare_executionC4IZSt9call_onceIRFvvEJEEvRS_OT_DpOT0_EUlvE_EERS6_ENUlvE_4_FUNEv@Qt_5 5.15.3
+ (optional=templinst)_ZZNSt9once_flag18_Prepare_executionC4IZSt9call_onceIRFvvEJEEvRS_OT_DpOT0_EUlvE_EERS6_ENUlvE_4_FUNEv@Qt_5 5.15.6
  _Zls6QDebugRK15QPdfDestination@Qt_5 5.15.1
  _Zls6QDebugRK16QPdfSearchResult@Qt_5 5.15.1

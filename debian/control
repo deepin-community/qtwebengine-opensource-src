@@ -3,7 +3,7 @@ Maintainer: Deepin Developer <deepin-dev@deepin.org>
 Uploaders: Deepin Packages Builder <packages@deepin.org>
 Section: libs
 Priority: optional
-Build-Depends: binutils (>= 2.31),
+Build-Depends: binutils (>= 2.32-8~),
                bison,
                chrpath,
                debhelper-compat (= 13),
@@ -28,7 +28,7 @@ Build-Depends: binutils (>= 2.31),
                libgstreamer-plugins-base1.0-dev,
                libgstreamer1.0-dev,
                libharfbuzz-dev,
-               libicu-dev (>= 63),
+               libicu-dev (>= 64~),
                libjpeg-dev,
                libjs-d3,
                libjsoncpp-dev,
@@ -36,7 +36,7 @@ Build-Depends: binutils (>= 2.31),
                liblcms2-dev,
                libminizip-dev,
                libnss3-dev,
-               libopus-dev (>= 1.3),
+               libopus-dev (>= 1.3.1),
                libpci-dev,
                libpng-dev,
                libprotobuf-dev,
@@ -48,7 +48,7 @@ Build-Depends: binutils (>= 2.31),
                libsnappy-dev,
                libsqlite3-dev,
                libusb-1.0-0-dev,
-               libvpx-dev (>= 1.7),
+               libvpx-dev (>= 1.8),
                libwebp-dev,
                libx11-xcb-dev,
                libxcb-dri3-dev,
@@ -156,7 +156,7 @@ Description: Web content engine library for Qt
 Package: libqt5webenginecore5
 Architecture: amd64 arm64 armhf i386 mips64el mipsel
 Multi-Arch: same
-Provides: qtwebengine-abi-5-15-7
+Provides: qtwebengine-abi-5-15-5
 Depends: libqt5webengine-data (= ${source:Version}),
          sse2-support [i386],
          ${misc:Depends},
