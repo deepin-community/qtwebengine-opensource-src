@@ -1,6 +1,6 @@
-# SymbolsHelper-Confirmed: 5.15.3 amd64
+# SymbolsHelper-Confirmed: 5.15.3 amd64 mips64el
 libQt5WebEngineWidgets.so.5 libqt5webenginewidgets5 #MINVER#
-| libqt5webenginewidgets5 #MINVER#, qtwebengine-abi-5-15-3
+| libqt5webenginewidgets5 #MINVER#, qtwebengine-abi-5-15-5
 * Build-Depends-Package: qtwebengine5-dev
  Qt_5.0@Qt_5.0 5.7.1
  Qt_5.10@Qt_5.10 5.10.1
