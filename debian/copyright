@@ -24,13 +24,7 @@ Files-Excluded: src/3rdparty/chromium/build/android/CheckInstallApk-debug.apk
                 src/3rdparty/chromium/third_party/breakpad/breakpad/src/tools/windows/binaries
                 src/3rdparty/chromium/third_party/breakpad/symupload.exe
                 src/3rdparty/chromium/third_party/bspatch/LICENSE
-                src/3rdparty/chromium/third_party/catapult/common/py_vulcanize/third_party/rjsmin/bench/apiviewer.js
-                src/3rdparty/chromium/third_party/catapult/common/py_vulcanize/third_party/rjsmin/bench/jsmin.c
-                src/3rdparty/chromium/third_party/catapult/common/py_vulcanize/third_party/rjsmin/bench/jsmin.py
-                src/3rdparty/chromium/third_party/catapult/common/py_vulcanize/third_party/rjsmin/bench/knockout-2.0.0.js
-                src/3rdparty/chromium/third_party/catapult/tracing/third_party/chai/chai.js
-                src/3rdparty/chromium/third_party/catapult/tracing/third_party/d3/d3.min.js
-                src/3rdparty/chromium/third_party/catapult/tracing/third_party/pako/pako.min.js
+                src/3rdparty/chromium/third_party/catapult
                 src/3rdparty/chromium/third_party/chaijs/chai.js
                 src/3rdparty/chromium/third_party/checkstyle/*
                 src/3rdparty/chromium/third_party/closure_compiler/compiler/compiler.jar
@@ -84,14 +78,15 @@ Files-Excluded: src/3rdparty/chromium/build/android/CheckInstallApk-debug.apk
                 tests/auto/widgets/resources/test.swf
 
 Files: *
-Copyright: 2006-2021 The Chromium Authors
-           2016-2021 The Qt Company Ltd.
+Copyright: 2006-2022 The Chromium Authors
+           2016-2022 The Qt Company Ltd.
 License: LGPL-3 or GPL-2
 
 Files: debian/*
 Copyright: 2016-2019 Scarlett Moore <sgmoore@kde.org>
            2016-2017 Sandro Knauß <hefee@debian.org>
-           2017-2021 Dmitry Shachnev <mitya57@debian.org>
+           2017-2023 Dmitry Shachnev <mitya57@debian.org>
+           2023 Soren Stoutner <soren@stoutner.com>
 License: LGPL-3
 
 Files: config.tests/*
@@ -124,10 +119,6 @@ License: BSD-3-clause
 Files: src/3rdparty/ninja/*
 Copyright: 2011-2018 Google Inc.
 License: Apache-2.0
-
-Files: debian/missing-sources/jszip-2.4.0/*
-Copyright: 2009-2014 Stuart Knightley, David Duponchel, Franz Buchinger, António Afonso
-License: MIT or GPL-3
 
 ## BEGIN AUTO GENERATED BLOCK
 
@@ -428,78 +419,6 @@ License: BSD-2-clause
 Files: src/3rdparty/chromium/third_party/byte_buddy/*
 Copyright: Byte Buddy developers
 License: Apache-2.0
-
-Files: src/3rdparty/chromium/third_party/catapult/common/py_trace_event/third_party/protobuf/*
-Copyright: Protobuf developers
-License: BSD-3-clause
-
-Files: src/3rdparty/chromium/third_party/catapult/common/py_vulcanize/third_party/rcssmin/*
-Copyright: rcssmin developers
-License: Apache-2.0
-
-Files: src/3rdparty/chromium/third_party/catapult/common/py_vulcanize/third_party/rjsmin/*
-Copyright: rJSmin developers
-License: Apache-2.0
-
-Files: src/3rdparty/chromium/third_party/catapult/third_party/beautifulsoup4/*
-Copyright: bs4 developers
-License: MIT
-
-Files: src/3rdparty/chromium/third_party/catapult/third_party/html5lib-python/*
-Copyright: html5lib developers
-License: MIT
-
-Files: src/3rdparty/chromium/third_party/catapult/third_party/polymer/*
-Copyright: polymer developers
-License: BSD-3-clause
-
-Files: src/3rdparty/chromium/third_party/catapult/third_party/six/*
-Copyright: six developers
-License: MIT
-
-Files: src/3rdparty/chromium/third_party/catapult/tracing/third_party/chai/*
-Copyright: chai developers
-License: MIT
-
-Files: src/3rdparty/chromium/third_party/catapult/tracing/third_party/d3/*
-Copyright: d3 developers
-License: BSD-3-clause
-
-Files: src/3rdparty/chromium/third_party/catapult/tracing/third_party/devscripts/*
-Copyright: devscripts developers
-License: GPL-2
-
-Files: src/3rdparty/chromium/third_party/catapult/tracing/third_party/gl-matrix/*
-Copyright: gl-matrix developers
-License: BSD-3-clause
-
-Files: src/3rdparty/chromium/third_party/catapult/tracing/third_party/jpeg-js/*
-Copyright: jpeg-js developers
-License: Apache-2.0
-
-Files: src/3rdparty/chromium/third_party/catapult/tracing/third_party/jszip/*
-Copyright: JSZip developers
-License: MIT or GPL-3
-
-Files: src/3rdparty/chromium/third_party/catapult/tracing/third_party/mannwhitneyu/*
-Copyright: mannwhitneyu developers
-License: MIT
-
-Files: src/3rdparty/chromium/third_party/catapult/tracing/third_party/mocha/*
-Copyright: Mocha developers
-License: MIT
-
-Files: src/3rdparty/chromium/third_party/catapult/tracing/third_party/oboe/*
-Copyright: oboe developers
-License: BSD-2-clause
-
-Files: src/3rdparty/chromium/third_party/catapult/tracing/third_party/pako/*
-Copyright: pako developers
-License: MIT
-
-Files: src/3rdparty/chromium/third_party/catapult/tracing/third_party/symbols/*
-Copyright: symbols module from Chromium developers
-License: BSD-3-clause
 
 Files: src/3rdparty/chromium/third_party/ced/*
 Copyright: ced developers
@@ -1632,10 +1551,6 @@ Files: src/3rdparty/chromium/third_party/weston/*
 Copyright: Weston developers
 License: MIT
 
-Files: src/3rdparty/chromium/third_party/win_build_output/*
-Copyright: Checked in build outputs generated on Windows. developers
-License: BSD-3-clause
-
 Files: src/3rdparty/chromium/third_party/woff2/*
 Copyright: woff2 developers
 License: MIT
@@ -1662,6 +1577,10 @@ License: BSD-3-clause
 
 Files: src/3rdparty/chromium/third_party/zlib/*
 Copyright: zlib developers
+License: Zlib
+
+Files: src/3rdparty/chromium/third_party/zlib/contrib/minizip/*
+Copyright: minizip developers
 License: Zlib
 
 Files: src/3rdparty/chromium/third_party/zxcvbn-cpp/*

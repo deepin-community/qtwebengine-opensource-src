@@ -23,6 +23,14 @@ namespace v8 {
 namespace internal {
 namespace compiler {
 
+Smi NumberConstantToSmi(Node* node) {
+  DCHECK_EQ(node->opcode(), IrOpcode::kNumberConstant);
+  const double d = OpParameter<double>(node->op());
+  Smi smi = Smi::FromInt(static_cast<int32_t>(d));
+  CHECK_EQ(smi.value(), d);
+  return smi;
+}
+
 InstructionSelector::InstructionSelector(
     Zone* zone, size_t node_count, Linkage* linkage,
     InstructionSequence* sequence, Schedule* schedule,
@@ -267,7 +275,7 @@ Instruction* InstructionSelector::Emit(Instruction* instr) {
 
 bool InstructionSelector::CanCover(Node* user, Node* node) const {
   // 1. Both {user} and {node} must be in the same basic block.
-  if (schedule()->block(node) != schedule()->block(user)) {
+  if (schedule()->block(node) != current_block_) {
     return false;
   }
   // 2. Pure {node}s must be owned by the {user}.
@@ -275,7 +283,7 @@ bool InstructionSelector::CanCover(Node* user, Node* node) const {
     return node->OwnedBy(user);
   }
   // 3. Impure {node}s must match the effect level of {user}.
-  if (GetEffectLevel(node) != GetEffectLevel(user)) {
+  if (GetEffectLevel(node) != current_effect_level_) {
     return false;
   }
   // 4. Only {node} must have value edges pointing to {user}.
@@ -285,21 +293,6 @@ bool InstructionSelector::CanCover(Node* user, Node* node) const {
     }
   }
   return true;
-}
-
-bool InstructionSelector::CanCoverTransitively(Node* user, Node* node,
-                                               Node* node_input) const {
-  if (CanCover(user, node) && CanCover(node, node_input)) {
-    // If {node} is pure, transitivity might not hold.
-    if (node->op()->HasProperty(Operator::kPure)) {
-      // If {node_input} is pure, the effect levels do not matter.
-      if (node_input->op()->HasProperty(Operator::kPure)) return true;
-      // Otherwise, {user} and {node_input} must have the same effect level.
-      return GetEffectLevel(user) == GetEffectLevel(node_input);
-    }
-    return true;
-  }
-  return false;
 }
 
 bool InstructionSelector::IsOnlyUserOfNodeInSameBlock(Node* user,
@@ -493,11 +486,17 @@ InstructionOperand OperandForDeopt(Isolate* isolate, OperandGenerator* g,
   switch (input->opcode()) {
     case IrOpcode::kInt32Constant:
     case IrOpcode::kInt64Constant:
-    case IrOpcode::kNumberConstant:
     case IrOpcode::kFloat32Constant:
     case IrOpcode::kFloat64Constant:
     case IrOpcode::kDelayedStringConstant:
       return g->UseImmediate(input);
+    case IrOpcode::kNumberConstant:
+      if (rep == MachineRepresentation::kWord32) {
+        Smi smi = NumberConstantToSmi(input);
+        return g->UseImmediate(static_cast<int32_t>(smi.ptr()));
+      } else {
+        return g->UseImmediate(input);
+      }
     case IrOpcode::kCompressedHeapConstant:
     case IrOpcode::kHeapConstant: {
       if (!CanBeTaggedOrCompressedPointer(rep)) {
@@ -1124,6 +1123,7 @@ void InstructionSelector::VisitBlock(BasicBlock* block) {
   int effect_level = 0;
   for (Node* const node : *block) {
     SetEffectLevel(node, effect_level);
+    current_effect_level_ = effect_level;
     if (node->opcode() == IrOpcode::kStore ||
         node->opcode() == IrOpcode::kUnalignedStore ||
         node->opcode() == IrOpcode::kCall ||
@@ -1142,6 +1142,7 @@ void InstructionSelector::VisitBlock(BasicBlock* block) {
   // control input should be on the same effect level as the last node.
   if (block->control_input() != nullptr) {
     SetEffectLevel(block->control_input(), effect_level);
+    current_effect_level_ = effect_level;
   }
 
   auto FinishEmittedInstructions = [&](Node* node, int instruction_start) {

@@ -3308,7 +3308,11 @@ bool ParseContent(const std::string& message,
 
     media_desc->set_simulcast_description(simulcast);
   } else {
-    send_rids = rids;
+    // RID is specified in RFC 8851, which identifies a lot of usages.
+    // We only support RFC 8853 usage of RID, not anything else.
+    // Ignore all RID parameters when a=simulcast is missing.
+    // In particular do NOT do send_rids = rids;
+    RTC_LOG(LS_VERBOSE) << "Ignoring send_rids without simulcast";
   }
 
   media_desc->set_receive_rids(receive_rids);
@@ -3486,6 +3490,11 @@ bool ParseSsrcGroupAttribute(const std::string& line,
     uint32_t ssrc = 0;
     if (!GetValueFromString(line, fields[i], &ssrc, error)) {
       return false;
+    }
+    // Reject duplicates. While not forbidden by RFC 5576,
+    // they don't make sense.
+    if (absl::c_linear_search(ssrcs, ssrc)) {
+      return ParseFailed(line, "Duplicate SSRC in ssrc-group", error);
     }
     ssrcs.push_back(ssrc);
   }

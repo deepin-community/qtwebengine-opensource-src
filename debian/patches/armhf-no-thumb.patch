@@ -1,0 +1,17 @@
+Description: disable CONFIG_THUMB on armhf
+ Fixes errors about bad instruction `ldrhcs'.
+Author: Dmitry Shachnev <mitya57@debian.org>
+Forwarded: not-needed
+Last-Update: 2022-06-26
+
+--- a/src/3rdparty/chromium/third_party/ffmpeg/chromium/config/Chrome/linux/arm/config.h
++++ b/src/3rdparty/chromium/third_party/ffmpeg/chromium/config/Chrome/linux/arm/config.h
+@@ -593,7 +593,7 @@
+ #define CONFIG_NEON_CLOBBER_TEST 0
+ #define CONFIG_OSSFUZZ 0
+ #define CONFIG_PIC 1
+-#define CONFIG_THUMB 1
++#define CONFIG_THUMB 0
+ #define CONFIG_VALGRIND_BACKTRACE 0
+ #define CONFIG_XMM_CLOBBER_TEST 0
+ #define CONFIG_BSFS 1

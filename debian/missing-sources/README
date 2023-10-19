@@ -18,8 +18,3 @@ Files: src/3rdparty/chromium/third_party/mocha/mocha.js
 Project: Mocha v6.1.4
 License: MIT
 Source: https://github.com/mochajs/mocha/archive/v6.1.4.tar.gz
-
-Files: src/3rdparty/chromium/third_party/catapult/tracing/third_party/jszip/jszip.min.js
-Project: JSZip v2.4.0
-License: MIT or GPL
-Source: https://github.com/Stuk/jszip/archive/v2.4.0.tar.gz

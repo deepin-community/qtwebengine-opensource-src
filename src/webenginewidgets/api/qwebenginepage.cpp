@@ -247,6 +247,12 @@ void QWebEnginePagePrivate::selectionChanged()
     });
 }
 
+void QWebEnginePagePrivate::zoomUpdateIsNeeded()
+{
+    Q_Q(QWebEnginePage);
+    q->setZoomFactor(defaultZoomFactor);
+}
+
 void QWebEnginePagePrivate::recentlyAudibleChanged(bool recentlyAudible)
 {
     Q_Q(QWebEnginePage);
@@ -472,6 +478,10 @@ void QWebEnginePagePrivate::showColorDialog(QSharedPointer<ColorChooserControlle
     // Delete when done
     QColorDialog::connect(dialog, SIGNAL(colorSelected(QColor)), dialog, SLOT(deleteLater()));
     QColorDialog::connect(dialog, SIGNAL(rejected()), dialog, SLOT(deleteLater()));
+
+#if defined(Q_OS_MACOS)
+    dialog->setOption(QColorDialog::DontUseNativeDialog);
+#endif
 
     dialog->open();
 #else
@@ -907,8 +917,6 @@ QWebEnginePage::QWebEnginePage(QObject* parent)
     the audio is played or stopped.
 
     \note The signal is also emitted when calling the setAudioMuted() method.
-    Also, if the audio is paused, this signal is emitted with an approximate \b{two-second
-    delay}, from the moment the audio is paused.
 */
 
 /*!
@@ -2144,8 +2152,12 @@ void QWebEnginePage::setZoomFactor(qreal factor)
 {
     Q_D(QWebEnginePage);
     d->defaultZoomFactor = factor;
-    if (d->adapter->isInitialized())
+
+    if (d->adapter->isInitialized()) {
         d->adapter->setZoomFactor(factor);
+        // MEMO: should reset if factor was not applied due to being invalid
+        d->defaultZoomFactor = zoomFactor();
+    }
 }
 
 void QWebEnginePage::runJavaScript(const QString &scriptSource)

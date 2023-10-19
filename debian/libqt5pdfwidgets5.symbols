@@ -18,7 +18,7 @@ libQt5PdfWidgets.so.5 libqt5pdfwidgets5 #MINVER#
  Qt_5.8@Qt_5.8 5.15.1
  Qt_5.9@Qt_5.9 5.15.1
  Qt_5@Qt_5 5.15.1
- Qt_5_PRIVATE_API@Qt_5_PRIVATE_API 5.15.1
+ (symver)Qt_5_PRIVATE_API 0
  _ZN8QPdfView10paintEventEP11QPaintEvent@Qt_5 5.15.1
  _ZN8QPdfView11qt_metacallEN11QMetaObject4CallEiPPv@Qt_5 5.15.1
  _ZN8QPdfView11qt_metacastEPKc@Qt_5 5.15.1

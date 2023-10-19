@@ -61,6 +61,11 @@ class V8_EXPORT_PRIVATE LookupIterator final {
     inline Handle<Name> GetName(Isolate* isolate);
 
    private:
+    friend LookupIterator;
+
+    // Shortcut for constructing Key from an active LookupIterator.
+    inline Key(Isolate* isolate, Handle<Name> name, size_t index);
+
     Handle<Name> name_;
     size_t index_;
   };
@@ -100,6 +105,9 @@ class V8_EXPORT_PRIVATE LookupIterator final {
     DCHECK_LE(index_, JSArray::kMaxArrayIndex);
     return static_cast<uint32_t>(index_);
   }
+
+  // Helper method for creating a copy of of the iterator.
+  inline Key GetKey() const;
 
   // Returns true if this LookupIterator has an index in the range
   // [0, size_t::max).
@@ -201,11 +209,6 @@ class V8_EXPORT_PRIVATE LookupIterator final {
                         Handle<Object> lookup_start_object,
                         Configuration configuration);
 
-  // For |ForTransitionHandler|.
-  LookupIterator(Isolate* isolate, Handle<Object> receiver, Handle<Name> name,
-                 Handle<Map> transition_map, PropertyDetails details,
-                 bool has_property);
-
   static void InternalUpdateProtector(Isolate* isolate, Handle<Object> receiver,
                                       Handle<Name> name);
 
@@ -263,12 +266,12 @@ class V8_EXPORT_PRIVATE LookupIterator final {
                                                    Configuration configuration,
                                                    Handle<Name> name);
 
-  static Handle<JSReceiver> GetRootForNonJSReceiver(
-      Isolate* isolate, Handle<Object> lookup_start_object,
-      size_t index = kInvalidIndex);
-  static inline Handle<JSReceiver> GetRoot(Isolate* isolate,
-                                           Handle<Object> lookup_start_object,
-                                           size_t index = kInvalidIndex);
+  static MaybeHandle<JSReceiver> GetRootForNonJSReceiver(
+      Isolate* isolate, Handle<Object> lookup_start_object, size_t index,
+      Configuration configuration);
+  static inline MaybeHandle<JSReceiver> GetRoot(
+      Isolate* isolate, Handle<Object> lookup_start_object, size_t index,
+      Configuration configuration);
 
   State NotFound(JSReceiver const holder) const;
 

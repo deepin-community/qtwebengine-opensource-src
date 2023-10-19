@@ -1,14 +1,9 @@
-Description: fix seccomp-bpf failures in syscalls 383 and 422
- glibc 2.33 and newer uses these syscalls on 32-bit platforms:
- .
- - syscall 383 = statx, used by glibc' __fstatat64_time64 function;
-   return -ENOSYS to trigger the fallback in glibc
-   https://sourceware.org/git/?p=glibc.git;a=commit;h=aa03f722f3b994aa
- - syscall 422 = futex_time64
-   https://sourceware.org/git/?p=glibc.git;a=commit;h=29e9874a048f47e2
+Description: fix seccomp-bpf failures in syscall 422 (futex_time64)
+ glibc 2.33 and newer uses this syscall on 32-bit platforms:
+ https://sourceware.org/git/?p=glibc.git;a=commit;h=29e9874a048f47e2
 Author: Fabian Vogt <fabian@ritter-vogt.de>
 Forwarded: no
-Last-Update: 2021-11-21
+Last-Update: 2022-11-25
 
 --- a/src/3rdparty/chromium/sandbox/linux/seccomp-bpf-helpers/baseline_policy.cc
 +++ b/src/3rdparty/chromium/sandbox/linux/seccomp-bpf-helpers/baseline_policy.cc
@@ -24,16 +19,3 @@ Last-Update: 2021-11-21
    if (sysno == __NR_set_robust_list)
      return Error(EPERM);
  
-@@ -271,6 +276,12 @@ ResultExpr EvaluateSyscallImpl(int fs_de
-     return RewriteFstatatSIGSYS(fs_denied_errno);
-   }
- 
-+#if defined(__NR_statx)
-+  if (sysno == __NR_statx) {
-+    return Error(ENOSYS);
-+  }
-+#endif
-+
-   if (SyscallSets::IsFileSystem(sysno) ||
-       SyscallSets::IsCurrentDirectory(sysno)) {
-     return Error(fs_denied_errno);

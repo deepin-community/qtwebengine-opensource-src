@@ -1,0 +1,49 @@
+Description: Fix example .pro files so that they build correctly on Debian.
+Author: Soren Stoutner <soren@stoutner.com>
+Forwarded: not-needed
+Last-Update: 2023-07-04
+
+--- a/examples/webenginewidgets/webenginewidgets.pro
++++ b/examples/webenginewidgets/webenginewidgets.pro
+@@ -1,6 +1,3 @@
+-load(functions)
+-
+-include($$QTWEBENGINE_OUT_ROOT/src/core/qtwebenginecore-config.pri) # workaround for QTBUG-68093
+ QT_FOR_CONFIG += webenginecore webenginecore-private
+ 
+ TEMPLATE=subdirs
+@@ -9,22 +6,13 @@
+     minimal \
+     contentmanipulation \
+     cookiebrowser \
++    html2pdf \
++    maps \
++    markdowneditor \
+     notifications \
++    printme \
+     simplebrowser \
++    spellchecker \
+     stylesheetbrowser \
+     videoplayer \
+     webui
+-
+-qtConfig(webengine-geolocation): SUBDIRS += maps
+-qtConfig(webengine-webchannel): SUBDIRS += markdowneditor
+-
+-qtConfig(webengine-printing-and-pdf) {
+-    SUBDIRS += printme html2pdf
+-}
+-
+-qtConfig(webengine-spellchecker):!qtConfig(webengine-native-spellchecker):!cross_compile:!isUniversal() {
+-    SUBDIRS += spellchecker
+-} else {
+-    message("Spellcheck example will not be built because it depends on usage of Hunspell dictionaries.")
+-}
+-
+--- a/examples/webenginewidgets/spellchecker/spellchecker.pro
++++ b/examples/webenginewidgets/spellchecker/spellchecker.pro
+@@ -1,4 +1,3 @@
+-include($$QTWEBENGINE_OUT_ROOT/src/core/qtwebenginecore-config.pri) # workaround for QTBUG-68093
+ QT_FOR_CONFIG += webenginecore
+ 
+ TEMPLATE = app

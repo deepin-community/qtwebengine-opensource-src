@@ -6,14 +6,6 @@ export NINJA_PATH=/usr/bin/ninja
 export NINJAFLAGS=-v
 include /usr/share/dpkg/default.mk
 
-DEB_HOST_ARCH_BITS ?= $(shell dpkg-architecture -qDEB_HOST_ARCH_BITS)
-
-# TODO: properly integrate with the other debug setting
-ifeq (32,$(DEB_HOST_ARCH_BITS))
-       export DEB_CFLAGS_MAINT_APPEND = -g1
-       export DEB_CXXFLAGS_MAINT_APPEND = -g1
-endif
-
 export CFLAGS := $(shell dpkg-buildflags --get CFLAGS) $(shell dpkg-buildflags --get CPPFLAGS)
 export CXXFLAGS := $(shell dpkg-buildflags --get CXXFLAGS) $(shell dpkg-buildflags --get CPPFLAGS)
 export LDFLAGS := $(shell dpkg-buildflags --get LDFLAGS)
@@ -31,20 +23,37 @@ ifneq (,$(filter $(DEB_HOST_ARCH), amd64 arm64))
 endif
 endif
 
-gstab_architectures :=
-fulldebug_architectures :=
-
-small_architectures := armhf mipsel
-no_gold_architectures := arm64 armhf mipsel
-
 config_args = -proprietary-codecs \
               -feature-webengine-system-libvpx \
+              -feature-webengine-system-openjpeg2 \
               -webengine-jumbo-build 0 \
-              -system-ffmpeg \
               -system-opus \
               -system-webp \
               -system-webengine-icu \
+              -webengine-webrtc-pipewire \
               -webengine-kerberos
+
+# Disable debugging symbols; save memory during linking; hardening.
+qmake_args = \
+	'QMAKE_CFLAGS-=-g' \
+	'QMAKE_CXXFLAGS-=-g' \
+	'QT_CONFIG-=force_debug_info separate_debug_info' \
+	'QMAKE_LFLAGS+=-Wl,--no-keep-memory -Wl,-z,now'
+
+ifeq ($(DEB_HOST_ARCH),armhf)
+	qmake_args += \
+		'QMAKE_CFLAGS+=--param ggc-min-expand=20' \
+		'QMAKE_CXXFLAGS+=--param ggc-min-expand=20' \
+		'QMAKE_LFLAGS-=-Wl,--gc-sections'
+endif
+
+ifeq ($(DEB_HOST_ARCH),i386)
+	# Make the following linker warning on i386 not fatal:
+	# /usr/bin/ld: .../src/core/release/obj/third_party/ffmpeg/ffmpeg_nasm/dct32.o: warning: relocation in read-only section `.text'
+	# /usr/bin/ld: warning: creating DT_TEXTREL in a shared object
+	# Upstream does the same for lld linker, see third_party/ffmpeg/BUILD.gn.
+	qmake_args += 'QMAKE_LFLAGS+=-Wl,-z,notext'
+endif
 
 touch_files = src/3rdparty/chromium/third_party/devtools-frontend/src/front_end/third_party/lighthouse/lighthouse-dt-bundle.js \
 	      src/3rdparty/chromium/third_party/devtools-frontend/src/front_end/third_party/lighthouse/report-assets/report-generator.js \
@@ -57,65 +66,19 @@ touch_files = src/3rdparty/chromium/third_party/devtools-frontend/src/front_end/
 
 override_dh_auto_clean:
 	dh_auto_clean
-	rm -f .qmake.cache
-	rm -f config.tests/.qmake.cache
-	rm -f qtwebengine-config.h
 
-	rm -rf $(CURDIR)/test_root
-	rm -rf $(CURDIR)/docs
-	rm -rf $(CURDIR)/.local
-	rm -f $(CURDIR)/src/3rdparty/chromium/third_party/jstemplate/jstemplate_compiled.js
-	rm -f $(CURDIR)/examples/webenginewidgets/contentmanipulation/jquery*.js
+	find -name __pycache__ | xargs rm -rfv
+	find examples/ -type f -executable -delete
+	find tests/ -type f -executable -delete
+	find examples/ -name Makefile -delete
+	find tests/ -name Makefile -delete
 
 	for fname in $(touch_files); do \
 		rm -f $(CURDIR)/$${fname}; \
 	done
 
 override_dh_auto_configure:
-	# Run qmake once to create .qmake.conf and be sure to append the following values.
-	qmake QT_BUILD_PARTS+=tests QMAKE_EXTRA_ARGS+="$(config_args)" QMAKE_PYTHON2=python2
-
-# Enable gstabs debugging symbols only on gstab_architectures.
-ifeq ($(DEB_HOST_ARCH),$(findstring $(DEB_HOST_ARCH), $(gstab_architectures)))
-	echo "QMAKE_CXXFLAGS -= -g" >> .qmake.conf
-	echo "QMAKE_CXXFLAGS += -gstabs" >> .qmake.conf
-# Enable normal debugging symbols only on fulldebug_architectures.
-else ifeq ($(DEB_HOST_ARCH),$(findstring $(DEB_HOST_ARCH), $(fulldebug_architectures)))
-	echo "QMAKE_CXXFLAGS_DEBUG += -fdebug-types-section" >> .qmake.conf
-	echo "QMAKE_CXXFLAGS += -fdebug-types-section" >> .qmake.conf
-	echo "QMAKE_CXXFLAGS_RELEASE_WITH_DEBUGINFO += -fdebug-types-section" >> .qmake.conf
-	echo "QMAKE_CXXFLAGS_RELEASE += -fdebug-types-section" >> .qmake.conf
-	echo "QMAKE_LFLAGS += -fdebug-types-section" >> .qmake.conf
-else
-# Disable debugging symbols in all the other archs.
-	echo "QMAKE_CFLAGS -= -g" >> .qmake.conf
-	echo "QMAKE_CFLAGS -= -gstabs" >> .qmake.conf
-	echo "QMAKE_CXXFLAGS -= -g" >> .qmake.conf
-	echo "QMAKE_CXXFLAGS -= -gstabs" >> .qmake.conf
-	echo "QT_CONFIG -= force_debug_info" >> .qmake.conf
-	echo "QT_CONFIG -= separate_debug_info" >> .qmake.conf
-endif
-
-ifeq ($(DEB_HOST_ARCH),$(findstring $(DEB_HOST_ARCH), $(small_architectures)))
-	echo "QMAKE_CXXFLAGS += --param ggc-min-expand=20" >> .qmake.conf
-	echo "QMAKE_CFLAGS += --param ggc-min-expand=20" >> .qmake.conf
-	echo "QMAKE_LFLAGS -= Wl,--gc-sections" >> .qmake.conf
-endif
-
-ifeq ($(DEB_HOST_ARCH),$(findstring $(DEB_HOST_ARCH), $(no_gold_architectures)))
-	# Do not use ld.gold
-	echo "QMAKE_LFLAGS -= -fuse-ld=gold" >> .qmake.conf
-	echo "QMAKE_LFLAGS += -fuse-ld=bfd" >> .qmake.conf
-endif
-
-	# Make ld not cache the symbol tables of input files in memory to avoid memory exhaustion during the linking phase.
-	echo "QMAKE_LFLAGS += -Wl,--no-keep-memory" >> .qmake.conf
-
-	# Missing hardening flag detected by blhc
-	echo "QMAKE_LFLAGS += -Wl,-z,now" >> .qmake.conf
-
-	# Run qmake again now with the proper values.
-	qmake QT_BUILD_PARTS+=tests QMAKE_EXTRA_ARGS+="$(config_args)" QMAKE_PYTHON2=python2
+	qmake QT_BUILD_PARTS+=tests QMAKE_EXTRA_ARGS+="$(config_args)" QMAKE_PYTHON3=python3 $(qmake_args)
 
 	# Create js files, that are needed for building step for arch and indep builds
 	cd $(CURDIR)/src/3rdparty/chromium/third_party/jstemplate/; \
@@ -123,9 +86,6 @@ endif
 
 	>examples/webenginewidgets/contentmanipulation/jquery.js cat debian/missing-sources/jquery-*.js
 	yui-compressor --type js "examples/webenginewidgets/contentmanipulation/jquery.js" -o "examples/webenginewidgets/contentmanipulation/jquery.min.js"
-
-	cp /usr/share/nodejs/pako/dist/pako.min.js src/3rdparty/chromium/third_party/catapult/tracing/third_party/pako/
-	cp /usr/share/javascript/d3/d3.min.js src/3rdparty/chromium/third_party/catapult/tracing/third_party/d3/
 
 	set -ex; for fname in $(touch_files); do \
 		mkdir -p $(CURDIR)/$$(dirname $${fname}); \
@@ -195,7 +155,7 @@ get-orig-source:
 	@set -eux && \
 	TEMPDIR=$$(mktemp -d) && \
 	VERSION=${DEB_VERSION_UPSTREAM:+dfsg=} && \
-	SUBMODULE_COMMIT=0ad2814370799a2161057d92231fe3ee00e2fe98 && \
+	SUBMODULE_COMMIT=8df91f886e7fffb61408e2426f8a90d763a3b6ea && \
 	echo "$${GET_FILES_EXCLUDED}" >$${TEMPDIR}/get_files_excluded.py && \
 	cd $${TEMPDIR} && \
 	wget https://github.com/qt/qtwebengine/archive/v$${VERSION}-lts.tar.gz && \
