@@ -318,8 +318,10 @@ void WebContentsDelegateQt::RenderFrameHostChanged(content::RenderFrameHost *old
         if (new_host->GetFrameOwnerElementType() == blink::mojom::FrameOwnerElementType::kNone) {
             content::RenderProcessHost *renderProcessHost = new_host->GetProcess();
             const base::Process &process = renderProcessHost->GetProcess();
-            if (process.IsValid())
+            if (process.IsValid()) {
                 m_viewClient->renderProcessPidChanged(process.Pid());
+                m_viewClient->zoomUpdateIsNeeded();
+            }
         }
     }
 }
@@ -329,6 +331,7 @@ void WebContentsDelegateQt::RenderViewHostChanged(content::RenderViewHost *, con
     if (newHost && newHost->GetWidget() && newHost->GetWidget()->GetView()) {
         auto rwhv = static_cast<RenderWidgetHostViewQt *>(newHost->GetWidget()->GetView());
         m_viewClient->widgetChanged(rwhv->delegate());
+        m_viewClient->zoomUpdateIsNeeded();
     }
 }
 
@@ -354,7 +357,7 @@ void WebContentsDelegateQt::DidStartNavigation(content::NavigationHandle *naviga
     if (!webEngineSettings()->testAttribute(WebEngineSettings::ErrorPageEnabled))
         navigation_handle->SetSilentlyIgnoreErrors();
 
-    if (!navigation_handle->IsInMainFrame() || !web_contents()->IsLoadingToDifferentDocument())
+    if (!navigation_handle->IsInMainFrame() || navigation_handle->IsSameDocument())
         return;
 
     m_faviconManager->resetCandidates();

@@ -110,32 +110,42 @@ void CFFL_ListBox::SaveData(CPDFSDK_PageView* pPageView) {
     return;
 
   int32_t nNewTopIndex = pListBox->GetTopVisibleIndex();
+  ObservedPtr<CPWL_ListBox> observed_box(pListBox);
   m_pWidget->ClearSelection(NotificationOption::kDoNotNotify);
+  if (!observed_box) {
+    return;
+  }
   if (m_pWidget->GetFieldFlags() & pdfium::form_flags::kChoiceMultiSelect) {
     for (int32_t i = 0, sz = pListBox->GetCount(); i < sz; i++) {
       if (pListBox->IsItemSelected(i)) {
         m_pWidget->SetOptionSelection(i, true,
                                       NotificationOption::kDoNotNotify);
+        if (!observed_box) {
+          return;
+        }
       }
     }
   } else {
     m_pWidget->SetOptionSelection(pListBox->GetCurSel(), true,
                                   NotificationOption::kDoNotNotify);
+    if (!observed_box) {
+      return;
+    }
   }
   ObservedPtr<CPDFSDK_Widget> observed_widget(m_pWidget.Get());
   ObservedPtr<CFFL_ListBox> observed_this(this);
   m_pWidget->SetTopVisibleIndex(nNewTopIndex);
-  if (!observed_widget)
+  if (!observed_widget) {
     return;
-
+  }
   m_pWidget->ResetFieldAppearance();
-  if (!observed_widget)
+  if (!observed_widget) {
     return;
-
+  }
   m_pWidget->UpdateField();
-  if (!observed_widget || !observed_this)
+  if (!observed_widget || !observed_this) {
     return;
-
+  }
   SetChangeMark();
 }
 

@@ -1147,6 +1147,12 @@ angle::Result FramebufferVk::blit(const gl::Context *context,
         // Otherwise use a shader to do blit or resolve.
         else
         {
+            // Flush the render pass, which may incur a vkQueueSubmit, before taking any views.
+            // Otherwise the view serials would not reflect the render pass they are really used in.
+            // http://crbug.com/1272266#c22
+            ANGLE_TRY(
+                contextVk->flushCommandsAndEndRenderPass());
+
             const vk::ImageView *copyImageView = nullptr;
             ANGLE_TRY(readRenderTarget->getAndRetainCopyImageView(contextVk, &copyImageView));
             ANGLE_TRY(utilsVk.colorBlitResolve(
@@ -1331,16 +1337,16 @@ angle::Result FramebufferVk::resolveColorWithCommand(ContextVk *contextVk,
     resolveRegion.srcSubresource.mipLevel       = 0;
     resolveRegion.srcSubresource.baseArrayLayer = params.srcLayer;
     resolveRegion.srcSubresource.layerCount     = 1;
-    resolveRegion.srcOffset.x                   = params.srcOffset[0];
-    resolveRegion.srcOffset.y                   = params.srcOffset[1];
+    resolveRegion.srcOffset.x                   = params.blitArea.x;
+    resolveRegion.srcOffset.y                   = params.blitArea.y;
     resolveRegion.srcOffset.z                   = 0;
     resolveRegion.dstSubresource.aspectMask     = VK_IMAGE_ASPECT_COLOR_BIT;
     resolveRegion.dstSubresource.layerCount     = 1;
-    resolveRegion.dstOffset.x                   = params.destOffset[0];
-    resolveRegion.dstOffset.y                   = params.destOffset[1];
+    resolveRegion.dstOffset.x                   = params.blitArea.x;
+    resolveRegion.dstOffset.y                   = params.blitArea.y;
     resolveRegion.dstOffset.z                   = 0;
-    resolveRegion.extent.width                  = params.srcExtents[0];
-    resolveRegion.extent.height                 = params.srcExtents[1];
+    resolveRegion.extent.width                  = params.blitArea.width;
+    resolveRegion.extent.height                 = params.blitArea.height;
     resolveRegion.extent.depth                  = 1;
 
     vk::PerfCounters &perfCounters = contextVk->getPerfCounters();

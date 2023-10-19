@@ -66,6 +66,18 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+namespace {
+    network::mojom::URLResponseHeadPtr createResponse(const network::ResourceRequest &request) {
+        const bool disable_web_security = base::CommandLine::ForCurrentProcess()->HasSwitch(switches::kDisableWebSecurity);
+        network::mojom::URLResponseHeadPtr response = network::mojom::URLResponseHead::New();
+        response->response_type = network::cors::CalculateResponseType(
+            request.mode, disable_web_security || (
+            request.request_initiator && request.request_initiator->IsSameOriginWith(url::Origin::Create(request.url))));
+
+        return response;
+    }
+}
+
 namespace QtWebEngineCore {
 
 ASSERT_ENUMS_MATCH(QWebEngineUrlRequestInfo::ResourceTypeMainFrame, blink::mojom::ResourceType::kMainFrame)
@@ -167,6 +179,8 @@ public:
     const uint32_t options_;
     bool allowed_cors_ = true;
 
+    bool loader_error_seen_ = false;
+
     // If the |target_loader_| called OnComplete with an error this stores it.
     // That way the destructor can send it to OnReceivedError if safe browsing
     // error didn't occur.
@@ -209,11 +223,7 @@ InterceptedRequest::InterceptedRequest(ProfileAdapter *profile_adapter,
     , weak_factory_(this)
 {
     const bool disable_web_security = base::CommandLine::ForCurrentProcess()->HasSwitch(switches::kDisableWebSecurity);
-    current_response_ = network::mojom::URLResponseHead::New();
-    current_response_->response_type = network::cors::CalculateResponseType(
-        request_.mode,
-        disable_web_security || (
-            request_.request_initiator && request_.request_initiator->IsSameOriginWith(url::Origin::Create(request_.url))));
+    current_response_ = createResponse(request_);
     // If there is a client error, clean up the request.
     target_client_.set_disconnect_handler(
             base::BindOnce(&InterceptedRequest::OnURLLoaderClientError, base::Unretained(this)));
@@ -379,9 +389,6 @@ void InterceptedRequest::ContinueAfterIntercept()
                         first_party_url_policy, request_.referrer_policy, request_.referrer.spec(),
                         net::HTTP_TEMPORARY_REDIRECT, toGurl(info.url), base::nullopt,
                         false /*insecure_scheme_was_upgraded*/);
-
-                // FIXME: Should probably create a new header.
-                current_response_->encoded_data_length = 0;
                 request_.method = redirectInfo.new_method;
                 request_.url = redirectInfo.new_url;
                 request_.site_for_cookies = redirectInfo.new_site_for_cookies;
@@ -389,6 +396,11 @@ void InterceptedRequest::ContinueAfterIntercept()
                 request_.referrer_policy = redirectInfo.new_referrer_policy;
                 if (request_.method == net::HttpRequestHeaders::kGetMethod)
                     request_.request_body = nullptr;
+                // In case of multiple sequential rediredts, current_response_ has previously been moved to target_client_
+                // so we create a new one using the redirect url.
+                if (!current_response_)
+                    current_response_ = createResponse(request_);
+                current_response_->encoded_data_length = 0;
                 target_client_->OnReceiveRedirect(redirectInfo, std::move(current_response_));
                 return;
             }
@@ -396,6 +408,7 @@ void InterceptedRequest::ContinueAfterIntercept()
     }
 
     if (!target_loader_ && target_factory_) {
+        loader_error_seen_ = false;
         target_factory_->CreateLoaderAndStart(target_loader_.BindNewPipeAndPassReceiver(), routing_id_, request_id_,
                                               options_, request_, proxied_client_receiver_.BindNewPipeAndPassRemote(),
                                               traffic_annotation_);
@@ -501,6 +514,8 @@ void InterceptedRequest::OnURLLoaderError(uint32_t custom_reason, const std::str
     // If CallOnComplete was already called, then this object is ready to be deleted.
     if (!target_client_)
         delete this;
+    else
+        loader_error_seen_ = true;
 }
 
 void InterceptedRequest::CallOnComplete(const network::URLLoaderCompletionStatus &status, bool wait_for_loader_error)
@@ -514,7 +529,7 @@ void InterceptedRequest::CallOnComplete(const network::URLLoaderCompletionStatus
     if (target_client_)
         target_client_->OnComplete(status);
 
-    if (proxied_loader_receiver_.is_bound() && wait_for_loader_error) {
+    if (proxied_loader_receiver_.is_bound() && wait_for_loader_error && !loader_error_seen_) {
         // Since the original client is gone no need to continue loading the
         // request.
         proxied_client_receiver_.reset();

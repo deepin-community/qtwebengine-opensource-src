@@ -1,4 +1,2 @@
 #libsrtp2 is not packaged, so we can't replace the internal copy #866784
-libqt5webenginecore5: embedded-library usr/lib/*/libQt5WebEngineCore.so.5.*.*: srtp
-#see https://bugreports.qt.io/browse/QTBUG-63889
-libqt5webenginecore5: embedded-library usr/lib/*/libQt5WebEngineCore.so.5.*.*: openjpeg
+libqt5webenginecore5: embedded-library srtp [usr/lib/*/libQt5WebEngineCore.so.5.*.*]

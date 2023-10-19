@@ -300,7 +300,7 @@ bool RenderFrameDevToolsAgentHost::AttachSession(DevToolsSession* session,
   auto* browser_handler_ptr = browser_handler.get();
   session->AddHandler(std::move(browser_handler));
   session->AddHandler(std::make_unique<protocol::DOMHandler>(
-      session->GetClient()->MayReadLocalFiles()));
+      session->GetClient()->AllowUnsafeOperations()));
   session->AddHandler(std::move(emulation_handler));
   auto input_handler = std::make_unique<protocol::InputHandler>();
   input_handler->OnPageScaleFactorChanged(page_scale_factor_);
@@ -338,7 +338,8 @@ bool RenderFrameDevToolsAgentHost::AttachSession(DevToolsSession* session,
       GetId(), GetRendererChannel(), session->GetRootSession()));
   session->AddHandler(std::make_unique<protocol::PageHandler>(
       emulation_handler_ptr, browser_handler_ptr,
-      session->GetClient()->MayReadLocalFiles()));
+      session->GetClient()->MayReadLocalFiles(),
+      session->GetClient()->MayAttachToBrowser()));
   session->AddHandler(std::make_unique<protocol::SecurityHandler>());
   if (!frame_tree_node_ || !frame_tree_node_->parent()) {
     session->AddHandler(std::make_unique<protocol::TracingHandler>(

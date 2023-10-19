@@ -1,6 +1,6 @@
 # SymbolsHelper-Confirmed: 5.15.3 amd64 mips64el
 libQt5WebEngineWidgets.so.5 libqt5webenginewidgets5 #MINVER#
-| libqt5webenginewidgets5 #MINVER#, qtwebengine-abi-5-15-5
+| libqt5webenginewidgets5 #MINVER#, qtwebengine-abi-5-15-15
 * Build-Depends-Package: qtwebengine5-dev
  Qt_5.0@Qt_5.0 5.7.1
  Qt_5.10@Qt_5.10 5.10.1
@@ -19,7 +19,7 @@ libQt5WebEngineWidgets.so.5 libqt5webenginewidgets5 #MINVER#
  Qt_5.8@Qt_5.8 5.9.0
  Qt_5.9@Qt_5.9 5.9.0
  Qt_5@Qt_5 5.7.1
- Qt_5_PRIVATE_API@Qt_5_PRIVATE_API 5.7.1 1
+ (symver)Qt_5_PRIVATE_API 0 1
  _ZN14QWebEnginePage10printToPdfERK18QWebEngineCallbackIRK10QByteArrayERK11QPageLayout@Qt_5 5.7.1
  _ZN14QWebEnginePage10printToPdfERK7QStringRK11QPageLayout@Qt_5 5.7.1
  _ZN14QWebEnginePage10setContentERK10QByteArrayRK7QStringRK4QUrl@Qt_5 5.7.1

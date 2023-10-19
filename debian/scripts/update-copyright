@@ -92,7 +92,6 @@ IGNORED_DIRECTORIES = (
 LICENSE_OVERRIDES = {
     "chromium/third_party/boringssl":
         "OpenSSL and SSLeay and ISC and MIT and BSD-3-clause",
-    "chromium/third_party/catapult/tracing/third_party/jszip": "MIT or GPL-3",
     "chromium/third_party/devtools-frontend/src/third_party/i18n":
         "Apache-2.0",
     "chromium/third_party/freetype": "FTL",

@@ -1,23 +1,26 @@
+# Use system libraries.
+system-openjpeg2.patch
 system-lcms2.patch
 system-nspr-prtime.patch
 system-icu-utf.patch
+
+# Fix python problems.
+python3.patch
+chromium-python3.patch
+python3.11.patch
+
+# General patches.
 verbose-gn-bootstrap.patch
-mipsel-ptrace-include.patch
-mipsel-no-dav1d.patch
-mipsel-link-atomic.patch
+mips64el-ptrace-include.patch
+mips64el-no-dav1d.patch
 sandbox-time64-syscalls.patch
-mipsel-code-range-size.patch
-remove-benchmark-from-inputs.patch
-python2.patch
 breakpad-getcontext.patch
-mipsel-ggc-min-expand.patch
 mips64el-crashpad.patch
 mips64el-bad-define.patch
-mipsel-syscall-ranges.patch
+mips64el-syscall-ranges.patch
 mips64el-kernel_stat64.patch
-uniontech0001-deepin-build.patch
-uniontech0002-fit-mips64el.patch
-uniontech0003-fit-sw64.patch
-uniontech0004-fit-loong64.patch
-CVE-2022-1096.patch
-
+armhf-no-thumb.patch
+disable-catapult.patch
+pipewire-0.3.patch
+ffmpeg-x86-optimization.patch
+fix-example-pro-files.patch

@@ -1,0 +1,71 @@
+Overview
+========
+This package contains example Qt WebEngine projects provided by Qt to
+demonstrate how to use some of its capabilities.  Each example project includes
+the source files as well as a compiled binary.  If you would like to compile
+the binaries yourself you need to install qt5-qmake and qtwebengine5-dev.
+Compiling the webenginewidgets/spellchecker example requires the
+qwebengine_convert_dict utility, which is installed by the
+qtwebengine5-dev-tools package.
+
+You also need to have a functioning C++ compiler and Make.  If you install
+build-essential it will take care of this for you.  If you prefer a different
+C++ compiler than what build-essential installs (g++), you can handle this
+yourself.
+
+
+Compiling
+=========
+To compile the example projects, copy them to a directory where you have write
+permissions.  Then run the following two commands.
+
+    $ qmake <.pro file>
+
+    $ make
+
+
+/usr/lib/x86_64-linux-gnu/qt5/examples/webenginewidgets/contentmanipulation/
+jquery.min.js
+
+is a symbolic link to
+
+../../../../../../share/javascript/jquery/jquery.min.js
+
+If you dereference the symbolic link at copy using the -L argument this won't
+cause a problem.  Otherwise, after copying the files to a directory where you
+have write permissions, it might not point to the appropriate place.  To fix
+this, cd to the contentmanipulation directory, delete the symlink, and recreate
+it with an absolute path.
+
+    $ rm jquery.min.js
+
+    $ ln -s /usr/share/javascript/jquery/jquery.min.js
+
+
+Examples
+========
+To compile webengine/customdialogs, cd to that directory and run:
+
+    $ qmake customdialogs.pro
+
+    $ make
+
+
+To compile all the examples under webengine, cd to webengine and run:
+
+    $ qmake webengine.pro
+
+    $ make
+
+
+QMake
+=====
+QMake converts the information in the .pro file into a traditional Makefile,
+which can then be used by Make to build the project.  Additional information
+about QMake can be found at:
+
+    https://doc.qt.io/qt-5/qmake-manual.html
+
+Note that upstream is slowly deprecating QMake in favor of CMake.
+
+    https://www.qt.io/blog/2019/08/07/technical-vision-qt-6
