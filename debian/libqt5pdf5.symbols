@@ -1,4 +1,4 @@
-# SymbolsHelper-Confirmed: 5.15.15 amd64 arm64 armhf i386 mips64el
+# SymbolsHelper-Confirmed: 5.15.15 amd64 arm64 armhf i386 mips64el riscv64
 libQt5Pdf.so.5 libqt5pdf5 #MINVER#
 * Build-Depends-Package: qtpdf5-dev
  Qt_5.0@Qt_5.0 5.15.1
@@ -184,8 +184,8 @@ libQt5Pdf.so.5 libqt5pdf5 #MINVER#
  (optional=templinst)_ZNSt6vectorI18UnsupportedFeatureSaIS0_EE17_M_realloc_insertIJS0_EEEvN9__gnu_cxx17__normal_iteratorIPS0_S2_EEDpOT_@Qt_5 5.15.1
  (optional=templinst)_ZNSt6vectorIN10CPDF_Annot7SubtypeESaIS1_EE17_M_realloc_insertIJS1_EEEvN9__gnu_cxx17__normal_iteratorIPS1_S3_EEDpOT_@Qt_5 5.15.2
  (optional=templinst)_ZNSt6vectorISt4pairIiiESaIS1_EE17_M_realloc_insertIJS1_EEEvN9__gnu_cxx17__normal_iteratorIPS1_S3_EEDpOT_@Qt_5 5.15.1
- (optional=templinst|arch=mips64el)_ZNSt6vectorISt4pairIjlESaIS1_EE17_M_realloc_insertIJjmEEEvN9__gnu_cxx17__normal_iteratorIPS1_S3_EEDpOT_@Qt_5 5.15.6
- (optional=templinst|arch=!amd64 !arm64 !i386 !mips64el)_ZNSt6vectorISt4pairIjxESaIS1_EE17_M_realloc_insertIJjxEEEvN9__gnu_cxx17__normal_iteratorIPS1_S3_EEDpOT_@Qt_5 5.15.1
+ (optional=templinst|arch=mips64el riscv64)_ZNSt6vectorISt4pairIjlESaIS1_EE17_M_realloc_insertIJjmEEEvN9__gnu_cxx17__normal_iteratorIPS1_S3_EEDpOT_@Qt_5 5.15.6
+ (optional=templinst|arch=!amd64 !arm64 !i386 !mips64el !riscv64)_ZNSt6vectorISt4pairIjxESaIS1_EE17_M_realloc_insertIJjxEEEvN9__gnu_cxx17__normal_iteratorIPS1_S3_EEDpOT_@Qt_5 5.15.1
  (optional=templinst|subst)_ZNSt6vectorIbSaIbEE14_M_fill_insertESt13_Bit_iterator{size_t}b@Qt_5 5.15.1
  (optional=templinst|subst)_ZNSt6vectorIfSaIfEE17_M_default_appendE{size_t}@Qt_5 5.15.1
  (optional=templinst)_ZNSt6vectorIfSaIfEE17_M_realloc_insertIJRKfEEEvN9__gnu_cxx17__normal_iteratorIPfS1_EEDpOT_@Qt_5 5.15.1
@@ -196,22 +196,22 @@ libQt5Pdf.so.5 libqt5pdf5 #MINVER#
  (optional=templinst|subst)_ZNSt6vectorIjSaIjEE17_M_default_appendE{size_t}@Qt_5 5.15.1
  (optional=templinst)_ZNSt6vectorIjSaIjEE17_M_realloc_insertIJRKjEEEvN9__gnu_cxx17__normal_iteratorIPjS1_EEDpOT_@Qt_5 5.15.1
  (optional=templinst)_ZNSt6vectorIjSaIjEE17_M_realloc_insertIJjEEEvN9__gnu_cxx17__normal_iteratorIPjS1_EEDpOT_@Qt_5 5.15.1
- (optional=templinst|arch=amd64 arm64 mips64el)_ZNSt6vectorIlSaIlEE13_M_insert_auxIlEEvN9__gnu_cxx17__normal_iteratorIPlS1_EEOT_@Qt_5 5.15.15
- (optional=templinst|arch=amd64 arm64 mips64el)_ZNSt6vectorImSaImEE17_M_realloc_insertIJRKmEEEvN9__gnu_cxx17__normal_iteratorIPmS1_EEDpOT_@Qt_5 5.15.1
- (optional=templinst|arch=!amd64 !arm64 !mips64el)_ZNSt6vectorIxSaIxEE13_M_insert_auxIxEEvN9__gnu_cxx17__normal_iteratorIPxS1_EEOT_@Qt_5 5.15.1
+ (optional=templinst|arch=amd64 arm64 mips64el riscv64)_ZNSt6vectorIlSaIlEE13_M_insert_auxIlEEvN9__gnu_cxx17__normal_iteratorIPlS1_EEOT_@Qt_5 5.15.15
+ (optional=templinst|arch=amd64 arm64 mips64el riscv64)_ZNSt6vectorImSaImEE17_M_realloc_insertIJRKmEEEvN9__gnu_cxx17__normal_iteratorIPmS1_EEDpOT_@Qt_5 5.15.1
+ (optional=templinst|arch=!amd64 !arm64 !mips64el !riscv64)_ZNSt6vectorIxSaIxEE13_M_insert_auxIxEEvN9__gnu_cxx17__normal_iteratorIPxS1_EEOT_@Qt_5 5.15.1
  (optional=templinst|subst|arch=!i386 !mipsel)_ZNSt6vectorI{int64_t}SaI{int64_t}EE14_M_insert_rvalEN9__gnu_cxx17__normal_iteratorIPK{int64_t}S1_EEO{int64_t}@Qt_5 5.15.1
  (optional=templinst|subst)_ZNSt6vectorI{int64_t}SaI{int64_t}EE17_M_realloc_insertIJRK{int64_t}EEEvN9__gnu_cxx17__normal_iteratorIP{int64_t}S1_EEDpOT_@Qt_5 5.15.1
  (optional=templinst|subst)_ZNSt6vectorI{int64_t}SaI{int64_t}EE17_M_realloc_insertIJ{int64_t}EEEvN9__gnu_cxx17__normal_iteratorIP{int64_t}S1_EEDpOT_@Qt_5 5.15.1
  (optional=templinst|subst|arch=!i386 !mipsel)_ZNSt6vectorI{int64_t}SaI{int64_t}EE6insertEN9__gnu_cxx17__normal_iteratorIPK{int64_t}S1_EERS4_@Qt_5 5.15.1
  (optional=templinst|arch=amd64 arm64)_ZNSt8_Rb_treeIPKhS1_St9_IdentityIS1_ESt4lessIS1_ESaIS1_EE16_M_insert_uniqueIRKS1_EESt4pairISt17_Rb_tree_iteratorIS1_EbEOT_@Qt_5 5.15.1
- (optional=templinst|arch=amd64 arm64 mips64el)_ZNSt8_Rb_treeISt4pairIjjES0_IKS1_St6vectorIjSaIjEEESt10_Select1stIS6_ESt4lessIS1_ESaIS6_EE29_M_get_insert_hint_unique_posESt23_Rb_tree_const_iteratorIS6_ERS2_@Qt_5 5.15.1
- (optional=templinst|arch=amd64 arm64 mips64el)_ZNSt8_Rb_treeISt4pairIjjES0_IKS1_jESt10_Select1stIS3_ESt4lessIS1_ESaIS3_EE29_M_get_insert_hint_unique_posESt23_Rb_tree_const_iteratorIS3_ERS2_@Qt_5 5.15.1
- (optional=templinst|arch=amd64 arm64 mips64el)_ZNSt8_Rb_treeIiiSt9_IdentityIiESt4lessIiESaIiEE16_M_insert_uniqueIRKiEESt4pairISt17_Rb_tree_iteratorIiEbEOT_@Qt_5 5.15.1
+ (optional=templinst|arch=amd64 arm64 mips64el riscv64)_ZNSt8_Rb_treeISt4pairIjjES0_IKS1_St6vectorIjSaIjEEESt10_Select1stIS6_ESt4lessIS1_ESaIS6_EE29_M_get_insert_hint_unique_posESt23_Rb_tree_const_iteratorIS6_ERS2_@Qt_5 5.15.1
+ (optional=templinst|arch=amd64 arm64 mips64el riscv64)_ZNSt8_Rb_treeISt4pairIjjES0_IKS1_jESt10_Select1stIS3_ESt4lessIS1_ESaIS3_EE29_M_get_insert_hint_unique_posESt23_Rb_tree_const_iteratorIS3_ERS2_@Qt_5 5.15.1
+ (optional=templinst|arch=amd64 arm64 mips64el riscv64)_ZNSt8_Rb_treeIiiSt9_IdentityIiESt4lessIiESaIiEE16_M_insert_uniqueIRKiEESt4pairISt17_Rb_tree_iteratorIiEbEOT_@Qt_5 5.15.1
  (optional=templinst|arch=amd64 arm64)_ZNSt8_Rb_treeIiiSt9_IdentityIiESt4lessIiESaIiEE16_M_insert_uniqueIiEESt4pairISt17_Rb_tree_iteratorIiEbEOT_@Qt_5 5.15.6
- (optional=templinst|arch=!mips64el)_ZNSt8_Rb_treeIjjSt9_IdentityIjESt4lessIjESaIjEE16_M_insert_uniqueIRKjEESt4pairISt17_Rb_tree_iteratorIjEbEOT_@Qt_5 5.15.1
- (optional=templinst|arch=amd64 arm64 mips64el)_ZNSt8_Rb_treeIjjSt9_IdentityIjESt4lessIjESaIjEE16_M_insert_uniqueIjEESt4pairISt17_Rb_tree_iteratorIjEbEOT_@Qt_5 5.15.1
+ (optional=templinst|arch=!mips64el !riscv64)_ZNSt8_Rb_treeIjjSt9_IdentityIjESt4lessIjESaIjEE16_M_insert_uniqueIRKjEESt4pairISt17_Rb_tree_iteratorIjEbEOT_@Qt_5 5.15.1
+ (optional=templinst|arch=amd64 arm64 mips64el riscv64)_ZNSt8_Rb_treeIjjSt9_IdentityIjESt4lessIjESaIjEE16_M_insert_uniqueIjEESt4pairISt17_Rb_tree_iteratorIjEbEOT_@Qt_5 5.15.1
  (optional=templinst|arch=i386)_ZNSt8_Rb_treeIxxSt9_IdentityIxESt4lessIxESaIxEE24_M_get_insert_unique_posERKx@Qt_5 5.15.15
- (optional=templinst|subst|arch=amd64 arm64 mips64el)_ZNSt8_Rb_treeI{int64_t}{int64_t}St9_IdentityI{int64_t}ESt4lessI{int64_t}ESaI{int64_t}EE16_M_insert_uniqueIRK{int64_t}EESt4pairISt17_Rb_tree_iteratorI{int64_t}EbEOT_@Qt_5 5.15.1
+ (optional=templinst|subst|arch=amd64 arm64 mips64el riscv64)_ZNSt8_Rb_treeI{int64_t}{int64_t}St9_IdentityI{int64_t}ESt4lessI{int64_t}ESaI{int64_t}EE16_M_insert_uniqueIRK{int64_t}EESt4pairISt17_Rb_tree_iteratorI{int64_t}EbEOT_@Qt_5 5.15.1
  _ZTI12QPdfDocument@Qt_5 5.15.1
  _ZTI15QPdfSearchModel@Qt_5 5.15.1
  _ZTI16QPdfPageRenderer@Qt_5 5.15.1

@@ -1,4 +1,4 @@
-# SymbolsHelper-Confirmed: 5.15.3 amd64 mips64el
+# SymbolsHelper-Confirmed: 5.15.15 riscv64
 libQt5WebEngineWidgets.so.5 libqt5webenginewidgets5 #MINVER#
 | libqt5webenginewidgets5 #MINVER#, qtwebengine-abi-5-15-15
 * Build-Depends-Package: qtwebengine5-dev
@@ -424,22 +424,22 @@ libQt5WebEngineWidgets.so.5 libqt5webenginewidgets5 #MINVER#
  _ZTI14QWebEngineView@Qt_5 5.7.1
  _ZTI17QWebEngineProfile@Qt_5 5.7.1
  _ZTI22QWebEngineDownloadItem@Qt_5 5.7.1
- (arch=amd64 armhf mips64el mipsel)_ZTIFvSt10unique_ptrI22QWebEngineNotificationSt14default_deleteIS0_EEE@Qt_5 5.15.3
+ (arch=amd64 armhf mips64el mipsel riscv64)_ZTIFvSt10unique_ptrI22QWebEngineNotificationSt14default_deleteIS0_EEE@Qt_5 5.15.15+dfsg-3
  _ZTIN15QtWebEngineCore20ProfileAdapterClientE@Qt_5 5.12.2
  _ZTIN15QtWebEngineCore23RenderViewContextMenuQtE@Qt_5 5.11.1
  _ZTIN15QtWebEngineCore24WebContentsAdapterClientE@Qt_5 5.7.1
  _ZTIN15QtWebEngineCore30RenderWidgetHostViewQtDelegateE@Qt_5 5.7.1
- (arch=amd64 armhf mips64el mipsel)_ZTIPFvSt10unique_ptrI22QWebEngineNotificationSt14default_deleteIS0_EEE@Qt_5 5.15.3
+ (arch=amd64 armhf mips64el mipsel riscv64)_ZTIPFvSt10unique_ptrI22QWebEngineNotificationSt14default_deleteIS0_EEE@Qt_5 5.15.15+dfsg-3
  _ZTS14QWebEnginePage@Qt_5 5.7.1
  _ZTS14QWebEngineView@Qt_5 5.7.1
  _ZTS17QWebEngineProfile@Qt_5 5.7.1
  _ZTS22QWebEngineDownloadItem@Qt_5 5.7.1
- (arch=amd64 armhf mips64el mipsel)_ZTSFvSt10unique_ptrI22QWebEngineNotificationSt14default_deleteIS0_EEE@Qt_5 5.15.3
+ (arch=amd64 armhf mips64el mipsel riscv64)_ZTSFvSt10unique_ptrI22QWebEngineNotificationSt14default_deleteIS0_EEE@Qt_5 5.15.15+dfsg-3
  _ZTSN15QtWebEngineCore20ProfileAdapterClientE@Qt_5 5.12.2
  _ZTSN15QtWebEngineCore23RenderViewContextMenuQtE@Qt_5 5.11.1
  _ZTSN15QtWebEngineCore24WebContentsAdapterClientE@Qt_5 5.7.1
  _ZTSN15QtWebEngineCore30RenderWidgetHostViewQtDelegateE@Qt_5 5.7.1
- (arch=amd64 armhf mips64el mipsel)_ZTSPFvSt10unique_ptrI22QWebEngineNotificationSt14default_deleteIS0_EEE@Qt_5 5.15.3
+ (arch=amd64 armhf mips64el mipsel riscv64)_ZTSPFvSt10unique_ptrI22QWebEngineNotificationSt14default_deleteIS0_EEE@Qt_5 5.15.15+dfsg-3
  _ZTV14QWebEnginePage@Qt_5 5.7.1
  _ZTV14QWebEngineView@Qt_5 5.7.1
  _ZTV17QWebEngineProfile@Qt_5 5.7.1
