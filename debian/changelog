@@ -1,3 +1,9 @@
+qtwebengine-opensource-src (5.15.15+dfsg-3deepin1) unstable; urgency=medium
+
+  * update symbols from riscv64 buildlog
+
+ -- Chang Yang <yangchang@deepin.org>  Fri, 05 Jan 2024 14:39:36 +0800
+
 qtwebengine-opensource-src (5.15.15+dfsg-3) unstable; urgency=medium
 
   * Fix riscv64 build (closes: #1030916)
