@@ -1,0 +1,17 @@
+Description: fix static_assert failure with ICU 74
+Origin: Gentoo, https://gitweb.gentoo.org/repo/gentoo.git/tree/dev-qt/qtwebengine/files/qtwebengine-6.5.3-icu74.patch
+Last-Update: 2023-12-25
+
+--- a/src/3rdparty/chromium/third_party/blink/renderer/platform/text/text_break_iterator.cc
++++ b/src/3rdparty/chromium/third_party/blink/renderer/platform/text/text_break_iterator.cc
+@@ -162,7 +162,9 @@ static const unsigned char kAsciiLineBre
+ };
+ // clang-format on
+ 
+-#if U_ICU_VERSION_MAJOR_NUM >= 58
++#if U_ICU_VERSION_MAJOR_NUM >= 74
++#define BA_LB_COUNT (U_LB_COUNT - 8)
++#elif U_ICU_VERSION_MAJOR_NUM >= 58
+ #define BA_LB_COUNT (U_LB_COUNT - 3)
+ #else
+ #define BA_LB_COUNT U_LB_COUNT
