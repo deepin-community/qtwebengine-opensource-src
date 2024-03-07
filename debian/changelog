@@ -1,4 +1,11 @@
-qtwebengine-opensource-src (5.15.15+dfsg-3) unstable; urgency=medium
+qtwebengine-opensource-src (5.15.15+dfsg-3deepin2) unstable; urgency=medium
+
+  [ Dmitry Shachnev ]
+  * Add a patch from Gentoo to fix build with ICU 74.
+
+ -- Tianyu Chen <sweetyfish@deepin.org>  Thu, 07 Mar 2024 14:40:40 +0800
+
+qtwebengine-opensource-src (5.15.15+dfsg-3deepin1) unstable; urgency=medium
 
   * Fix riscv64 build (closes: #1030916)
 
