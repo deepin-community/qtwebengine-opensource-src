@@ -61,6 +61,18 @@ touch_files = src/3rdparty/chromium/third_party/devtools-frontend/src/front_end/
 	      src/3rdparty/chromium/third_party/devtools-frontend/src/front_end/third_party/acorn/package/dist/acorn.js \
 	      src/3rdparty/chromium/third_party/web-animations-js/sources/web-animations-next-lite.min.js
 
+ifeq (loong64, $(DEB_HOST_ARCH))
+	TARGET_PATCH = patch_loong64
+else ifeq (riscv64, $(DEB_HOST_ARCH))
+	TARGET_PATCH = patch_riscv64
+endif
+
+patch_loong64:
+	patch -p1 < debian/patches/0001-Port-for-loongarch64.patch 
+
+patch_riscv64:
+	patch -p1 < debian/patches/add-riscv64-support.patch
+
 %:
 	dh $@ --with pkgkde_symbolshelper
 
