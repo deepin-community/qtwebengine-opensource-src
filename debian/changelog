@@ -1,3 +1,9 @@
+qtwebengine-opensource-src (5.15.15+dfsg-3deepin3) unstable; urgency=medium
+
+  * add LoongArch support
+
+ -- Shi Pujin <shipujin@loongson.cn>  Fri, 05 Jul 2024 14:19:06 +0800
+
 qtwebengine-opensource-src (5.15.15+dfsg-3deepin2) unstable; urgency=medium
 
   [ Dmitry Shachnev ]

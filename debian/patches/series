@@ -26,5 +26,3 @@ ffmpeg-x86-optimization.patch
 fix-example-pro-files.patch
 
 icu74.patch
-# add riscv64 support
-add-riscv64-support.patch
