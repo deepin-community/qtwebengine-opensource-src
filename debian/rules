@@ -61,23 +61,8 @@ touch_files = src/3rdparty/chromium/third_party/devtools-frontend/src/front_end/
 	      src/3rdparty/chromium/third_party/devtools-frontend/src/front_end/third_party/acorn/package/dist/acorn.js \
 	      src/3rdparty/chromium/third_party/web-animations-js/sources/web-animations-next-lite.min.js
 
-ifeq (loong64, $(DEB_HOST_ARCH))
-	TARGET_PATCH = patch_loong64
-else ifeq (riscv64, $(DEB_HOST_ARCH))
-	TARGET_PATCH = patch_riscv64
-endif
-
-patch_loong64:
-	patch -p1 < debian/patches/Port-for-loongarch64.patch 
-
-patch_riscv64:
-	patch -p1 < debian/patches/add-riscv64-support.patch
-
 %:
 	dh $@ --with pkgkde_symbolshelper
-
-override_dh_autoreconf: $(TARGET_PATCH)
-	dh_autoreconf
 
 override_dh_auto_clean:
 	dh_auto_clean
@@ -93,7 +78,7 @@ override_dh_auto_clean:
 	done
 
 override_dh_auto_configure:
-	qmake QT_BUILD_PARTS+=tests QMAKE_EXTRA_ARGS+="$(config_args)" QMAKE_PYTHON3=python3 $(qmake_args)
+	qmake QT_BUILD_PARTS+=tests QMAKE_EXTRA_ARGS+="$(config_args)" QMAKE_PYTHON2=python3 $(qmake_args)
 
 	# Create js files, that are needed for building step for arch and indep builds
 	cd $(CURDIR)/src/3rdparty/chromium/third_party/jstemplate/; \
@@ -107,7 +92,11 @@ override_dh_auto_configure:
 		touch $(CURDIR)/$${fname}; \
 	done
 
-	/usr/lib/qt5/bin/syncqt.pl Source -version ${DEB_VERSION_UPSTREAM:+dfsg=}
+	/usr/lib/qt5/bin/syncqt.pl Source -version $(word 1,$(subst +, ,$(DEB_VERSION_UPSTREAM)))
+
+	# Link against the system version of dagre-layout.  The bundled version was removed by debian/copyright.
+	mkdir -p src/3rdparty/chromium/third_party/devtools-frontend/src/front_end/dagre_layout
+	ln -s /usr/share/nodejs/dagre/dist/dagre.js -t src/3rdparty/chromium/third_party/devtools-frontend/src/front_end/dagre_layout
 
 override_dh_auto_build-arch:
 	dh_auto_build -- -Onone
@@ -131,7 +120,7 @@ override_dh_auto_install-arch:
 
 	# Do not require matching versions of Qt dependencies
 	set -eu && \
-	VERSION=${DEB_VERSION_UPSTREAM:+dfsg=} && \
+	VERSION=$(word 1,$(subst +, ,$(DEB_VERSION_UPSTREAM))) && \
 	QT_VERSION=$$(qmake -query QT_VERSION) && \
 	sed -i "s/$$VERSION /$$QT_VERSION /" debian/tmp/usr/lib/$(DEB_HOST_MULTIARCH)/cmake/*/*Config.cmake
 
@@ -169,8 +158,9 @@ endef
 get-orig-source:
 	@set -eux && \
 	TEMPDIR=$$(mktemp -d) && \
-	VERSION=${DEB_VERSION_UPSTREAM:+dfsg=} && \
-	SUBMODULE_COMMIT=8df91f886e7fffb61408e2426f8a90d763a3b6ea && \
+	VERSION=$(word 1,$(subst +, ,$(DEB_VERSION_UPSTREAM))) && \
+	DFSG=$(word 2,$(subst +, ,$(DEB_VERSION_UPSTREAM))) && \
+	SUBMODULE_COMMIT=fdfef5b37af3bed8402d7c7e20a5487f2602b0a6 && \
 	echo "$${GET_FILES_EXCLUDED}" >$${TEMPDIR}/get_files_excluded.py && \
 	cd $${TEMPDIR} && \
 	wget https://github.com/qt/qtwebengine/archive/v$${VERSION}-lts.tar.gz && \
@@ -184,5 +174,5 @@ get-orig-source:
 	cd src/3rdparty/chromium/third_party/devtools-frontend/src/node_modules && \
 	ls -A | grep -Ev '^(@types|rollup|typescript)$$' | xargs rm -rf && \
 	cd $${TEMPDIR} && \
-	tar cJ --owner=root --group=root --sort=name -f $(CURDIR)/../qtwebengine-opensource-src_$${VERSION}+dfsg.orig.tar.xz qtwebengine-$${VERSION}-lts && \
+	tar cJ --owner=root --group=root --sort=name -f $(CURDIR)/../qtwebengine-opensource-src_$${VERSION}+$${DFSG}.orig.tar.xz qtwebengine-$${VERSION}-lts && \
 	rm -rf $${TEMPDIR}

@@ -1,12 +1,12 @@
 Description: Use system libopenjpeg2
-Author: Soren Stoutner <soren@stoutner.com>
+Author: Soren Stoutner <soren@debian.org>
 Forwarded: https://bugreports.qt.io/browse/QTBUG-63889
 Last-Update: 2023-01-28
 ---
 This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
 --- a/src/buildtools/configure.json
 +++ b/src/buildtools/configure.json
-@@ -114,6 +114,12 @@
+@@ -115,6 +115,12 @@
                  "-ljpeg"
              ]
          },
@@ -19,7 +19,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
          "webengine-libevent": {
              "label": "libevent",
              "sources": [
-@@ -611,6 +617,11 @@
+@@ -633,6 +639,11 @@
              "condition": "config.unix && features.system-jpeg && libs.webengine-jpeglib",
              "output": [ "privateFeature" ]
          },
@@ -31,7 +31,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
          "webengine-qt-jpeg" : {
             "label": "qtlibjpeg",
             "condition": "config.static && !features.system-jpeg && features.jpeg",
-@@ -819,6 +830,7 @@
+@@ -846,6 +857,7 @@
                          "webengine-system-lcms2",
                          "webengine-system-png",
                          "webengine-system-jpeg",
@@ -41,7 +41,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
                       ]
 --- a/src/buildtools/config/linux.pri
 +++ b/src/buildtools/config/linux.pri
-@@ -164,6 +164,11 @@
+@@ -164,6 +164,11 @@ host_build {
      } else {
          gn_args += use_system_libjpeg=false
      }

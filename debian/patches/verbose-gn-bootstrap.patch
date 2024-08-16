@@ -1,6 +1,6 @@
 Description: print compiler commands, honor $NINJAJOBS when bootstrapping gn
 Author: Dmitry Shachnev <mitya57@debian.org>
-Forwarded: no
+Forwarded: not-needed
 Last-Update: 2021-06-18
 
 --- a/src/buildtools/gn.pro

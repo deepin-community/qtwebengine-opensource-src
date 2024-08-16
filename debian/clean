@@ -38,6 +38,7 @@ src/*/*/*/Makefile
 src/*/*/Makefile
 src/*/Makefile
 src/*/Makefile.*
+src/3rdparty/chromium/third_party/devtools-frontend/src/front_end/dagre_layout/
 src/3rdparty/chromium/third_party/jstemplate/jstemplate_compiled.js
 src/3rdparty/gn/out/
 src/Makefile

@@ -5,9 +5,8 @@ system-nspr-prtime.patch
 system-icu-utf.patch
 
 # Fix python problems.
-python3.patch
-chromium-python3.patch
-python3.11.patch
+python3.12-imp.patch
+python3.12-six.patch
 
 # General patches.
 verbose-gn-bootstrap.patch
@@ -22,7 +21,7 @@ mips64el-kernel_stat64.patch
 armhf-no-thumb.patch
 disable-catapult.patch
 pipewire-0.3.patch
-ffmpeg-x86-optimization.patch
 fix-example-pro-files.patch
-
-icu74.patch
+build-with-c++17.patch
+ninja-1.12.patch
+mips64el-v8-regexp.patch

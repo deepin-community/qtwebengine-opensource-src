@@ -18817,6 +18817,7 @@ struct NameContext {
   int nRef;            /* Number of names resolved by this context */
   int nNcErr;          /* Number of errors encountered while resolving names */
   int ncFlags;         /* Zero or more NC_* flags defined below */
+  int nNestedSelect;   /* Number of nested selects using this NC */
   Select *pWinSelect;  /* SELECT statement for any window functions */
 };
 
@@ -104762,11 +104763,12 @@ static int resolveExprStep(Walker *pWalker, Expr *pExpr){
           while( pNC2
               && sqlite3ReferencesSrcList(pParse, pExpr, pNC2->pSrcList)==0
           ){
-            pExpr->op2++;
+            pExpr->op2 += (1 + pNC2->nNestedSelect);
             pNC2 = pNC2->pNext;
           }
           assert( pDef!=0 || IN_RENAME_OBJECT );
           if( pNC2 && pDef ){
+            pExpr->op2 += pNC2->nNestedSelect;
             assert( SQLITE_FUNC_MINMAX==NC_MinMaxAgg );
             assert( SQLITE_FUNC_ANYORDER==NC_OrderAgg );
             testcase( (pDef->funcFlags & SQLITE_FUNC_MINMAX)!=0 );
@@ -105327,6 +105329,7 @@ static int resolveSelectStep(Walker *pWalker, Select *p){
 
     /* Recursively resolve names in all subqueries in the FROM clause
     */
+    if( pOuterNC ) pOuterNC->nNestedSelect++;
     for(i=0; i<p->pSrc->nSrc; i++){
       SrcItem *pItem = &p->pSrc->a[i];
       if( pItem->pSelect && (pItem->pSelect->selFlags & SF_Resolved)==0 ){
@@ -105351,6 +105354,7 @@ static int resolveSelectStep(Walker *pWalker, Select *p){
         }
       }
     }
+    if( pOuterNC ) pOuterNC->nNestedSelect--;
 
     /* Set up the local name-context to pass to sqlite3ResolveExprNames() to
     ** resolve the result-set expression list.

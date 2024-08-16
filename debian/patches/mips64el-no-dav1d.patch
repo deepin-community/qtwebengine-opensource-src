@@ -1,7 +1,7 @@
 Description: disable dav1d support on mipsel/mips64el
  dav1d does not support MIPS, and there is no config directory for it.
 Author: Dmitry Shachnev <mitya57@debian.org>
-Forwarded: no
+Forwarded: not-needed
 Last-Update: 2021-02-14
 
 --- a/src/3rdparty/chromium/media/media_options.gni

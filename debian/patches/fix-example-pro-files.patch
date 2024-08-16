@@ -1,5 +1,5 @@
 Description: Fix example .pro files so that they build correctly on Debian.
-Author: Soren Stoutner <soren@stoutner.com>
+Author: Soren Stoutner <soren@debian.org>
 Forwarded: not-needed
 Last-Update: 2023-07-04
 
