@@ -1,3 +1,9 @@
+qtwebengine-opensource-src (5.15.15+dfsg-3deepin4) unstable; urgency=medium
+
+  * Add python3.12 support and remove 3.11 support.
+
+ -- xiangzelong <xiangzelong@deepin.org>  Fri, 16 Aug 2024 10:38:56 +0800
+
 qtwebengine-opensource-src (5.15.15+dfsg-3deepin3) unstable; urgency=medium
 
   * add LoongArch support

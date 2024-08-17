@@ -6,8 +6,8 @@ system-icu-utf.patch
 
 # Fix python problems.
 python3.patch
-chromium-python3.patch
-python3.11.patch
+python3.12-imp.patch
+python3.12-six.patch
 
 # General patches.
 verbose-gn-bootstrap.patch
