@@ -1,0 +1,50 @@
+From: https://github.com/v8/v8/commit/1ec3c714bf75f01e
+From: lichenggang <lichenggang@deepin.org>
+Date: Mon, 28 Aug 2024 08:44:28 +0800
+Subject: [PATCH] fix egexp loongarch64 stack check
+
+
+
+--- qtwebengine-opensource-src-5.15.17+dfsg.orig/src/3rdparty/chromium/v8/src/regexp/loongarch64/regexp-macro-assembler-loongarch64.cc
++++ qtwebengine-opensource-src-5.15.17+dfsg/src/3rdparty/chromium/v8/src/regexp/loongarch64/regexp-macro-assembler-loongarch64.cc
+@@ -669,6 +669,7 @@ Handle<HeapObject> RegExpMacroAssemblerL
+ 
+     ExternalReference stack_limit =
+         ExternalReference::address_of_jslimit(masm_->isolate());
++    Operand extra_space_for_variables(num_registers_ * kSystemPointerSize);
+     __ li(a0, Operand(stack_limit));
+     __ Ld_d(a0, MemOperand(a0, 0));
+     __ Sub_d(a0, sp, a0);
+@@ -1135,7 +1136,7 @@ int64_t RegExpMacroAssemblerLA64::CheckS
+       return_address, re_code,
+       frame_entry_address<Address>(re_frame, kInputString),
+       frame_entry_address<const byte*>(re_frame, kInputStart),
+-      frame_entry_address<const uint8_t*>(re_frame, kInputEndOffset),
++      frame_entry_address<const uint8_t*>(re_frame, kInputEnd),
+       extra_space);
+ }
+ 
+@@ -1212,7 +1213,6 @@ void RegExpMacroAssemblerLA64::CheckPree
+   // Check for preemption.
+   ExternalReference stack_limit =
+       ExternalReference::address_of_jslimit(masm_->isolate());
+-  Operand extra_space_for_variables(num_registers_ * kSystemPointerSize);
+   __ li(a0, Operand(stack_limit));
+   __ Ld_d(a0, MemOperand(a0, 0));
+   SafeCall(&check_preempt_label_, ls, sp, Operand(a0));
+@@ -1253,3 +1253,4 @@ void RegExpMacroAssemblerLA64::LoadCurre
+ }  // namespace internal
+ }  // namespace v8
+ 
++#endif //V8_TARGET_ARCH_LOONGARCH64
+--- qtwebengine-opensource-src-5.15.17+dfsg.orig/src/3rdparty/chromium/v8/src/regexp/loongarch64/regexp-macro-assembler-loongarch64.h
++++ qtwebengine-opensource-src-5.15.17+dfsg/src/3rdparty/chromium/v8/src/regexp/loongarch64/regexp-macro-assembler-loongarch64.h
+@@ -132,7 +132,7 @@ class V8_EXPORT_PRIVATE RegExpMacroAssem
+ 
+   // Generate a call to CheckStackGuardState.
+   void CallCheckStackGuardState(Register scratch,
+-				Operand extra_space = Operand(0));
++				Operand extra_space_for_variables = Operand(0));
+   // The ebp-relative location of a regexp register.
+   MemOperand register_location(int register_index);
+ 
