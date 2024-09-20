@@ -1,6 +1,6 @@
 Description: use system getcontext instead of breakpad's own
 Author: Dmitry Shachnev <mitya57@debian.org>
-Forwarded: no
+Forwarded: not-needed
 Last-Update: 2021-03-16
 
 --- a/src/3rdparty/chromium/third_party/breakpad/BUILD.gn

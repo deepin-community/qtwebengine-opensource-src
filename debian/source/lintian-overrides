@@ -10,33 +10,93 @@ qtwebengine-opensource-src source: license-problem-json-evil [src/3rdparty/chrom
 # The old, non-hinted Lintian syntax is required because FTP Masters is running an older version of Lintian.  The following line can be removed at some point in the future.
 qtwebengine-opensource-src source: license-problem-json-evil src/3rdparty/chromium/third_party/angle/third_party/rapidjson/src/license.txt
 
+# This notice file is simply a symlink to the Apache 2 LICENSE file.  As no extra information is contained in the NOTICE file, the requirements are already fulfilled with the entry in debian/copyright.
+qtwebengine-opensource-src source: missing-notice-file-for-apache-license [src/3rdparty/chromium/third_party/ukey2/src/NOTICE]
+
 # Source is in debian/missing-sources/jquery-1.3.2.js, replaced by build step with self-minified version
 qtwebengine-opensource-src source: source-is-missing [examples/webenginewidgets/contentmanipulation/jquery.min.js]
 
 # Source is in debian/missing-sources/mocha-6.1.4
 qtwebengine-opensource-src source: source-is-missing [src/3rdparty/chromium/third_party/mocha/mocha.js]
 
-# Valid files, with very long lines (files are not minified)
-qtwebengine-opensource-src source: source-is-missing [src/3rdparty/chromium/chrome/browser/resources/signin/profile_picker/icons.js]
-qtwebengine-opensource-src source: source-is-missing [src/3rdparty/chromium/third_party/blink/manual_tests/win/milliondollar.html]
-qtwebengine-opensource-src source: source-is-missing [src/3rdparty/chromium/third_party/devtools-frontend/src/front_end/third_party/codemirror/package/addon/hint/html-hint.js]
-qtwebengine-opensource-src source: source-is-missing [src/3rdparty/chromium/third_party/devtools-frontend/src/front_end/third_party/codemirror/package/mode/*]
-qtwebengine-opensource-src source: source-is-missing [src/3rdparty/chromium/third_party/devtools-frontend/src/front_end/third_party/codemirror/package/src/util/misc.js]
-qtwebengine-opensource-src source: source-is-missing [src/3rdparty/chromium/third_party/devtools-frontend/src/inspector_overlay/debug/*]
-qtwebengine-opensource-src source: source-is-missing [src/3rdparty/chromium/third_party/google-closure-library/closure/goog/ui/ac/renderer_test.js]
-
-# base64-encoded image/data, this is normal
-qtwebengine-opensource-src source: source-is-missing [src/3rdparty/chromium/third_party/blink/manual_tests/image-resampling-with-scale.html]
-qtwebengine-opensource-src source: source-is-missing [src/3rdparty/chromium/third_party/blink/manual_tests/svg-image-resampling-with-scale.html]
-qtwebengine-opensource-src source: source-is-missing [src/3rdparty/chromium/tools/page_cycler/acid3/acid3.acidtests.org/index.html]
-
-# source is in src/3rdparty/chromium/third_party/blink/renderer/devtools/scripts/javascript_natives/index.js
+# Source is in src/3rdparty/chromium/third_party/blink/renderer/devtools/scripts/javascript_natives/index.js
 qtwebengine-opensource-src source: source-is-missing [src/3rdparty/chromium/third_party/devtools-frontend/src/front_end/javascript_metadata/NativeFunctions.js]
 
-# source is in src/3rdparty/chromium/components/variations/proto/devtools/client_variations_uncompiled.js
+# Source is in src/3rdparty/chromium/components/variations/proto/devtools/client_variations_uncompiled.js
 qtwebengine-opensource-src source: source-is-missing [src/3rdparty/chromium/components/variations/proto/devtools/client_variations.js]
 qtwebengine-opensource-src source: source-is-missing [src/3rdparty/chromium/third_party/devtools-frontend/src/front_end/third_party/chromium/client-variations/ClientVariations.js]
+
+# Source is in src/3rdparty/chromium/third_party/devtools-frontend/src/front_end/third_party/intl-messageformat/package/dist/
+# The ideal would be to package the upstream intl-messageformat, but the embedded version in Qt5 WebEngine is very old (4.4.0 vs. 10.5.8 on 28 November 2023).
+qtwebengine-opensource-src source: source-is-missing [src/3rdparty/chromium/third_party/devtools-frontend/src/front_end/third_party/intl-messageformat/package/core.js]
 
 # this is not compiled, despite the filename
 qtwebengine-opensource-src source: source-is-missing [src/3rdparty/chromium/third_party/polymer/v3_0/components-chromium/paper-spinner/paper-spinner-lite.js]
 qtwebengine-opensource-src source: source-is-missing [src/3rdparty/chromium/ui/webui/resources/js/jstemplate_compiled.js]
+
+# Valid files with very long lines (files are not minified)
+qtwebengine-opensource-src source: source-is-missing [src/3rdparty/chromium/chrome/browser/resources/omnibox/omnibox.html]
+qtwebengine-opensource-src source: source-is-missing [src/3rdparty/chromium/chrome/browser/resources/signin/profile_picker/icons.js]
+qtwebengine-opensource-src source: source-is-missing [src/3rdparty/chromium/content/browser/webrtc/resources/webrtc_internals.html]
+qtwebengine-opensource-src source: source-is-missing [src/3rdparty/chromium/net/base/dir_header.html]
+qtwebengine-opensource-src source: source-is-missing [src/3rdparty/chromium/third_party/axe-core/axe.js]
+qtwebengine-opensource-src source: source-is-missing [src/3rdparty/chromium/third_party/blink/manual_tests/autofill-popup-location.html]
+qtwebengine-opensource-src source: source-is-missing [src/3rdparty/chromium/third_party/blink/manual_tests/bugzilla-48077.html]
+qtwebengine-opensource-src source: source-is-missing [src/3rdparty/chromium/third_party/blink/manual_tests/contenteditable-link.html]
+qtwebengine-opensource-src source: source-is-missing [src/3rdparty/chromium/third_party/blink/manual_tests/dictionary-scrolled-iframe.html]
+qtwebengine-opensource-src source: source-is-missing [src/3rdparty/chromium/third_party/blink/manual_tests/linkjump-1.html]
+qtwebengine-opensource-src source: source-is-missing [src/3rdparty/chromium/third_party/blink/manual_tests/linkjump-2.html]
+qtwebengine-opensource-src source: source-is-missing [src/3rdparty/chromium/third_party/blink/manual_tests/linkjump-4.html]
+qtwebengine-opensource-src source: source-is-missing [src/3rdparty/chromium/third_party/blink/manual_tests/popup-width-restriction-within-screen.html]
+qtwebengine-opensource-src source: source-is-missing [src/3rdparty/chromium/third_party/blink/manual_tests/resources/testframe-link_text.html]
+qtwebengine-opensource-src source: source-is-missing [src/3rdparty/chromium/third_party/blink/manual_tests/win/milliondollar.html]
+qtwebengine-opensource-src source: source-is-missing [src/3rdparty/chromium/third_party/blink/renderer/core/testing/data/fixed_layout.html]
+qtwebengine-opensource-src source: source-is-missing [src/3rdparty/chromium/third_party/blink/renderer/core/testing/data/resize_scroll_fixed_layout.html]
+qtwebengine-opensource-src source: source-is-missing [src/3rdparty/chromium/third_party/blink/renderer/core/testing/data/resize_scroll_fixed_width.html]
+qtwebengine-opensource-src source: source-is-missing [src/3rdparty/chromium/third_party/blink/renderer/core/testing/data/resize_scroll_mobile.html]
+qtwebengine-opensource-src source: source-is-missing [src/3rdparty/chromium/third_party/devtools-frontend/src/front_end/third_party/axe-core/axe.js]
+qtwebengine-opensource-src source: source-is-missing [src/3rdparty/chromium/third_party/devtools-frontend/src/front_end/third_party/codemirror/package/addon/hint/html-hint.js]
+qtwebengine-opensource-src source: source-is-missing [src/3rdparty/chromium/third_party/devtools-frontend/src/front_end/third_party/codemirror/package/mode/*]
+qtwebengine-opensource-src source: source-is-missing [src/3rdparty/chromium/third_party/devtools-frontend/src/front_end/third_party/codemirror/package/src/util/misc.js]
+qtwebengine-opensource-src source: source-is-missing [src/3rdparty/chromium/third_party/devtools-frontend/src/inspector_overlay/debug/*]
+qtwebengine-opensource-src source: source-is-missing [src/3rdparty/chromium/third_party/devtools-frontend/src/node_modules/typescript/lib/tsc.js]
+qtwebengine-opensource-src source: source-is-missing [src/3rdparty/chromium/third_party/devtools-frontend/src/node_modules/typescript/lib/tsserver.js]
+qtwebengine-opensource-src source: source-is-missing [src/3rdparty/chromium/third_party/devtools-frontend/src/node_modules/typescript/lib/tsserverlibrary.js]
+qtwebengine-opensource-src source: source-is-missing [src/3rdparty/chromium/third_party/devtools-frontend/src/node_modules/typescript/lib/typescript.js]
+qtwebengine-opensource-src source: source-is-missing [src/3rdparty/chromium/third_party/devtools-frontend/src/node_modules/typescript/lib/typescriptServices.js]
+qtwebengine-opensource-src source: source-is-missing [src/3rdparty/chromium/third_party/devtools-frontend/src/node_modules/typescript/lib/typingsInstaller.js]
+qtwebengine-opensource-src source: source-is-missing [src/3rdparty/chromium/third_party/google-closure-library/closure/goog/demos/textarea.html]
+qtwebengine-opensource-src source: source-is-missing [src/3rdparty/chromium/third_party/google-closure-library/closure/goog/deps.js]
+qtwebengine-opensource-src source: source-is-missing [src/3rdparty/chromium/third_party/google-closure-library/closure/goog/i18n/datetimesymbolsext.js]
+qtwebengine-opensource-src source: source-is-missing [src/3rdparty/chromium/third_party/google-closure-library/closure/goog/ui/ac/renderer_test.js]
+qtwebengine-opensource-src source: source-is-missing [src/3rdparty/chromium/third_party/leveldatabase/src/doc/benchmark.html]
+qtwebengine-opensource-src source: source-is-missing [src/3rdparty/chromium/third_party/lottie/lottie_worker.js]
+qtwebengine-opensource-src source: source-is-missing [src/3rdparty/chromium/third_party/webxr_test_pages/webxr-samples/attribution.html]
+qtwebengine-opensource-src source: source-is-missing [src/3rdparty/chromium/third_party/webxr_test_pages/webxr-samples/explainer.html]
+qtwebengine-opensource-src source: source-is-missing [src/3rdparty/chromium/third_party/webxr_test_pages/webxr-samples/js/webxr-polyfill.js]
+qtwebengine-opensource-src source: source-is-missing [src/3rdparty/chromium/third_party/webxr_test_pages/webxr-samples/js/webxr-polyfill.module.js]
+qtwebengine-opensource-src source: source-is-missing [src/3rdparty/chromium/tools/win/sizeviewer/codemirror.js]
+qtwebengine-opensource-src source: source-is-missing [src/3rdparty/chromium/ui/accessibility/extensions/chromevoxclassic/cvox2/background/sre_browser.js]
+
+# Valid files with lots of Unicode characters.
+qtwebengine-opensource-src source: source-is-missing [src/3rdparty/chromium/components/dom_distiller/core/html/preview.html]
+qtwebengine-opensource-src source: source-is-missing [src/3rdparty/chromium/third_party/skia/modules/skparagraph/test.html]
+
+# base64-encoded or SVG image/data, this is normal
+qtwebengine-opensource-src source: source-is-missing [src/3rdparty/chromium/chrome/browser/resources/management/icons.html]
+qtwebengine-opensource-src source: source-is-missing [src/3rdparty/chromium/chrome/browser/resources/nearby_share/shared/nearby_shared_icons.html]
+qtwebengine-opensource-src source: source-is-missing [src/3rdparty/chromium/chrome/browser/resources/pdf/elements/icons.html]
+qtwebengine-opensource-src source: source-is-missing [src/3rdparty/chromium/components/android_system_error_page/resources/load_error.html]
+qtwebengine-opensource-src source: source-is-missing [src/3rdparty/chromium/third_party/blink/manual_tests/image-resampling-with-scale.html]
+qtwebengine-opensource-src source: source-is-missing [src/3rdparty/chromium/third_party/blink/manual_tests/svg-image-resampling-with-scale.html]
+qtwebengine-opensource-src source: source-is-missing [src/3rdparty/chromium/third_party/d3/src/d3.js]
+qtwebengine-opensource-src source: source-is-missing [src/3rdparty/chromium/third_party/devtools-frontend/src/front_end/third_party/lighthouse/report-assets/template.html]
+qtwebengine-opensource-src source: source-is-missing [src/3rdparty/chromium/third_party/devtools-frontend/src/front_end/third_party/lighthouse/report-assets/templates.html]
+qtwebengine-opensource-src source: source-is-missing [src/3rdparty/chromium/third_party/google-closure-library/doc/_includes/favicon.html]
+qtwebengine-opensource-src source: source-is-missing [src/3rdparty/chromium/tools/binary_size/libsupersize/static/viewer.html]
+qtwebengine-opensource-src source: source-is-missing [src/3rdparty/chromium/tools/page_cycler/acid3/acid3.acidtests.org/index.html]
+qtwebengine-opensource-src source: source-is-missing [src/3rdparty/chromium/ui/login/account_picker/chromeos_user_pod_template.html]
+qtwebengine-opensource-src source: source-is-missing [src/3rdparty/chromium/ui/webui/resources/cr_components/chromeos/network/network_icons.html]
+qtwebengine-opensource-src source: source-is-missing [src/3rdparty/chromium/ui/webui/resources/cr_elements/cr_fingerprint/cr_fingerprint_icon.html]
+qtwebengine-opensource-src source: source-is-missing [src/3rdparty/chromium/ui/webui/resources/cr_elements/icons.html]
+qtwebengine-opensource-src source: source-is-missing [src/3rdparty/chromium/ui/webui/resources/cr_elements/mwb_shared_icons.html]

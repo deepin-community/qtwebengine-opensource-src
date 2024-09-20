@@ -1,0 +1,140 @@
+Description: fix stack check in native code when interrupt was requested
+Origin: upstream v8, commits:
+ - https://github.com/v8/v8/commit/3ebf2052a1b27039
+ - https://github.com/v8/v8/commit/1ec3c714bf75f01e
+Last-Update: 2024-07-04
+
+--- a/src/3rdparty/chromium/v8/src/codegen/mips64/assembler-mips64.h
++++ b/src/3rdparty/chromium/v8/src/codegen/mips64/assembler-mips64.h
+@@ -69,7 +69,6 @@ class Operand {
+       : rm_(no_reg), rmode_(RelocInfo::EXTERNAL_REFERENCE) {
+     value_.immediate = static_cast<int64_t>(f.address());
+   }
+-  V8_INLINE explicit Operand(const char* s);
+   explicit Operand(Handle<HeapObject> handle);
+   V8_INLINE explicit Operand(Smi value) : rm_(no_reg), rmode_(RelocInfo::NONE) {
+     value_.immediate = static_cast<intptr_t>(value.ptr());
+--- a/src/3rdparty/chromium/v8/src/regexp/mips64/regexp-macro-assembler-mips64.cc
++++ b/src/3rdparty/chromium/v8/src/regexp/mips64/regexp-macro-assembler-mips64.cc
+@@ -698,6 +698,8 @@ Handle<HeapObject> RegExpMacroAssemblerM
+ 
+     ExternalReference stack_limit =
+         ExternalReference::address_of_jslimit(masm_->isolate());
++    Operand extra_space_for_variables(num_registers_ * kPointerSize);
++
+     __ li(a0, Operand(stack_limit));
+     __ Ld(a0, MemOperand(a0));
+     __ Dsubu(a0, sp, a0);
+@@ -705,14 +707,14 @@ Handle<HeapObject> RegExpMacroAssemblerM
+     __ Branch(&stack_limit_hit, le, a0, Operand(zero_reg));
+     // Check if there is room for the variable number of registers above
+     // the stack limit.
+-    __ Branch(&stack_ok, hs, a0, Operand(num_registers_ * kPointerSize));
++    __ Branch(&stack_ok, hs, a0, extra_space_for_variables);
+     // Exit with OutOfMemory exception. There is not enough space on the stack
+     // for our working registers.
+     __ li(v0, Operand(EXCEPTION));
+     __ jmp(&return_v0);
+ 
+     __ bind(&stack_limit_hit);
+-    CallCheckStackGuardState(a0);
++    CallCheckStackGuardState(a0, extra_space_for_variables);
+     // If returned value is non-zero, we exit with the returned value as result.
+     __ Branch(&return_v0, ne, v0, Operand(zero_reg));
+ 
+@@ -1122,7 +1124,8 @@ bool RegExpMacroAssemblerMIPS::CanReadUn
+ 
+ // Private methods:
+ 
+-void RegExpMacroAssemblerMIPS::CallCheckStackGuardState(Register scratch) {
++void RegExpMacroAssemblerMIPS::CallCheckStackGuardState(Register scratch,
++                                                        Operand extra_space) {
+   DCHECK(!isolate()->IsGeneratingEmbeddedBuiltins());
+   DCHECK(!masm_->options().isolate_independent_code);
+ 
+@@ -1135,6 +1138,9 @@ void RegExpMacroAssemblerMIPS::CallCheck
+   __ And(sp, sp, Operand(-stack_alignment));
+   __ Sd(scratch, MemOperand(sp));
+ 
++  // Extra space for variables to consider in stack check.
++  __ li(a3, extra_space);
++  // RegExp code frame pointer.
+   __ mov(a2, frame_pointer());
+   // Code of self.
+   __ li(a1, Operand(masm_->CodeObject()), CONSTANT_SIZE);
+@@ -1143,16 +1149,6 @@ void RegExpMacroAssemblerMIPS::CallCheck
+   DCHECK(IsAligned(stack_alignment, kPointerSize));
+   __ Dsubu(sp, sp, Operand(stack_alignment));
+ 
+-  // The stack pointer now points to cell where the return address will be
+-  // written. Arguments are in registers, meaning we treat the return address as
+-  // argument 5. Since DirectCEntry will handle allocating space for the C
+-  // argument slots, we don't need to care about that here. This is how the
+-  // stack will look (sp meaning the value of sp at this moment):
+-  // [sp + 3] - empty slot if needed for alignment.
+-  // [sp + 2] - saved sp.
+-  // [sp + 1] - second word reserved for return value.
+-  // [sp + 0] - first word reserved for return value.
+-
+   // a0 will point to the return address, placed by DirectCEntry.
+   __ mov(a0, sp);
+ 
+@@ -1166,17 +1162,6 @@ void RegExpMacroAssemblerMIPS::CallCheck
+   __ li(kScratchReg, Operand(entry, RelocInfo::OFF_HEAP_TARGET));
+   __ Call(kScratchReg);
+ 
+-  // DirectCEntry allocated space for the C argument slots so we have to
+-  // drop them with the return address from the stack with loading saved sp.
+-  // At this point stack must look:
+-  // [sp + 7] - empty slot if needed for alignment.
+-  // [sp + 6] - saved sp.
+-  // [sp + 5] - second word reserved for return value.
+-  // [sp + 4] - first word reserved for return value.
+-  // [sp + 3] - C argument slot.
+-  // [sp + 2] - C argument slot.
+-  // [sp + 1] - C argument slot.
+-  // [sp + 0] - C argument slot.
+   __ Ld(sp, MemOperand(sp, stack_alignment + kCArgsSlotsSize));
+ 
+   __ li(code_pointer(), Operand(masm_->CodeObject()));
+@@ -1197,7 +1182,8 @@ static T* frame_entry_address(Address re
+ 
+ int64_t RegExpMacroAssemblerMIPS::CheckStackGuardState(Address* return_address,
+                                                        Address raw_code,
+-                                                       Address re_frame) {
++                                                       Address re_frame,
++                                                       uintptr_t extra_space) {
+   Code re_code = Code::cast(Object(raw_code));
+   return NativeRegExpMacroAssembler::CheckStackGuardState(
+       frame_entry<Isolate*>(re_frame, kIsolate),
+@@ -1207,7 +1193,8 @@ int64_t RegExpMacroAssemblerMIPS::CheckS
+       return_address, re_code,
+       frame_entry_address<Address>(re_frame, kInputString),
+       frame_entry_address<const byte*>(re_frame, kInputStart),
+-      frame_entry_address<const byte*>(re_frame, kInputEnd));
++      frame_entry_address<const byte*>(re_frame, kInputEnd),
++      extra_space);
+ }
+ 
+ 
+--- a/src/3rdparty/chromium/v8/src/regexp/mips64/regexp-macro-assembler-mips64.h
++++ b/src/3rdparty/chromium/v8/src/regexp/mips64/regexp-macro-assembler-mips64.h
+@@ -90,7 +90,7 @@ class V8_EXPORT_PRIVATE RegExpMacroAssem
+   // returning.
+   // {raw_code} is an Address because this is called via ExternalReference.
+   static int64_t CheckStackGuardState(Address* return_address, Address raw_code,
+-                                      Address re_frame);
++                                      Address re_frame, uintptr_t extra_space);
+ 
+   void print_regexp_frame_constants();
+ 
+@@ -140,7 +140,8 @@ class V8_EXPORT_PRIVATE RegExpMacroAssem
+ 
+ 
+   // Generate a call to CheckStackGuardState.
+-  void CallCheckStackGuardState(Register scratch);
++  void CallCheckStackGuardState(Register scratch,
++                                Operand extra_space = Operand(0));
+ 
+   // The ebp-relative location of a regexp register.
+   MemOperand register_location(int register_index);

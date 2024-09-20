@@ -2,7 +2,7 @@ Description: fix seccomp-bpf failures in syscall 422 (futex_time64)
  glibc 2.33 and newer uses this syscall on 32-bit platforms:
  https://sourceware.org/git/?p=glibc.git;a=commit;h=29e9874a048f47e2
 Author: Fabian Vogt <fabian@ritter-vogt.de>
-Forwarded: no
+Forwarded: not-needed
 Last-Update: 2022-11-25
 
 --- a/src/3rdparty/chromium/sandbox/linux/seccomp-bpf-helpers/baseline_policy.cc

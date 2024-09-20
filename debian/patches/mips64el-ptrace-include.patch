@@ -1,6 +1,6 @@
 Description: on mipsel PTRACE_GET_THREAD_AREA is defined in asm/ptrace.h
 Author: Dmitry Shachnev <mitya57@debian.org>
-Forwarded: no
+Forwarded: not-needed
 Last-Update: 2020-03-17
 
 --- a/src/3rdparty/chromium/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc

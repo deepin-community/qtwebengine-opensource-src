@@ -678,6 +678,7 @@ def write_intel_gpu_series_list(entry_id, is_exception, exception_id,
       'apollolake': 'kApollolake',
       'skylake': 'kSkylake',
       'geminilake': 'kGeminilake',
+      'amberlake': 'kAmberlake',
       'kabylake': 'kKabylake',
       'coffeelake': 'kCoffeelake',
       'whiskeylake': 'kWhiskeylake',
@@ -686,7 +687,13 @@ def write_intel_gpu_series_list(entry_id, is_exception, exception_id,
       'icelake': 'kIcelake',
       'elkhartlake': 'kElkhartlake',
       'jasperlake': 'kJasperlake',
-      'tigerlake': 'kTigerlake'
+      'tigerlake': 'kTigerlake',
+      'rocketlake': 'kRocketlake',
+      'dg1': 'kDG1',
+      'alderlake': 'kAlderlake',
+      'alchemist': 'kAlchemist',
+      'raptorlake': 'kRaptorlake',
+      'meteorlake': 'kMeteorlake'
     }
     for series in intel_gpu_series_list:
       assert series in intel_gpu_series_map

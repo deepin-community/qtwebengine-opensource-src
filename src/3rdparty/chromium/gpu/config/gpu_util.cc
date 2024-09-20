@@ -872,6 +872,8 @@ IntelGpuSeriesType GetIntelGpuSeriesType(uint32_t vendor_id,
       case 0x3100:
         return IntelGpuSeriesType::kGeminilake;
       case 0x5900:
+        if (device_id == 0x591C)
+          return IntelGpuSeriesType::kAmberlake;
         return IntelGpuSeriesType::kKabylake;
       case 0x8700:
         if (device_id == 0x87C0)
@@ -894,6 +896,19 @@ IntelGpuSeriesType GetIntelGpuSeriesType(uint32_t vendor_id,
         return IntelGpuSeriesType::kJasperlake;
       case 0x9A00:
         return IntelGpuSeriesType::kTigerlake;
+      case 0x4c00:
+        return IntelGpuSeriesType::kRocketlake;
+      case 0x4900:
+        return IntelGpuSeriesType::kDG1;
+      case 0x4600:
+        return IntelGpuSeriesType::kAlderlake;
+      case 0x4F00:
+      case 0x5600:
+        return IntelGpuSeriesType::kAlchemist;
+      case 0xa700:
+        return IntelGpuSeriesType::kRaptorlake;
+      case 0x7d00:
+        return IntelGpuSeriesType::kMeteorlake;
       default:
         break;
     }
@@ -923,6 +938,7 @@ std::string GetIntelGpuGeneration(uint32_t vendor_id, uint32_t device_id) {
       case IntelGpuSeriesType::kSkylake:
       case IntelGpuSeriesType::kGeminilake:
       case IntelGpuSeriesType::kKabylake:
+      case IntelGpuSeriesType::kAmberlake:
       case IntelGpuSeriesType::kCoffeelake:
       case IntelGpuSeriesType::kWhiskeylake:
       case IntelGpuSeriesType::kCometlake:
@@ -934,6 +950,12 @@ std::string GetIntelGpuGeneration(uint32_t vendor_id, uint32_t device_id) {
       case IntelGpuSeriesType::kJasperlake:
         return "11";
       case IntelGpuSeriesType::kTigerlake:
+      case IntelGpuSeriesType::kRocketlake:
+      case IntelGpuSeriesType::kDG1:
+      case IntelGpuSeriesType::kAlderlake:
+      case IntelGpuSeriesType::kAlchemist:
+      case IntelGpuSeriesType::kRaptorlake:
+      case IntelGpuSeriesType::kMeteorlake:
         return "12";
       default:
         break;

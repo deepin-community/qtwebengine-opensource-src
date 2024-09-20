@@ -1,21 +1,132 @@
-qtwebengine-opensource-src (5.15.15+dfsg-3deepin3) unstable; urgency=medium
+qtwebengine-opensource-src (5.15.17+dfsg-3deepin1) unstable; urgency=medium
 
-  * add LoongArch support
+  * add support loong64 riscv64.
 
- -- Shi Pujin <shipujin@loongson.cn>  Fri, 05 Jul 2024 14:19:06 +0800
+ -- LiChengGang <lichenggang@uniontech.com>  Wed, 28 Aug 2024 10:52:43 +0800
 
-qtwebengine-opensource-src (5.15.15+dfsg-3deepin2) unstable; urgency=medium
+qtwebengine-opensource-src (5.15.17+dfsg-3) unstable; urgency=medium
+
+  * Upload to unstable.
+
+ -- Dmitry Shachnev <mitya57@debian.org>  Tue, 09 Jul 2024 14:43:34 +0300
+
+qtwebengine-opensource-src (5.15.17+dfsg-2) experimental; urgency=medium
+
+  * Backport v8 patch to port the latest RegExpMacroAssembler changes to
+    mips64el.
+  * Update debian/libqt5webenginecore5.symbols from buildds’ logs.
+
+ -- Dmitry Shachnev <mitya57@debian.org>  Sun, 07 Jul 2024 11:44:46 +0300
+
+qtwebengine-opensource-src (5.15.17+dfsg-1) experimental; urgency=medium
+
+  * New upstream release.
+    - Fixes build with libxml2 2.12 (closes: #1074671).
+  * Update SUBMODULE_COMMIT for the new release.
+  * Drop patches, included in the new release:
+    - python3.patch
+    - chromium-python3.patch
+    - python3.11.patch
+    - ffmpeg-x86-optimization.patch
+    - icu74.patch
+  * Also drop part of python3.12-imp.patch which was applied upstream.
+  * Refresh debian/patches/system-openjpeg2.patch.
+  * Update debian/libqt5webenginecore5.symbols from buildds’ logs.
+  * Bump ABI version to qtwebengine-abi-5-15-17.
+  * Pass QMAKE_PYTHON2=python3 to qmake, to get the docs built.
+
+ -- Dmitry Shachnev <mitya57@debian.org>  Tue, 02 Jul 2024 22:53:32 +0300
+
+qtwebengine-opensource-src (5.15.16+dfsg-5) unstable; urgency=medium
+
+  * Add a patch from Arch Linux to build using C++17, which is required by ICU
+    75.
+  * Cherry-pick upstream patches to build with Ninja 1.12.
+  * Mark applicable patches as "Forwarded: not-needed" to fix lintian errors.
+  * Update symbols files from local build log.
+
+ -- Soren Stoutner <soren@debian.org>  Wed, 22 May 2024 12:37:00 -0700
+
+qtwebengine-opensource-src (5.15.16+dfsg-4) unstable; urgency=medium
+
+  * Upload to unstable.
+
+  [ Soren Stoutner ]
+  * Merge 5.15.15+dfsg2-1 upload from unstable.
+  * Update symbols files from buildds’ logs.
+
+ -- Dmitry Shachnev <mitya57@debian.org>  Tue, 21 May 2024 23:07:25 +0300
+
+qtwebengine-opensource-src (5.15.16+dfsg-3) experimental; urgency=medium
+
+  * Merge 5.15.15+dfsg-3 upload from unstable.
+  * Add upstream patches to stop using imp Python module (LP: #2058066).
+    Thanks Zixing Liu!
+  * Update bundled six module for Python 3.12 compatibility (LP: #2058117).
+
+ -- Dmitry Shachnev <mitya57@debian.org>  Fri, 29 Mar 2024 16:12:37 +0300
+
+qtwebengine-opensource-src (5.15.16+dfsg-2) experimental; urgency=medium
+
+  * Replace pkg-config build-dependency with pkgconf.
+  * Build against Qt 5.15.13.
+
+ -- Dmitry Shachnev <mitya57@debian.org>  Tue, 12 Mar 2024 18:00:47 +0300
+
+qtwebengine-opensource-src (5.15.16+dfsg-1) experimental; urgency=medium
+
+  [ Soren Stoutner ]
+  * New upstream release.
+  * Bump ABI version to qtwebengine-abi-5-15-16.
+  * Refresh python3.patch and system-openjpeg2.patch.
+  * Update symbols files.
+
+  [ Dmitry Shachnev ]
+  * Build against Qt 5.15.12.
+  * Add a patch from Gentoo to fix build with ICU 74.
+
+ -- Dmitry Shachnev <mitya57@debian.org>  Mon, 25 Dec 2023 00:14:27 +0300
+
+qtwebengine-opensource-src (5.15.15+dfsg2-1) unstable; urgency=medium
+
+  [ Soren Stoutner ]
+  * Drop the build depend on libre2-dev, which forces building with the bundled
+    RE2 (closes: #1053409).
+  * Bump standards version to 4.7.0 (no changes needed).
+  * Fix debian/rules to handle dfsg repack counts.
+  * Change my email address from soren@stoutner.com to soren@debian.org in the
+    following locations:
+    - debian/changelog
+    - debian/control
+    - debian/copyright
+    - debian/patches/fix-example-pro-files.patch
+    - debian/patches/system-openjpeg2.patch
+  * Add 2024 to debian/copyright entries.
+  * Update debian/libqt5webenginecore5.symbols from local build log.
 
   [ Dmitry Shachnev ]
   * Add a patch from Gentoo to fix build with ICU 74.
+  * Replace pkg-config build-dependency with pkgconf.
+  * Add upstream patches to stop using imp Python module (LP: #2058066).
+    Thanks Zixing Liu!
+  * Update bundled six module for Python 3.12 compatibility (LP: #2058117).
 
- -- Tianyu Chen <sweetyfish@deepin.org>  Thu, 07 Mar 2024 14:40:40 +0800
+ -- Soren Stoutner <soren@debian.org>  Thu, 09 May 2024 10:01:42 -0700
 
-qtwebengine-opensource-src (5.15.15+dfsg-3deepin1) unstable; urgency=medium
+qtwebengine-opensource-src (5.15.15+dfsg-3) unstable; urgency=medium
 
-  * Fix riscv64 build (closes: #1030916)
+  [ Soren Stoutner ]
+  * Remove unused build-depends on rollup (Closes: #1023334).
+  * Add Lintian overrides for source-is-missing false positives.
+  * Add Lintian override for missing-notice-file-for-apache-license false
+    positive.
+  * Correct BSD license text in debian/copyright.
+  * Build with the system version of dagre-layout.
 
- -- Chang Yang <yangchang@deepin.org>  Wed, 15 Nov 2023 21:11:30 +0800
+  [ Dmitry Shachnev ]
+  * Update debian/libqt5webenginecore5.symbols for armhf (closes: #1067906).
+
+ -- Dmitry Shachnev <mitya57@debian.org>  Fri, 29 Mar 2024 15:08:36 +0300
 
 qtwebengine-opensource-src (5.15.15+dfsg-2) unstable; urgency=medium
 
@@ -162,7 +273,7 @@ qtwebengine-opensource-src (5.15.12+dfsg-3) unstable; urgency=medium
   * Bump Standards-Version to 4.6.2, no changes needed.
   * Add myself to uploaders.
 
- -- Soren Stoutner <soren@stoutner.com>  Wed, 01 Feb 2023 06:57:05 -0700
+ -- Soren Stoutner <soren@debian.org>  Wed, 01 Feb 2023 06:57:05 -0700
 
 qtwebengine-opensource-src (5.15.12+dfsg-2) unstable; urgency=medium
 
