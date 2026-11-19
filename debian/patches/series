@@ -8,6 +8,7 @@ system-icu-utf.patch
 python3.patch
 chromium-python3.patch
 python3.11.patch
+python3.12.patch
 
 # General patches.
 verbose-gn-bootstrap.patch
