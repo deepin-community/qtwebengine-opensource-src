@@ -1,0 +1,20 @@
+From: Tianyu Chen <sweetyfish@deepin.org>
+Date: Fri, 20 Nov 2026 11:57:08 +0800
+Subject: Add the missing spellcheck buildflags dependency
+
+---
+ src/3rdparty/chromium/content/public/browser/BUILD.gn | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/src/3rdparty/chromium/content/public/browser/BUILD.gn b/src/3rdparty/chromium/content/public/browser/BUILD.gn
+index 7cf82a4..c584a6b 100644
+--- a/src/3rdparty/chromium/content/public/browser/BUILD.gn
++++ b/src/3rdparty/chromium/content/public/browser/BUILD.gn
+@@ -437,6 +437,7 @@ jumbo_source_set("browser_sources") {
+     "//build:chromecast_buildflags",
+     "//components/download/public/common:public",
+     "//components/services/storage/public/mojom",
++    "//components/spellcheck:buildflags",
+     "//content/public/common:common_sources",
+     "//device/vr/buildflags",
+     "//ipc",

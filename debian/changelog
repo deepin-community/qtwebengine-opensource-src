@@ -1,3 +1,20 @@
+qtwebengine-opensource-src (5.15.15+dfsg-3deepin4) unstable; urgency=medium
+
+  * Fix the build with Python 3.12, the removed imp module broke the
+    mojom parser.
+  * Fix the grit build with Python 3.12, its vendored six has no
+    six.moves.
+  * Add the missing dependency on the generated spellcheck buildflags
+    header.
+  * Fix the binary proto generator for Python 3.12, it still used
+    imp.load_source().
+  * Fix the protobuf python still using six.moves, which its vendored
+    six no longer provides.
+  * Mark the QWebEngineNotification typeinfo symbols as optional
+    template instantiations.
+
+ -- Tianyu Chen <sweetyfish@deepin.org>  Fri, 20 Nov 2026 18:06:46 +0800
+
 qtwebengine-opensource-src (5.15.15+dfsg-3deepin3) unstable; urgency=medium
 
   * add LoongArch support

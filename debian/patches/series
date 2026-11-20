@@ -8,6 +8,7 @@ system-icu-utf.patch
 python3.patch
 chromium-python3.patch
 python3.11.patch
+python3.12.patch
 
 # General patches.
 verbose-gn-bootstrap.patch
@@ -26,3 +27,6 @@ ffmpeg-x86-optimization.patch
 fix-example-pro-files.patch
 
 icu74.patch
+
+# add the buildflags dependency content/public/browser is missing
+content-spellcheck-buildflags.patch

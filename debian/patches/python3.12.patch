@@ -1,0 +1,103 @@
+From: Tianyu Chen <sweetyfish@deepin.org>
+Date: Thu, 19 Nov 2026 18:26:23 +0800
+Subject: Fix the build with Python 3.12
+
+* 'imp' module
+* 'six.moves'
+---
+ .../components/resources/protobufs/binary_proto_generator.py      | 8 ++++++--
+ src/3rdparty/chromium/mojo/public/tools/mojom/mojom/fileutil.py   | 1 -
+ .../chromium/mojo/public/tools/mojom/mojom/parse/lexer.py         | 1 -
+ .../protobuf/python/google/protobuf/internal/python_message.py    | 1 -
+ .../third_party/protobuf/python/google/protobuf/text_format.py    | 2 +-
+ src/3rdparty/chromium/tools/grit/grit/util.py                     | 2 +-
+ 6 files changed, 8 insertions(+), 7 deletions(-)
+
+diff --git a/src/3rdparty/chromium/components/resources/protobufs/binary_proto_generator.py b/src/3rdparty/chromium/components/resources/protobufs/binary_proto_generator.py
+index 1636551..c8b11f1 100755
+--- a/src/3rdparty/chromium/components/resources/protobufs/binary_proto_generator.py
++++ b/src/3rdparty/chromium/components/resources/protobufs/binary_proto_generator.py
+@@ -9,7 +9,7 @@
+ """
+ from __future__ import print_function
+ import abc
+-import imp
++from importlib import util as imp_util
+ import optparse
+ import os
+ import re
+@@ -68,7 +68,11 @@ class GoogleProtobufModuleImporter:
+       raise ImportError(fullname)
+ 
+     filepath = self._fullname_to_filepath(fullname)
+-    return imp.load_source(fullname, filepath)
++    spec = imp_util.spec_from_file_location(fullname, filepath)
++    loaded = imp_util.module_from_spec(spec)
++    spec.loader.exec_module(loaded)
++
++    return loaded
+ 
+ class BinaryProtoGenerator:
+ 
+diff --git a/src/3rdparty/chromium/mojo/public/tools/mojom/mojom/fileutil.py b/src/3rdparty/chromium/mojo/public/tools/mojom/mojom/fileutil.py
+index bf626f5..e1c823d 100644
+--- a/src/3rdparty/chromium/mojo/public/tools/mojom/mojom/fileutil.py
++++ b/src/3rdparty/chromium/mojo/public/tools/mojom/mojom/fileutil.py
+@@ -3,7 +3,6 @@
+ # found in the LICENSE file.
+ 
+ import errno
+-import imp
+ import os.path
+ import sys
+ 
+diff --git a/src/3rdparty/chromium/mojo/public/tools/mojom/mojom/parse/lexer.py b/src/3rdparty/chromium/mojo/public/tools/mojom/mojom/parse/lexer.py
+index 3e084bb..1e8b49f 100644
+--- a/src/3rdparty/chromium/mojo/public/tools/mojom/mojom/parse/lexer.py
++++ b/src/3rdparty/chromium/mojo/public/tools/mojom/mojom/parse/lexer.py
+@@ -2,7 +2,6 @@
+ # Use of this source code is governed by a BSD-style license that can be
+ # found in the LICENSE file.
+ 
+-import imp
+ import os.path
+ import sys
+ 
+diff --git a/src/3rdparty/chromium/third_party/protobuf/python/google/protobuf/internal/python_message.py b/src/3rdparty/chromium/third_party/protobuf/python/google/protobuf/internal/python_message.py
+index 803ae84..d9ed9f9 100755
+--- a/src/3rdparty/chromium/third_party/protobuf/python/google/protobuf/internal/python_message.py
++++ b/src/3rdparty/chromium/third_party/protobuf/python/google/protobuf/internal/python_message.py
+@@ -56,7 +56,6 @@ import sys
+ import weakref
+ 
+ import six
+-from six.moves import range
+ 
+ # We use "as" to avoid name collisions with variables.
+ from google.protobuf.internal import api_implementation
+diff --git a/src/3rdparty/chromium/third_party/protobuf/python/google/protobuf/text_format.py b/src/3rdparty/chromium/third_party/protobuf/python/google/protobuf/text_format.py
+index 9f86074..637730f 100755
+--- a/src/3rdparty/chromium/third_party/protobuf/python/google/protobuf/text_format.py
++++ b/src/3rdparty/chromium/third_party/protobuf/python/google/protobuf/text_format.py
+@@ -530,7 +530,7 @@ class _Printer(object):
+     # Note: this is called only when value has at least one element.
+     self._PrintFieldName(field)
+     self.out.write(' [')
+-    for i in six.moves.range(len(value) - 1):
++    for i in range(len(value) - 1):
+       self.PrintFieldValue(field, value[i])
+       self.out.write(', ')
+     self.PrintFieldValue(field, value[-1])
+diff --git a/src/3rdparty/chromium/tools/grit/grit/util.py b/src/3rdparty/chromium/tools/grit/grit/util.py
+index 6e8cdb0..b6fa91b 100644
+--- a/src/3rdparty/chromium/tools/grit/grit/util.py
++++ b/src/3rdparty/chromium/tools/grit/grit/util.py
+@@ -18,7 +18,7 @@ from xml.sax import saxutils
+ 
+ import six
+ from six import StringIO
+-from six.moves import html_entities as entities
++import html.entities as entities
+ 
+ from grit import lazy_re
+ 
