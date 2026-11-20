@@ -2,6 +2,8 @@ qtwebengine-opensource-src (5.15.15+dfsg-3deepin4) unstable; urgency=medium
 
   * Fix the build with Python 3.12, the removed imp module broke the
     mojom parser.
+  * Fix the grit build with Python 3.12, its vendored six has no
+    six.moves.
 
  -- Tianyu Chen <sweetyfish@deepin.org>  Thu, 19 Nov 2026 18:27:42 +0800
 
