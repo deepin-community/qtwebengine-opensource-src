@@ -8,8 +8,10 @@ qtwebengine-opensource-src (5.15.15+dfsg-3deepin4) unstable; urgency=medium
     header.
   * Fix the binary proto generator for Python 3.12, it still used
     imp.load_source().
+  * Fix the protobuf python still using six.moves, which its vendored
+    six no longer provides.
 
- -- Tianyu Chen <sweetyfish@deepin.org>  Fri, 20 Nov 2026 13:27:45 +0800
+ -- Tianyu Chen <sweetyfish@deepin.org>  Fri, 20 Nov 2026 15:14:21 +0800
 
 qtwebengine-opensource-src (5.15.15+dfsg-3deepin3) unstable; urgency=medium
 
