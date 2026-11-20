@@ -4,8 +4,10 @@ qtwebengine-opensource-src (5.15.15+dfsg-3deepin4) unstable; urgency=medium
     mojom parser.
   * Fix the grit build with Python 3.12, its vendored six has no
     six.moves.
+  * Add the missing dependency on the generated spellcheck buildflags
+    header.
 
- -- Tianyu Chen <sweetyfish@deepin.org>  Thu, 19 Nov 2026 18:27:42 +0800
+ -- Tianyu Chen <sweetyfish@deepin.org>  Fri, 20 Nov 2026 11:59:03 +0800
 
 qtwebengine-opensource-src (5.15.15+dfsg-3deepin3) unstable; urgency=medium
 

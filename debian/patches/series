@@ -27,3 +27,6 @@ ffmpeg-x86-optimization.patch
 fix-example-pro-files.patch
 
 icu74.patch
+
+# add the buildflags dependency content/public/browser is missing
+content-spellcheck-buildflags.patch
