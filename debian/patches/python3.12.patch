@@ -1,11 +1,14 @@
 From: Tianyu Chen <sweetyfish@deepin.org>
 Date: Thu, 19 Nov 2026 18:26:23 +0800
-Subject: Drop the removed imp module for Python 3.12 compatibility
+Subject: Fix the build with Python 3.12
 
+* 'imp' module
+* 'six.moves'
 ---
  src/3rdparty/chromium/mojo/public/tools/mojom/mojom/fileutil.py    | 1 -
  src/3rdparty/chromium/mojo/public/tools/mojom/mojom/parse/lexer.py | 1 -
- 2 files changed, 2 deletions(-)
+ src/3rdparty/chromium/tools/grit/grit/util.py                      | 2 +-
+ 3 files changed, 1 insertion(+), 3 deletions(-)
 
 diff --git a/src/3rdparty/chromium/mojo/public/tools/mojom/mojom/fileutil.py b/src/3rdparty/chromium/mojo/public/tools/mojom/mojom/fileutil.py
 index bf626f5..e1c823d 100644
@@ -30,4 +33,17 @@ index 3e084bb..1e8b49f 100644
 -import imp
  import os.path
  import sys
+ 
+diff --git a/src/3rdparty/chromium/tools/grit/grit/util.py b/src/3rdparty/chromium/tools/grit/grit/util.py
+index 6e8cdb0..b6fa91b 100644
+--- a/src/3rdparty/chromium/tools/grit/grit/util.py
++++ b/src/3rdparty/chromium/tools/grit/grit/util.py
+@@ -18,7 +18,7 @@ from xml.sax import saxutils
+ 
+ import six
+ from six import StringIO
+-from six.moves import html_entities as entities
++import html.entities as entities
+ 
+ from grit import lazy_re
  
