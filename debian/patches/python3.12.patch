@@ -8,8 +8,10 @@ Subject: Fix the build with Python 3.12
  .../components/resources/protobufs/binary_proto_generator.py      | 8 ++++++--
  src/3rdparty/chromium/mojo/public/tools/mojom/mojom/fileutil.py   | 1 -
  .../chromium/mojo/public/tools/mojom/mojom/parse/lexer.py         | 1 -
+ .../protobuf/python/google/protobuf/internal/python_message.py    | 1 -
+ .../third_party/protobuf/python/google/protobuf/text_format.py    | 2 +-
  src/3rdparty/chromium/tools/grit/grit/util.py                     | 2 +-
- 4 files changed, 7 insertions(+), 5 deletions(-)
+ 6 files changed, 8 insertions(+), 7 deletions(-)
 
 diff --git a/src/3rdparty/chromium/components/resources/protobufs/binary_proto_generator.py b/src/3rdparty/chromium/components/resources/protobufs/binary_proto_generator.py
 index 1636551..c8b11f1 100755
@@ -61,6 +63,31 @@ index 3e084bb..1e8b49f 100644
  import os.path
  import sys
  
+diff --git a/src/3rdparty/chromium/third_party/protobuf/python/google/protobuf/internal/python_message.py b/src/3rdparty/chromium/third_party/protobuf/python/google/protobuf/internal/python_message.py
+index 803ae84..d9ed9f9 100755
+--- a/src/3rdparty/chromium/third_party/protobuf/python/google/protobuf/internal/python_message.py
++++ b/src/3rdparty/chromium/third_party/protobuf/python/google/protobuf/internal/python_message.py
+@@ -56,7 +56,6 @@ import sys
+ import weakref
+ 
+ import six
+-from six.moves import range
+ 
+ # We use "as" to avoid name collisions with variables.
+ from google.protobuf.internal import api_implementation
+diff --git a/src/3rdparty/chromium/third_party/protobuf/python/google/protobuf/text_format.py b/src/3rdparty/chromium/third_party/protobuf/python/google/protobuf/text_format.py
+index 9f86074..637730f 100755
+--- a/src/3rdparty/chromium/third_party/protobuf/python/google/protobuf/text_format.py
++++ b/src/3rdparty/chromium/third_party/protobuf/python/google/protobuf/text_format.py
+@@ -530,7 +530,7 @@ class _Printer(object):
+     # Note: this is called only when value has at least one element.
+     self._PrintFieldName(field)
+     self.out.write(' [')
+-    for i in six.moves.range(len(value) - 1):
++    for i in range(len(value) - 1):
+       self.PrintFieldValue(field, value[i])
+       self.out.write(', ')
+     self.PrintFieldValue(field, value[-1])
 diff --git a/src/3rdparty/chromium/tools/grit/grit/util.py b/src/3rdparty/chromium/tools/grit/grit/util.py
 index 6e8cdb0..b6fa91b 100644
 --- a/src/3rdparty/chromium/tools/grit/grit/util.py
