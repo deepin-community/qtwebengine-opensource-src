@@ -12,8 +12,10 @@ qtwebengine-opensource-src (5.15.15+dfsg-3deepin4) unstable; urgency=medium
     six no longer provides.
   * Mark the QWebEngineNotification typeinfo symbols as optional
     template instantiations.
+  * Mark the shared_ptr control block vtables as optional template
+    instantiations, riscv64 does not export them.
 
- -- Tianyu Chen <sweetyfish@deepin.org>  Fri, 20 Nov 2026 18:06:46 +0800
+ -- Tianyu Chen <sweetyfish@deepin.org>  Mon, 23 Nov 2026 11:02:45 +0800
 
 qtwebengine-opensource-src (5.15.15+dfsg-3deepin3) unstable; urgency=medium
 
